@@ -35,14 +35,14 @@
 		<zuul.version>1.4.4.RELEASE</zuul.version>
 	</properties>
 	<modules>
-		<module>rezoom-util</module>
-		<module>rezoom-admin</module>
-		<module>rezoom-beans</module>
-		<module>rezoom-eureka-server</module>
-		<module>rezoom-oauth-server</module>
-		<module>rezoom-sender</module>
-		<module>rezoom-view</module>
-		<module>rezoom-extractor</module>
+		<module>core-util</module>
+		<module>core-admin</module>
+		<module>core-beans</module>
+		<module>core-eureka-server</module>
+		<module>core-oauth-server</module>
+		<module>core-sender</module>
+		<module>core-view</module>
+		<module>core-extractor</module>
 	</modules>
 	<groupId>ReZooms</groupId>
 	<artifactId>ReZooms</artifactId>

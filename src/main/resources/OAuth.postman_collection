@@ -22,7 +22,7 @@
 					"enabled": true
 				}
 			],
-			"url": "http://localhost:8090/rezoom-oauth-server/oauth/token",
+			"url": "http://localhost:8090/core-oauth-server/oauth/token",
 			"queryParams": [],
 			"preRequestScript": null,
 			"pathVariables": {},
@@ -63,7 +63,7 @@
 			},
 			"time": 1575170236343,
 			"name": "OAuthToken",
-			"description": "http://localhost:8090/rezoom-oauth-server/oauth/token",
+			"description": "http://localhost:8090/core-oauth-server/oauth/token",
 			"collectionId": "7bdaec31-f2e1-fbc4-49ce-e034caa0e66d",
 			"responses": []
 		}

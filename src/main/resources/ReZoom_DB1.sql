@@ -12,11 +12,11 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Dumping database structure for rezoom
-CREATE DATABASE IF NOT EXISTS `rezoom` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `rezoom`;
+-- Dumping database structure for core
+CREATE DATABASE IF NOT EXISTS `core` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `core`;
 
--- Dumping structure for table rezoom.channel_messages
+-- Dumping structure for table core.channel_messages
 CREATE TABLE IF NOT EXISTS `channel_messages` (
   `messageId` varchar(50) NOT NULL,
   `message` longtext NOT NULL,
@@ -37,11 +37,11 @@ CREATE TABLE IF NOT EXISTS `channel_messages` (
   PRIMARY KEY (`messageId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.channel_messages: ~0 rows (approximately)
+-- Dumping data for table core.channel_messages: ~0 rows (approximately)
 /*!40000 ALTER TABLE `channel_messages` DISABLE KEYS */;
 /*!40000 ALTER TABLE `channel_messages` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.country
+-- Dumping structure for table core.country
 CREATE TABLE IF NOT EXISTS `country` (
   `country` varchar(20) NOT NULL,
   `countryName` varchar(50) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `country` (
   PRIMARY KEY (`country`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.country: ~474 rows (approximately)
+-- Dumping data for table core.country: ~474 rows (approximately)
 /*!40000 ALTER TABLE `country` DISABLE KEYS */;
 INSERT INTO `country` (`country`, `countryName`, `status`, `displayOrder`) VALUES
 	('Africa/Abidjan', 'Africa/Abidjan', b'0', 0),
@@ -529,7 +529,7 @@ INSERT INTO `country` (`country`, `countryName`, `status`, `displayOrder`) VALUE
 	('US/Samoa', 'US/Samoa', b'0', 0);
 /*!40000 ALTER TABLE `country` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.menu
+-- Dumping structure for table core.menu
 CREATE TABLE IF NOT EXISTS `menu` (
   `menuId` varchar(10) NOT NULL,
   `parentId` varchar(10) DEFAULT NULL,
@@ -542,7 +542,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   PRIMARY KEY (`menuId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.menu: ~16 rows (approximately)
+-- Dumping data for table core.menu: ~16 rows (approximately)
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
 INSERT INTO `menu` (`menuId`, `parentId`, `menuName`, `cssClassIcon`, `actionURL`, `cssClass`, `level`, `haveSubMenu`) VALUES
 	('M0001', 'M0001\r\n', 'Dashboard\r\n', 'icon-home\r\n', 'dc7161be3dbf2250c8954e560cc35060?q=', 'title\r\n', 'A', b'0'),
@@ -563,7 +563,7 @@ INSERT INTO `menu` (`menuId`, `parentId`, `menuName`, `cssClassIcon`, `actionURL
 	('M0016', 'M0002\r\n', 'Information Alerts', 'icon-bar-chart\r\n', 'javascript:loadContent(\'f44c136f4bd6db98e4bec455066422c5\', \'\',\'false\');', 'title\r\n', 'BC', b'0');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.menurole
+-- Dumping structure for table core.menurole
 CREATE TABLE IF NOT EXISTS `menurole` (
   `autoId` int(11) NOT NULL AUTO_INCREMENT,
   `menuId` varchar(50) NOT NULL,
@@ -576,13 +576,13 @@ CREATE TABLE IF NOT EXISTS `menurole` (
   CONSTRAINT `FK_mamenurole_producers` FOREIGN KEY (`producerId`) REFERENCES `producers` (`producerId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.menurole: ~0 rows (approximately)
+-- Dumping data for table core.menurole: ~0 rows (approximately)
 /*!40000 ALTER TABLE `menurole` DISABLE KEYS */;
 INSERT INTO `menurole` (`autoId`, `menuId`, `producerId`, `roleId`) VALUES
 	(1, 'M0001', 'PRD000001', 'Admin');
 /*!40000 ALTER TABLE `menurole` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.messages
+-- Dumping structure for table core.messages
 CREATE TABLE IF NOT EXISTS `messages` (
   `messageId` varchar(50) NOT NULL,
   `message` longtext NOT NULL,
@@ -598,11 +598,11 @@ CREATE TABLE IF NOT EXISTS `messages` (
   PRIMARY KEY (`messageId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.messages: ~0 rows (approximately)
+-- Dumping data for table core.messages: ~0 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.portlets
+-- Dumping structure for table core.portlets
 CREATE TABLE IF NOT EXISTS `portlets` (
   `portletId` varchar(50) NOT NULL,
   `portletName` varchar(50) NOT NULL,
@@ -616,7 +616,7 @@ CREATE TABLE IF NOT EXISTS `portlets` (
   PRIMARY KEY (`portletId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.portlets: ~9 rows (approximately)
+-- Dumping data for table core.portlets: ~9 rows (approximately)
 /*!40000 ALTER TABLE `portlets` DISABLE KEYS */;
 INSERT INTO `portlets` (`portletId`, `portletName`, `portletBeanName`, `portletTemplatePath`, `createdBy`, `createdDate`, `modifiedBy`, `modifiedDate`, `status`) VALUES
 	('PRT000001', 'Login Logout Information', 'org.hbs.sg.portlet.executors.LoginLogoutPortlet', '../../jsp/content/portlets/login-pt.jsp', 'PRDADM0001', '2018-10-07 20:18:28', 'PRDADM0001', '2018-10-07 20:18:28', b'1'),
@@ -630,7 +630,7 @@ INSERT INTO `portlets` (`portletId`, `portletName`, `portletBeanName`, `portletT
 	('PRT000009', 'Users Information', 'org.hbs.sg.portlet.executors.UsersPortlet', '../../jsp/content/portlets/login-pt.jsp', 'PRDADM0001', '2018-10-07 20:18:28', 'PRDADM0001', '2018-10-07 20:18:28', b'1');
 /*!40000 ALTER TABLE `portlets` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.portletsroles
+-- Dumping structure for table core.portletsroles
 CREATE TABLE IF NOT EXISTS `portletsroles` (
   `prAutoId` int(10) NOT NULL AUTO_INCREMENT,
   `portletId` varchar(50) NOT NULL,
@@ -640,13 +640,13 @@ CREATE TABLE IF NOT EXISTS `portletsroles` (
   PRIMARY KEY (`prAutoId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.portletsroles: ~0 rows (approximately)
+-- Dumping data for table core.portletsroles: ~0 rows (approximately)
 /*!40000 ALTER TABLE `portletsroles` DISABLE KEYS */;
 INSERT INTO `portletsroles` (`prAutoId`, `portletId`, `roleId`, `status`, `displayOrder`) VALUES
 	(1, 'PRT000001', 'Admin', b'1', 1);
 /*!40000 ALTER TABLE `portletsroles` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.portletsusers
+-- Dumping structure for table core.portletsusers
 CREATE TABLE IF NOT EXISTS `portletsusers` (
   `ptAutoId` bigint(11) NOT NULL AUTO_INCREMENT,
   `displayOrder` int(11) NOT NULL DEFAULT '0',
@@ -656,13 +656,13 @@ CREATE TABLE IF NOT EXISTS `portletsusers` (
   PRIMARY KEY (`ptAutoId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.portletsusers: ~0 rows (approximately)
+-- Dumping data for table core.portletsusers: ~0 rows (approximately)
 /*!40000 ALTER TABLE `portletsusers` DISABLE KEYS */;
 INSERT INTO `portletsusers` (`ptAutoId`, `displayOrder`, `status`, `employeeId`, `portletId`) VALUES
 	(1, 1, b'1', 'USR1513438024799', 'PRT000001');
 /*!40000 ALTER TABLE `portletsusers` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.producers
+-- Dumping structure for table core.producers
 CREATE TABLE IF NOT EXISTS `producers` (
   `producerId` varchar(50) NOT NULL,
   `producerType` varchar(50) NOT NULL DEFAULT 'Producer',
@@ -686,7 +686,7 @@ CREATE TABLE IF NOT EXISTS `producers` (
   PRIMARY KEY (`producerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.producers: ~7 rows (approximately)
+-- Dumping data for table core.producers: ~7 rows (approximately)
 /*!40000 ALTER TABLE `producers` DISABLE KEYS */;
 INSERT INTO `producers` (`producerId`, `producerType`, `producerName`, `pwdExpiryDays`, `domainContext`, `employeeId`, `createdBy`, `createdDate`, `modifiedDate`, `modifiedBy`, `status`, `primary`, `emailId`, `mobileNo`, `phoneNo`, `whatsAppNo`, `description`, `registrationDate`, `customerStatus`) VALUES
 	('PRD000001', 'SGProducer', 'EduTel Academy', '2017-08-02 07:33:06', '/edutel', 'PRDADM0001', 'PRDADM0001', '2017-08-02 07:33:07', '2017-08-02 07:33:08', 'PRDADM0001', b'1', b'0', NULL, NULL, NULL, NULL, NULL, NULL, 'Pending'),
@@ -698,7 +698,7 @@ INSERT INTO `producers` (`producerId`, `producerType`, `producerName`, `pwdExpir
 	('PRD000007', 'SGProducer', 'EduTel Vadapalani', '2017-08-02 07:33:06', '/edutel', 'PRDADM0001', 'PRDADM0001', '2017-08-02 07:33:07', '2017-08-02 07:33:08', 'PRDADM0001', b'1', b'0', NULL, NULL, NULL, NULL, NULL, NULL, 'Pending');
 /*!40000 ALTER TABLE `producers` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.producersattachments
+-- Dumping structure for table core.producersattachments
 CREATE TABLE IF NOT EXISTS `producersattachments` (
   `autoId` int(11) NOT NULL AUTO_INCREMENT,
   `producerId` varchar(50) DEFAULT NULL,
@@ -719,11 +719,11 @@ CREATE TABLE IF NOT EXISTS `producersattachments` (
   PRIMARY KEY (`autoId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.producersattachments: ~0 rows (approximately)
+-- Dumping data for table core.producersattachments: ~0 rows (approximately)
 /*!40000 ALTER TABLE `producersattachments` DISABLE KEYS */;
 /*!40000 ALTER TABLE `producersattachments` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.producerscollabrate
+-- Dumping structure for table core.producerscollabrate
 CREATE TABLE IF NOT EXISTS `producerscollabrate` (
   `autoId` bigint(20) NOT NULL AUTO_INCREMENT,
   `producerId` varchar(50) NOT NULL,
@@ -736,11 +736,11 @@ CREATE TABLE IF NOT EXISTS `producerscollabrate` (
   PRIMARY KEY (`autoId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.producerscollabrate: ~0 rows (approximately)
+-- Dumping data for table core.producerscollabrate: ~0 rows (approximately)
 /*!40000 ALTER TABLE `producerscollabrate` DISABLE KEYS */;
 /*!40000 ALTER TABLE `producerscollabrate` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.producersproperty
+-- Dumping structure for table core.producersproperty
 CREATE TABLE IF NOT EXISTS `producersproperty` (
   `autoId` varchar(50) NOT NULL,
   `producerId` varchar(50) NOT NULL,
@@ -760,13 +760,13 @@ CREATE TABLE IF NOT EXISTS `producersproperty` (
   PRIMARY KEY (`autoId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.producersproperty: ~0 rows (approximately)
+-- Dumping data for table core.producersproperty: ~0 rows (approximately)
 /*!40000 ALTER TABLE `producersproperty` DISABLE KEYS */;
 INSERT INTO `producersproperty` (`autoId`, `producerId`, `groupName`, `enumKey`, `property`, `value`, `status`, `createdBy`, `modifiedBy`, `createdDate`, `modifiedDate`, `comments`, `media`, `mediaMode`, `mediaType`) VALUES
 	('1', 'PRD000001', 'gmailimap', 'gmailimap', 'gmailImap', '{\r\n    "socketFactory": "javax.net.ssl.SSLSocketFactory",\r\n    "fallback": "true",\r\n    "enablessl": "true",\r\n    "ttls": "true",\r\n    "protocol": "imaps",\r\n    "hostAddress": "imap.gmail.com",\r\n    "port": "587",\r\n    "userName": "tamilselvan.k@gmail.com",\r\n    "fromId": "tamilselvan.k@gmail.com",\r\n    "fromName": "Tamilselvan K",\r\n    "password": "Tam$elva78",\r\n    "source": "Gmail_IMAP"\r\n}', b'1', NULL, NULL, '2019-12-07 10:35:43', '2019-12-07 10:35:46', NULL, 'Email', 'Internal', 'Primary');
 /*!40000 ALTER TABLE `producersproperty` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.resume
+-- Dumping structure for table core.resume
 CREATE TABLE IF NOT EXISTS `resume` (
   `resumeURN` varchar(50) NOT NULL,
   `dataId` varchar(50) NOT NULL,
@@ -778,11 +778,11 @@ CREATE TABLE IF NOT EXISTS `resume` (
   PRIMARY KEY (`resumeURN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.resume: ~0 rows (approximately)
+-- Dumping data for table core.resume: ~0 rows (approximately)
 /*!40000 ALTER TABLE `resume` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.resume-data-extractor-pattern
+-- Dumping structure for table core.resume-data-extractor-pattern
 CREATE TABLE IF NOT EXISTS `resume-data-extractor-pattern` (
   `autoId` int(11) NOT NULL,
   `dataFilters` varchar(100) DEFAULT NULL,
@@ -795,11 +795,11 @@ CREATE TABLE IF NOT EXISTS `resume-data-extractor-pattern` (
   PRIMARY KEY (`autoId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.resume-data-extractor-pattern: ~0 rows (approximately)
+-- Dumping data for table core.resume-data-extractor-pattern: ~0 rows (approximately)
 /*!40000 ALTER TABLE `resume-data-extractor-pattern` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume-data-extractor-pattern` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.resume_address
+-- Dumping structure for table core.resume_address
 CREATE TABLE IF NOT EXISTS `resume_address` (
   `addressId` varchar(50) NOT NULL,
   `dataId` varchar(50) NOT NULL,
@@ -815,11 +815,11 @@ CREATE TABLE IF NOT EXISTS `resume_address` (
   PRIMARY KEY (`addressId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.resume_address: ~0 rows (approximately)
+-- Dumping data for table core.resume_address: ~0 rows (approximately)
 /*!40000 ALTER TABLE `resume_address` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_address` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.resume_attachments
+-- Dumping structure for table core.resume_attachments
 CREATE TABLE IF NOT EXISTS `resume_attachments` (
   `autoId` int(11) NOT NULL AUTO_INCREMENT,
   `resumeURN` varchar(50) DEFAULT NULL,
@@ -842,7 +842,7 @@ CREATE TABLE IF NOT EXISTS `resume_attachments` (
   PRIMARY KEY (`autoId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.resume_attachments: ~0 rows (approximately)
+-- Dumping data for table core.resume_attachments: ~0 rows (approximately)
 /*!40000 ALTER TABLE `resume_attachments` DISABLE KEYS */;
 INSERT INTO `resume_attachments` (`autoId`, `resumeURN`, `incomingId`, `trace`, `uploadFileDate`, `uploadFileFolderURL`, `uploadFileLastModifiedDate`, `uploadFileName`, `uploadFileNameForDisplay`, `uploadFileSize`, `uploadDocumentForType`, `createdDate`, `modifiedDate`, `createdBy`, `modifiedBy`, `status`, `uploadResourceHandler`, `uploadSubFolderPath`) VALUES
 	(49, NULL, '233fdc19-d47c-47c6-b2e2-5b041e1f7493', 'YetToTrace', '2020-01-22 15:57:23', '/C:\\Users\\HP\\AttachmentPath\\/PRD000001\\PRD000001\\2019-12-26\\160043\\', '2020-01-22 15:57:23', 'IMG-20191224-WA0001.jpg', NULL, 91114, NULL, '2020-01-22 15:57:23', NULL, NULL, NULL, b'1', 'Default', '/PRD000001\\PRD000001\\2019-12-26\\160043\\'),
@@ -851,7 +851,7 @@ INSERT INTO `resume_attachments` (`autoId`, `resumeURN`, `incomingId`, `trace`, 
 	(52, NULL, '233fdc19-d47c-47c6-b2e2-5b041e1f7493', 'YetToTrace', '2020-01-22 15:57:28', '/C:\\Users\\HP\\AttachmentPath\\/PRD000001\\PRD000001\\2019-12-26\\160043\\', '2020-01-22 15:57:28', 'IMG-20191224-WA0004.jpg', NULL, 158559, NULL, '2020-01-22 15:57:28', NULL, NULL, NULL, b'1', 'Default', '/PRD000001\\PRD000001\\2019-12-26\\160043\\');
 /*!40000 ALTER TABLE `resume_attachments` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.resume_comments
+-- Dumping structure for table core.resume_comments
 CREATE TABLE IF NOT EXISTS `resume_comments` (
   `commentId` varchar(50) NOT NULL,
   `comments` mediumtext,
@@ -860,11 +860,11 @@ CREATE TABLE IF NOT EXISTS `resume_comments` (
   PRIMARY KEY (`commentId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.resume_comments: ~0 rows (approximately)
+-- Dumping data for table core.resume_comments: ~0 rows (approximately)
 /*!40000 ALTER TABLE `resume_comments` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_comments` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.resume_credits
+-- Dumping structure for table core.resume_credits
 CREATE TABLE IF NOT EXISTS `resume_credits` (
   `creditId` varchar(50) NOT NULL,
   `packageId` varchar(50) DEFAULT NULL,
@@ -880,11 +880,11 @@ CREATE TABLE IF NOT EXISTS `resume_credits` (
   PRIMARY KEY (`creditId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.resume_credits: ~0 rows (approximately)
+-- Dumping data for table core.resume_credits: ~0 rows (approximately)
 /*!40000 ALTER TABLE `resume_credits` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_credits` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.resume_data
+-- Dumping structure for table core.resume_data
 CREATE TABLE IF NOT EXISTS `resume_data` (
   `dataId` varchar(50) NOT NULL,
   `resumeURN` varchar(50) DEFAULT NULL,
@@ -909,11 +909,11 @@ CREATE TABLE IF NOT EXISTS `resume_data` (
   PRIMARY KEY (`dataId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.resume_data: ~0 rows (approximately)
+-- Dumping data for table core.resume_data: ~0 rows (approximately)
 /*!40000 ALTER TABLE `resume_data` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_data` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.resume_incoming_data
+-- Dumping structure for table core.resume_incoming_data
 CREATE TABLE IF NOT EXISTS `resume_incoming_data` (
   `incomingId` varchar(50) NOT NULL,
   `media` varchar(50) NOT NULL,
@@ -931,13 +931,13 @@ CREATE TABLE IF NOT EXISTS `resume_incoming_data` (
   PRIMARY KEY (`incomingId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.resume_incoming_data: ~0 rows (approximately)
+-- Dumping data for table core.resume_incoming_data: ~0 rows (approximately)
 /*!40000 ALTER TABLE `resume_incoming_data` DISABLE KEYS */;
 INSERT INTO `resume_incoming_data` (`incomingId`, `media`, `candidateEmail`, `subject`, `description`, `sentTime`, `portal`, `readerInstance`, `incomingStatus`, `producerId`, `propertyId`, `createdDate`, `uniqueId`) VALUES
 	('233fdc19-d47c-47c6-b2e2-5b041e1f7493', 'Email', 'tamil <tamils1978@gmail.com>', NULL, '', 1577356243000, NULL, 'Email', 'New', 'PRD000001', NULL, '2020-01-22 15:57:28', '10012');
 /*!40000 ALTER TABLE `resume_incoming_data` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.resume_job_position
+-- Dumping structure for table core.resume_job_position
 CREATE TABLE IF NOT EXISTS `resume_job_position` (
   `jobId` varchar(50) NOT NULL,
   `producerId` varchar(50) DEFAULT NULL,
@@ -966,11 +966,11 @@ CREATE TABLE IF NOT EXISTS `resume_job_position` (
   PRIMARY KEY (`jobId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.resume_job_position: ~0 rows (approximately)
+-- Dumping data for table core.resume_job_position: ~0 rows (approximately)
 /*!40000 ALTER TABLE `resume_job_position` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_job_position` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.resume_job_position_mapping
+-- Dumping structure for table core.resume_job_position_mapping
 CREATE TABLE IF NOT EXISTS `resume_job_position_mapping` (
   `autoId` varchar(50) NOT NULL,
   `producerId` varchar(50) DEFAULT NULL,
@@ -980,11 +980,11 @@ CREATE TABLE IF NOT EXISTS `resume_job_position_mapping` (
   PRIMARY KEY (`autoId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.resume_job_position_mapping: ~0 rows (approximately)
+-- Dumping data for table core.resume_job_position_mapping: ~0 rows (approximately)
 /*!40000 ALTER TABLE `resume_job_position_mapping` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_job_position_mapping` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.resume_media
+-- Dumping structure for table core.resume_media
 CREATE TABLE IF NOT EXISTS `resume_media` (
   `mediaId` varchar(50) NOT NULL,
   `dataId` varchar(50) NOT NULL,
@@ -996,11 +996,11 @@ CREATE TABLE IF NOT EXISTS `resume_media` (
   PRIMARY KEY (`mediaId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.resume_media: ~0 rows (approximately)
+-- Dumping data for table core.resume_media: ~0 rows (approximately)
 /*!40000 ALTER TABLE `resume_media` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_media` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.resume_packages
+-- Dumping structure for table core.resume_packages
 CREATE TABLE IF NOT EXISTS `resume_packages` (
   `packageId` varchar(50) NOT NULL,
   `producerId` varchar(50) NOT NULL,
@@ -1022,21 +1022,21 @@ CREATE TABLE IF NOT EXISTS `resume_packages` (
   PRIMARY KEY (`packageId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.resume_packages: ~0 rows (approximately)
+-- Dumping data for table core.resume_packages: ~0 rows (approximately)
 /*!40000 ALTER TABLE `resume_packages` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_packages` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.resume_producers
+-- Dumping structure for table core.resume_producers
 CREATE TABLE IF NOT EXISTS `resume_producers` (
   `producerId` varchar(50) NOT NULL,
   `resumeURN` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.resume_producers: ~0 rows (approximately)
+-- Dumping data for table core.resume_producers: ~0 rows (approximately)
 /*!40000 ALTER TABLE `resume_producers` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_producers` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.resume_professional
+-- Dumping structure for table core.resume_professional
 CREATE TABLE IF NOT EXISTS `resume_professional` (
   `professionalId` varchar(50) NOT NULL,
   `dataId` varchar(50) DEFAULT NULL,
@@ -1049,11 +1049,11 @@ CREATE TABLE IF NOT EXISTS `resume_professional` (
   PRIMARY KEY (`professionalId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.resume_professional: ~0 rows (approximately)
+-- Dumping data for table core.resume_professional: ~0 rows (approximately)
 /*!40000 ALTER TABLE `resume_professional` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_professional` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.resume_qualification
+-- Dumping structure for table core.resume_qualification
 CREATE TABLE IF NOT EXISTS `resume_qualification` (
   `qualificationId` varchar(50) NOT NULL,
   `dataId` varchar(50) NOT NULL,
@@ -1068,11 +1068,11 @@ CREATE TABLE IF NOT EXISTS `resume_qualification` (
   PRIMARY KEY (`qualificationId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.resume_qualification: ~0 rows (approximately)
+-- Dumping data for table core.resume_qualification: ~0 rows (approximately)
 /*!40000 ALTER TABLE `resume_qualification` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_qualification` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.roles
+-- Dumping structure for table core.roles
 CREATE TABLE IF NOT EXISTS `roles` (
   `roleId` varchar(50) NOT NULL,
   `enumKey` varchar(50) NOT NULL,
@@ -1090,7 +1090,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   PRIMARY KEY (`roleId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.roles: ~3 rows (approximately)
+-- Dumping data for table core.roles: ~3 rows (approximately)
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 INSERT INTO `roles` (`roleId`, `enumKey`, `roleName`, `roleShortName`, `roleLongName`, `description`, `roleType`, `createdBy`, `createdDate`, `modifiedBy`, `modifiedDate`, `status`, `isAdminRole`) VALUES
 	('Admin', 'Admin', 'Admin Role', 'Admin', 'Admin Role', 'Admin Role', 'Admin Role', 'PRDADM0001', '2014-07-06 10:30:00', 'PRDADM0001', '2014-07-06 10:30:00', b'1', b'1'),
@@ -1098,7 +1098,7 @@ INSERT INTO `roles` (`roleId`, `enumKey`, `roleName`, `roleShortName`, `roleLong
 	('Employee', 'EmployeeRole', 'Employee Role', 'Employee Role', 'Employeeistrator Role', 'Employee Role', 'EmployeeRole', 'PRDADM0001', '2014-07-06 10:30:00', 'PRDADM0001', '2014-07-06 10:30:00', b'1', b'0');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.state
+-- Dumping structure for table core.state
 CREATE TABLE IF NOT EXISTS `state` (
   `state` varchar(50) NOT NULL,
   `country` varchar(20) NOT NULL,
@@ -1106,7 +1106,7 @@ CREATE TABLE IF NOT EXISTS `state` (
   PRIMARY KEY (`state`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.state: ~35 rows (approximately)
+-- Dumping data for table core.state: ~35 rows (approximately)
 /*!40000 ALTER TABLE `state` DISABLE KEYS */;
 INSERT INTO `state` (`state`, `country`, `status`) VALUES
 	('Andhra Pradesh', 'Asia/Kolkata', b'1'),
@@ -1146,7 +1146,7 @@ INSERT INTO `state` (`state`, `country`, `status`) VALUES
 	('West Bengal', 'Asia/Kolkata', b'1');
 /*!40000 ALTER TABLE `state` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.userlog
+-- Dumping structure for table core.userlog
 CREATE TABLE IF NOT EXISTS `userlog` (
   `autoId` int(10) NOT NULL AUTO_INCREMENT,
   `employeeId` varchar(50) NOT NULL DEFAULT '0',
@@ -1158,11 +1158,11 @@ CREATE TABLE IF NOT EXISTS `userlog` (
   KEY `FK_LogUser_User_idx` (`employeeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.userlog: ~0 rows (approximately)
+-- Dumping data for table core.userlog: ~0 rows (approximately)
 /*!40000 ALTER TABLE `userlog` DISABLE KEYS */;
 /*!40000 ALTER TABLE `userlog` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.userroles
+-- Dumping structure for table core.userroles
 CREATE TABLE IF NOT EXISTS `userroles` (
   `autoId` bigint(11) NOT NULL AUTO_INCREMENT,
   `employeeId` varchar(50) NOT NULL,
@@ -1170,14 +1170,14 @@ CREATE TABLE IF NOT EXISTS `userroles` (
   PRIMARY KEY (`autoId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.userroles: ~2 rows (approximately)
+-- Dumping data for table core.userroles: ~2 rows (approximately)
 /*!40000 ALTER TABLE `userroles` DISABLE KEYS */;
 INSERT INTO `userroles` (`autoId`, `employeeId`, `roleId`) VALUES
 	(1, 'USR1513438024799', 'Admin'),
 	(2, 'USR1513438024799', 'Employee');
 /*!40000 ALTER TABLE `userroles` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.users
+-- Dumping structure for table core.users
 CREATE TABLE IF NOT EXISTS `users` (
   `employeeId` varchar(50) NOT NULL,
   `userType` varchar(50) DEFAULT NULL,
@@ -1210,7 +1210,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   CONSTRAINT `FK_users_producers` FOREIGN KEY (`producerId`) REFERENCES `producers` (`producerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.users: ~5 rows (approximately)
+-- Dumping data for table core.users: ~5 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`employeeId`, `userType`, `producerId`, `parentProducerId`, `userId`, `folderToken`, `userName`, `lastName`, `fatherName`, `userPwd`, `userPwdModFlag`, `userPwdModDate`, `dob`, `sex`, `otp`, `userStatus`, `dateOfJoin`, `token`, `tokenExpiryDate`, `country`, `createdBy`, `createdDate`, `modifiedBy`, `modifiedDate`, `status`) VALUES
 	('PRDADM0001', 'Producer', 'PRD000001', 'PRD000001', 'EduTel-Id', '013ea493-8fcc-4c68-b4b8-431a82a375bb', 'EduTel ', 'Academy', NULL, '$2a$10$7hnkWav9ZOLtz/Q2y.FLvuIyS3NFQ1J42jkV3SMbo9NRzi1P9m2fW', b'0', NULL, NULL, NULL, NULL, 'Activated', NULL, NULL, '2017-09-23 22:00:21', 'Asia/Kolkata', 'PRDADM0001', '2018-01-30 23:47:50', 'PRDADM0001', '2018-01-30 23:47:50', b'1'),
@@ -1220,7 +1220,7 @@ INSERT INTO `users` (`employeeId`, `userType`, `producerId`, `parentProducerId`,
 	('USR1513438024801', 'Employee', 'PRD000001', 'PRD000001', 'HariHaran-Id', 'ca7621f6-a0e0-425a-a1ca-e0c171e6b282', 'HariHaran', 'Thavaselvam', NULL, '$2a$10$7hnkWav9ZOLtz/Q2y.FLvuIyS3NFQ1J42jkV3SMbo9NRzi1P9m2fW', NULL, NULL, NULL, NULL, NULL, 'Activated', NULL, NULL, '2017-12-16 20:57:29', 'Asia/Kolkata', 'PRDADM0001', '2018-01-30 23:47:50', 'PRDADM0001', '2018-01-30 23:47:50', b'1');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.usersaddress
+-- Dumping structure for table core.usersaddress
 CREATE TABLE IF NOT EXISTS `usersaddress` (
   `addressId` varchar(50) NOT NULL,
   `employeeId` varchar(50) NOT NULL,
@@ -1241,11 +1241,11 @@ CREATE TABLE IF NOT EXISTS `usersaddress` (
   CONSTRAINT `FK_usersaddress_state` FOREIGN KEY (`state`) REFERENCES `state` (`state`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.usersaddress: ~0 rows (approximately)
+-- Dumping data for table core.usersaddress: ~0 rows (approximately)
 /*!40000 ALTER TABLE `usersaddress` DISABLE KEYS */;
 /*!40000 ALTER TABLE `usersaddress` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.usersattachments
+-- Dumping structure for table core.usersattachments
 CREATE TABLE IF NOT EXISTS `usersattachments` (
   `autoId` int(11) NOT NULL AUTO_INCREMENT,
   `employeeId` varchar(50) DEFAULT NULL,
@@ -1266,11 +1266,11 @@ CREATE TABLE IF NOT EXISTS `usersattachments` (
   CONSTRAINT `FK_userattachments_users` FOREIGN KEY (`employeeId`) REFERENCES `users` (`employeeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.usersattachments: ~0 rows (approximately)
+-- Dumping data for table core.usersattachments: ~0 rows (approximately)
 /*!40000 ALTER TABLE `usersattachments` DISABLE KEYS */;
 /*!40000 ALTER TABLE `usersattachments` ENABLE KEYS */;
 
--- Dumping structure for table rezoom.usersmedia
+-- Dumping structure for table core.usersmedia
 CREATE TABLE IF NOT EXISTS `usersmedia` (
   `mediaId` varchar(50) NOT NULL,
   `employeeId` varchar(50) NOT NULL,
@@ -1282,7 +1282,7 @@ CREATE TABLE IF NOT EXISTS `usersmedia` (
   PRIMARY KEY (`mediaId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rezoom.usersmedia: ~0 rows (approximately)
+-- Dumping data for table core.usersmedia: ~0 rows (approximately)
 /*!40000 ALTER TABLE `usersmedia` DISABLE KEYS */;
 INSERT INTO `usersmedia` (`mediaId`, `employeeId`, `mediaType`, `emailId`, `mobileNo`, `phoneNo`, `whatsAppNo`) VALUES
 	('UMEDIA00001', 'USR1513438024799', 'Primary', 'ananth.malbal@gmail.com', '9677101112', ' ', '9789875832');

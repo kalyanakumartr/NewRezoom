@@ -11,12 +11,12 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Dumping data for table rezoom.channel_messages: ~0 rows (approximately)
+-- Dumping data for table core.channel_messages: ~0 rows (approximately)
 DELETE FROM `channel_messages`;
 /*!40000 ALTER TABLE `channel_messages` DISABLE KEYS */;
 /*!40000 ALTER TABLE `channel_messages` ENABLE KEYS */;
 
--- Dumping data for table rezoom.country: ~474 rows (approximately)
+-- Dumping data for table core.country: ~474 rows (approximately)
 DELETE FROM `country`;
 /*!40000 ALTER TABLE `country` DISABLE KEYS */;
 INSERT INTO `country` (`country`, `countryName`, `status`, `displayOrder`) VALUES
@@ -496,7 +496,7 @@ INSERT INTO `country` (`country`, `countryName`, `status`, `displayOrder`) VALUE
 	('US/Samoa', 'US/Samoa', b'0', 0);
 /*!40000 ALTER TABLE `country` ENABLE KEYS */;
 
--- Dumping data for table rezoom.menu: ~16 rows (approximately)
+-- Dumping data for table core.menu: ~16 rows (approximately)
 DELETE FROM `menu`;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
 INSERT INTO `menu` (`menuId`, `parentId`, `menuName`, `cssClassIcon`, `actionURL`, `cssClass`, `level`, `haveSubMenu`) VALUES
@@ -518,19 +518,19 @@ INSERT INTO `menu` (`menuId`, `parentId`, `menuName`, `cssClassIcon`, `actionURL
 	('M0016', 'M0002\r\n', 'Information Alerts', 'icon-bar-chart\r\n', 'javascript:loadContent(\'f44c136f4bd6db98e4bec455066422c5\', \'\',\'false\');', 'title\r\n', 'BC', b'0');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 
--- Dumping data for table rezoom.menurole: ~1 rows (approximately)
+-- Dumping data for table core.menurole: ~1 rows (approximately)
 DELETE FROM `menurole`;
 /*!40000 ALTER TABLE `menurole` DISABLE KEYS */;
 INSERT INTO `menurole` (`autoId`, `menuId`, `producerId`, `roleId`) VALUES
 	(1, 'M0001', 'PRD000001', 'Admin');
 /*!40000 ALTER TABLE `menurole` ENABLE KEYS */;
 
--- Dumping data for table rezoom.messages: ~0 rows (approximately)
+-- Dumping data for table core.messages: ~0 rows (approximately)
 DELETE FROM `messages`;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 
--- Dumping data for table rezoom.portlets: ~9 rows (approximately)
+-- Dumping data for table core.portlets: ~9 rows (approximately)
 DELETE FROM `portlets`;
 /*!40000 ALTER TABLE `portlets` DISABLE KEYS */;
 INSERT INTO `portlets` (`portletId`, `portletName`, `portletBeanName`, `portletTemplatePath`, `createdBy`, `createdDate`, `modifiedBy`, `modifiedDate`, `status`) VALUES
@@ -545,21 +545,21 @@ INSERT INTO `portlets` (`portletId`, `portletName`, `portletBeanName`, `portletT
 	('PRT000009', 'Users Information', 'org.hbs.sg.portlet.executors.UsersPortlet', '../../jsp/content/portlets/login-pt.jsp', 'PRDADM0001', '2018-10-07 20:18:28', 'PRDADM0001', '2018-10-07 20:18:28', b'1');
 /*!40000 ALTER TABLE `portlets` ENABLE KEYS */;
 
--- Dumping data for table rezoom.portletsroles: ~1 rows (approximately)
+-- Dumping data for table core.portletsroles: ~1 rows (approximately)
 DELETE FROM `portletsroles`;
 /*!40000 ALTER TABLE `portletsroles` DISABLE KEYS */;
 INSERT INTO `portletsroles` (`prAutoId`, `portletId`, `roleId`, `status`, `displayOrder`) VALUES
 	(1, 'PRT000001', 'Admin', b'1', 1);
 /*!40000 ALTER TABLE `portletsroles` ENABLE KEYS */;
 
--- Dumping data for table rezoom.portletsusers: ~1 rows (approximately)
+-- Dumping data for table core.portletsusers: ~1 rows (approximately)
 DELETE FROM `portletsusers`;
 /*!40000 ALTER TABLE `portletsusers` DISABLE KEYS */;
 INSERT INTO `portletsusers` (`ptAutoId`, `displayOrder`, `status`, `employeeId`, `portletId`) VALUES
 	(1, 1, b'1', 'USR1513438024799', 'PRT000001');
 /*!40000 ALTER TABLE `portletsusers` ENABLE KEYS */;
 
--- Dumping data for table rezoom.producers: ~7 rows (approximately)
+-- Dumping data for table core.producers: ~7 rows (approximately)
 DELETE FROM `producers`;
 /*!40000 ALTER TABLE `producers` DISABLE KEYS */;
 INSERT INTO `producers` (`producerId`, `producerType`, `producerName`, `pwdExpiryDays`, `domainContext`, `employeeId`, `createdBy`, `createdDate`, `modifiedDate`, `modifiedBy`, `status`, `primary`, `emailId`, `mobileNo`, `phoneNo`, `whatsAppNo`, `description`, `registrationDate`, `customerStatus`) VALUES
@@ -572,97 +572,97 @@ INSERT INTO `producers` (`producerId`, `producerType`, `producerName`, `pwdExpir
 	('PRD000007', 'SGProducer', 'EduTel Vadapalani', '2017-08-02 07:33:06', '/edutel', 'PRDADM0001', 'PRDADM0001', '2017-08-02 07:33:07', '2017-08-02 07:33:08', 'PRDADM0001', b'1', b'0', NULL, NULL, NULL, NULL, NULL, NULL, 'Pending');
 /*!40000 ALTER TABLE `producers` ENABLE KEYS */;
 
--- Dumping data for table rezoom.producersattachments: ~0 rows (approximately)
+-- Dumping data for table core.producersattachments: ~0 rows (approximately)
 DELETE FROM `producersattachments`;
 /*!40000 ALTER TABLE `producersattachments` DISABLE KEYS */;
 /*!40000 ALTER TABLE `producersattachments` ENABLE KEYS */;
 
--- Dumping data for table rezoom.producerscollabrate: ~0 rows (approximately)
+-- Dumping data for table core.producerscollabrate: ~0 rows (approximately)
 DELETE FROM `producerscollabrate`;
 /*!40000 ALTER TABLE `producerscollabrate` DISABLE KEYS */;
 /*!40000 ALTER TABLE `producerscollabrate` ENABLE KEYS */;
 
--- Dumping data for table rezoom.producersproperty: ~0 rows (approximately)
+-- Dumping data for table core.producersproperty: ~0 rows (approximately)
 DELETE FROM `producersproperty`;
 /*!40000 ALTER TABLE `producersproperty` DISABLE KEYS */;
 /*!40000 ALTER TABLE `producersproperty` ENABLE KEYS */;
 
--- Dumping data for table rezoom.resume: ~0 rows (approximately)
+-- Dumping data for table core.resume: ~0 rows (approximately)
 DELETE FROM `resume`;
 /*!40000 ALTER TABLE `resume` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume` ENABLE KEYS */;
 
--- Dumping data for table rezoom.resume-data-extractor-pattern: ~0 rows (approximately)
+-- Dumping data for table core.resume-data-extractor-pattern: ~0 rows (approximately)
 DELETE FROM `resume-data-extractor-pattern`;
 /*!40000 ALTER TABLE `resume-data-extractor-pattern` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume-data-extractor-pattern` ENABLE KEYS */;
 
--- Dumping data for table rezoom.resume_address: ~0 rows (approximately)
+-- Dumping data for table core.resume_address: ~0 rows (approximately)
 DELETE FROM `resume_address`;
 /*!40000 ALTER TABLE `resume_address` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_address` ENABLE KEYS */;
 
--- Dumping data for table rezoom.resume_attachments: ~0 rows (approximately)
+-- Dumping data for table core.resume_attachments: ~0 rows (approximately)
 DELETE FROM `resume_attachments`;
 /*!40000 ALTER TABLE `resume_attachments` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_attachments` ENABLE KEYS */;
 
--- Dumping data for table rezoom.resume_comments: ~0 rows (approximately)
+-- Dumping data for table core.resume_comments: ~0 rows (approximately)
 DELETE FROM `resume_comments`;
 /*!40000 ALTER TABLE `resume_comments` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_comments` ENABLE KEYS */;
 
--- Dumping data for table rezoom.resume_credits: ~0 rows (approximately)
+-- Dumping data for table core.resume_credits: ~0 rows (approximately)
 DELETE FROM `resume_credits`;
 /*!40000 ALTER TABLE `resume_credits` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_credits` ENABLE KEYS */;
 
--- Dumping data for table rezoom.resume_data: ~0 rows (approximately)
+-- Dumping data for table core.resume_data: ~0 rows (approximately)
 DELETE FROM `resume_data`;
 /*!40000 ALTER TABLE `resume_data` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_data` ENABLE KEYS */;
 
--- Dumping data for table rezoom.resume_incoming_data: ~0 rows (approximately)
+-- Dumping data for table core.resume_incoming_data: ~0 rows (approximately)
 DELETE FROM `resume_incoming_data`;
 /*!40000 ALTER TABLE `resume_incoming_data` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_incoming_data` ENABLE KEYS */;
 
--- Dumping data for table rezoom.resume_job_position: ~0 rows (approximately)
+-- Dumping data for table core.resume_job_position: ~0 rows (approximately)
 DELETE FROM `resume_job_position`;
 /*!40000 ALTER TABLE `resume_job_position` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_job_position` ENABLE KEYS */;
 
--- Dumping data for table rezoom.resume_job_position_mapping: ~0 rows (approximately)
+-- Dumping data for table core.resume_job_position_mapping: ~0 rows (approximately)
 DELETE FROM `resume_job_position_mapping`;
 /*!40000 ALTER TABLE `resume_job_position_mapping` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_job_position_mapping` ENABLE KEYS */;
 
--- Dumping data for table rezoom.resume_media: ~0 rows (approximately)
+-- Dumping data for table core.resume_media: ~0 rows (approximately)
 DELETE FROM `resume_media`;
 /*!40000 ALTER TABLE `resume_media` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_media` ENABLE KEYS */;
 
--- Dumping data for table rezoom.resume_packages: ~0 rows (approximately)
+-- Dumping data for table core.resume_packages: ~0 rows (approximately)
 DELETE FROM `resume_packages`;
 /*!40000 ALTER TABLE `resume_packages` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_packages` ENABLE KEYS */;
 
--- Dumping data for table rezoom.resume_producers: ~0 rows (approximately)
+-- Dumping data for table core.resume_producers: ~0 rows (approximately)
 DELETE FROM `resume_producers`;
 /*!40000 ALTER TABLE `resume_producers` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_producers` ENABLE KEYS */;
 
--- Dumping data for table rezoom.resume_professional: ~0 rows (approximately)
+-- Dumping data for table core.resume_professional: ~0 rows (approximately)
 DELETE FROM `resume_professional`;
 /*!40000 ALTER TABLE `resume_professional` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_professional` ENABLE KEYS */;
 
--- Dumping data for table rezoom.resume_qualification: ~0 rows (approximately)
+-- Dumping data for table core.resume_qualification: ~0 rows (approximately)
 DELETE FROM `resume_qualification`;
 /*!40000 ALTER TABLE `resume_qualification` DISABLE KEYS */;
 /*!40000 ALTER TABLE `resume_qualification` ENABLE KEYS */;
 
--- Dumping data for table rezoom.roles: ~3 rows (approximately)
+-- Dumping data for table core.roles: ~3 rows (approximately)
 DELETE FROM `roles`;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 INSERT INTO `roles` (`roleId`, `enumKey`, `roleName`, `roleShortName`, `roleLongName`, `description`, `roleType`, `createdBy`, `createdDate`, `modifiedBy`, `modifiedDate`, `status`, `isAdminRole`) VALUES
@@ -671,7 +671,7 @@ INSERT INTO `roles` (`roleId`, `enumKey`, `roleName`, `roleShortName`, `roleLong
 	('Employee', 'EmployeeRole', 'Employee Role', 'Employee Role', 'Employeeistrator Role', 'Employee Role', 'EmployeeRole', 'PRDADM0001', '2014-07-06 10:30:00', 'PRDADM0001', '2014-07-06 10:30:00', b'1', b'0');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 
--- Dumping data for table rezoom.state: ~35 rows (approximately)
+-- Dumping data for table core.state: ~35 rows (approximately)
 DELETE FROM `state`;
 /*!40000 ALTER TABLE `state` DISABLE KEYS */;
 INSERT INTO `state` (`state`, `country`, `status`) VALUES
@@ -712,12 +712,12 @@ INSERT INTO `state` (`state`, `country`, `status`) VALUES
 	('West Bengal', 'Asia/Kolkata', b'1');
 /*!40000 ALTER TABLE `state` ENABLE KEYS */;
 
--- Dumping data for table rezoom.userlog: ~0 rows (approximately)
+-- Dumping data for table core.userlog: ~0 rows (approximately)
 DELETE FROM `userlog`;
 /*!40000 ALTER TABLE `userlog` DISABLE KEYS */;
 /*!40000 ALTER TABLE `userlog` ENABLE KEYS */;
 
--- Dumping data for table rezoom.userroles: ~2 rows (approximately)
+-- Dumping data for table core.userroles: ~2 rows (approximately)
 DELETE FROM `userroles`;
 /*!40000 ALTER TABLE `userroles` DISABLE KEYS */;
 INSERT INTO `userroles` (`autoId`, `employeeId`, `roleId`) VALUES
@@ -725,7 +725,7 @@ INSERT INTO `userroles` (`autoId`, `employeeId`, `roleId`) VALUES
 	(2, 'USR1513438024799', 'Employee');
 /*!40000 ALTER TABLE `userroles` ENABLE KEYS */;
 
--- Dumping data for table rezoom.users: ~5 rows (approximately)
+-- Dumping data for table core.users: ~5 rows (approximately)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`employeeId`, `userType`, `producerId`, `parentProducerId`, `userId`, `folderToken`, `userName`, `lastName`, `fatherName`, `userPwd`, `userPwdModFlag`, `userPwdModDate`, `dob`, `sex`, `otp`, `userStatus`, `dateOfJoin`, `token`, `tokenExpiryDate`, `country`, `createdBy`, `createdDate`, `modifiedBy`, `modifiedDate`, `status`) VALUES
@@ -736,17 +736,17 @@ INSERT INTO `users` (`employeeId`, `userType`, `producerId`, `parentProducerId`,
 	('USR1513438024801', 'Employee', 'PRD000001', 'PRD000001', 'HariHaran-Id', 'ca7621f6-a0e0-425a-a1ca-e0c171e6b282', 'HariHaran', 'Thavaselvam', NULL, '$2a$10$7hnkWav9ZOLtz/Q2y.FLvuIyS3NFQ1J42jkV3SMbo9NRzi1P9m2fW', NULL, NULL, NULL, NULL, NULL, 'Activated', NULL, NULL, '2017-12-16 20:57:29', 'Asia/Kolkata', 'PRDADM0001', '2018-01-30 23:47:50', 'PRDADM0001', '2018-01-30 23:47:50', b'1');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
--- Dumping data for table rezoom.usersaddress: ~0 rows (approximately)
+-- Dumping data for table core.usersaddress: ~0 rows (approximately)
 DELETE FROM `usersaddress`;
 /*!40000 ALTER TABLE `usersaddress` DISABLE KEYS */;
 /*!40000 ALTER TABLE `usersaddress` ENABLE KEYS */;
 
--- Dumping data for table rezoom.usersattachments: ~0 rows (approximately)
+-- Dumping data for table core.usersattachments: ~0 rows (approximately)
 DELETE FROM `usersattachments`;
 /*!40000 ALTER TABLE `usersattachments` DISABLE KEYS */;
 /*!40000 ALTER TABLE `usersattachments` ENABLE KEYS */;
 
--- Dumping data for table rezoom.usersmedia: ~1 rows (approximately)
+-- Dumping data for table core.usersmedia: ~1 rows (approximately)
 DELETE FROM `usersmedia`;
 /*!40000 ALTER TABLE `usersmedia` DISABLE KEYS */;
 INSERT INTO `usersmedia` (`mediaId`, `employeeId`, `mediaType`, `emailId`, `mobileNo`, `phoneNo`, `whatsAppNo`) VALUES
