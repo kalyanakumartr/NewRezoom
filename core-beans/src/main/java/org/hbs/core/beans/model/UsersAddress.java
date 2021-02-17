@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Entity
-@Table(name = "_usersaddress")
+@Table(name = "usersaddress")
 public class UsersAddress extends CommonAddress implements IUsersAddress
 {
 

@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "_usersattachments")
+@Table(name = "usersattachments")
 public class UsersAttachments extends CommonFileUpload implements IUsersAttachments
 {
 	private static final long	serialVersionUID	= 917678364001988324L;

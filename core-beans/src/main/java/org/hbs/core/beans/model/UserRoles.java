@@ -14,7 +14,7 @@ import javax.persistence.Table;
  * @author ananth
  */
 @Entity
-@Table(name = "_userroles")
+@Table(name = "userroles")
 public class UserRoles implements IUserRoles
 {
 

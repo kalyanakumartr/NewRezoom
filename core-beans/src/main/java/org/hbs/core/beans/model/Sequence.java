@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import org.hbs.core.util.ICRUDBean;
 
 @Entity
-@Table(name = "_sequence")
+@Table(name = "sequence")
 public class Sequence implements ICRUDBean
 {
 	private static final long	serialVersionUID	= 1696926036927427862L;
@@ -35,13 +35,13 @@ public class Sequence implements ICRUDBean
 	}
 
 	@Id
-	@JoinColumn(name = "autoId")
+	@Column(name = "autoId")
 	public long getAutoId()
 	{
 		return autoId;
 	}
 
-	@JoinColumn(name = "prepend")
+	@Column(name = "prepend")
 	public String getPrepend()
 	{
 		return prepend;

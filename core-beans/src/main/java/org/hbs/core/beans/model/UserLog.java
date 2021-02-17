@@ -17,7 +17,7 @@ import org.hbs.core.util.CommonValidator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Entity
-@Table(name = "_userlog")
+@Table(name = "userlog")
 public class UserLog implements IUserLog
 {
 	private static final long	serialVersionUID	= -5336666543176665572L;

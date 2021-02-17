@@ -12,7 +12,7 @@ import org.hbs.core.util.EBusinessKey;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "_portlets")
+@Table(name = "portlets")
 public class Portlets extends CommonDateAndStatusFields implements IPortlets, EBusinessKey
 {
 

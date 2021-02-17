@@ -11,7 +11,7 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "_producersattachments")
+@Table(name = "producersattachments")
 public class ProducersAttachments extends CommonFileUpload implements IProducersAttachments
 {
 	private static final long	serialVersionUID	= -748718055395205690L;

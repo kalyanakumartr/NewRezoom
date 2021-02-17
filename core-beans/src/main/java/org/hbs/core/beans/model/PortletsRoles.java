@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "_portletsroles")
+@Table(name = "portletsroles")
 public class PortletsRoles implements Serializable
 {
 

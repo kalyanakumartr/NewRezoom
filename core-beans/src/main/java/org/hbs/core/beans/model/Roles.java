@@ -21,7 +21,7 @@ import org.hibernate.annotations.Where;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "_roles")
+@Table(name = "roles")
 public class Roles extends ProducersBase implements IRoles, EBusinessKey
 {
 

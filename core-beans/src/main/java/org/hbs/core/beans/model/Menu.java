@@ -10,7 +10,7 @@ import org.hbs.core.util.ICRUDBean;
 import org.jsoup.nodes.Element;
 
 @Entity
-@Table(name = "_menu")
+@Table(name = "menu")
 public class Menu implements ICRUDBean
 {
 	protected static final long	serialVersionUID	= 4897686429234828726L;

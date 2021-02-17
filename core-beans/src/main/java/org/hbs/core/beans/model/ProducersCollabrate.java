@@ -13,7 +13,7 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "_producerscollabrate")
+@Table(name = "producerscollabrate")
 public class ProducersCollabrate extends ProducersBase implements IProducersCollabrate
 {
 	private static final long		serialVersionUID	= 8950252686467081208L;

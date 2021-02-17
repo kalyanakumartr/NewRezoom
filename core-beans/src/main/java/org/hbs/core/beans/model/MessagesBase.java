@@ -27,29 +27,17 @@ public abstract class MessagesBase extends ProducersBase implements IMessages
 	protected IConfiguration		configuration;
 	protected Map<String, Object>	dataMap				= new LinkedHashMap<String, Object>();
 	protected String				dataMapTemplateName;
-	protected String				messageId;
-	protected String				message				= null;
-	protected String				messageName;
-	protected String				subject				= "";
 	protected EMedia				media;
+	protected String				message				= null;
+	protected String				messageId;
+	protected String				messageName;
 	protected String[]				recipients;
+	protected String				subject				= "";
 	protected boolean				textHTML			= true;
 
 	public MessagesBase()
 	{
 		super();
-	}
-
-	@JsonIgnore
-	@Transient
-	public String[] getRecipients()
-	{
-		return recipients;
-	}
-
-	public void setRecipients(String... recipients)
-	{
-		this.recipients = recipients;
 	}
 
 	@Transient
@@ -101,20 +89,15 @@ public abstract class MessagesBase extends ProducersBase implements IMessages
 	}
 
 	@Transient
+	public IConfiguration getConfiguration()
+	{
+		return configuration;
+	}
+
+	@Transient
 	public Map<String, Object> getDataMap()
 	{
 		return dataMap;
-	}
-
-	@Column(name = "textHTML")
-	public boolean isTextHTML()
-	{
-		return textHTML;
-	}
-
-	public void setTextHTML(boolean textHTML)
-	{
-		this.textHTML = textHTML;
 	}
 
 	@Column(name = "dataMapTemplateName")
@@ -123,16 +106,11 @@ public abstract class MessagesBase extends ProducersBase implements IMessages
 		return dataMapTemplateName;
 	}
 
-	@Id
-	@Column(name = "messageId")
-	public String getMessageId()
+	@Enumerated(EnumType.STRING)
+	@Column(name = "media")
+	public EMedia getMedia()
 	{
-		return messageId;
-	}
-
-	public void setMessageId(String messageId)
-	{
-		this.messageId = messageId;
+		return media;
 	}
 
 	@Override
@@ -142,23 +120,30 @@ public abstract class MessagesBase extends ProducersBase implements IMessages
 		return message;
 	}
 
+	@Id
+	@Column(name = "messageId")
+	public String getMessageId()
+	{
+		return messageId;
+	}
+
 	@Column(name = "messageName")
 	public String getMessageName()
 	{
 		return messageName;
 	}
 
+	@JsonIgnore
+	@Transient
+	public String[] getRecipients()
+	{
+		return recipients;
+	}
+
 	@Column(name = "subject")
 	public String getSubject()
 	{
 		return subject;
-	}
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "media")
-	public EMedia getMedia()
-	{
-		return media;
 	}
 
 	@Transient
@@ -184,6 +169,17 @@ public abstract class MessagesBase extends ProducersBase implements IMessages
 		};
 	}
 
+	@Column(name = "textHTML")
+	public boolean isTextHTML()
+	{
+		return textHTML;
+	}
+
+	public void setConfiguration(IConfiguration configuration)
+	{
+		this.configuration = configuration;
+	}
+
 	public void setDataMap(Map<String, Object> dataMap)
 	{
 		this.dataMap = dataMap;
@@ -195,9 +191,20 @@ public abstract class MessagesBase extends ProducersBase implements IMessages
 	}
 
 	@Override
+	public void setMedia(EMedia message)
+	{
+		this.media = message;
+	}
+
+	@Override
 	public void setMessage(String message)
 	{
 		this.message = message;
+	}
+
+	public void setMessageId(String messageId)
+	{
+		this.messageId = messageId;
 	}
 
 	public void setMessageName(String messageName)
@@ -205,26 +212,19 @@ public abstract class MessagesBase extends ProducersBase implements IMessages
 		this.messageName = messageName;
 	}
 
+	public void setRecipients(String... recipients)
+	{
+		this.recipients = recipients;
+	}
+
 	public void setSubject(String subject)
 	{
 		this.subject = subject;
 	}
 
-	@Override
-	public void setMedia(EMedia message)
+	public void setTextHTML(boolean textHTML)
 	{
-		this.media = message;
-	}
-
-	@Transient
-	public IConfiguration getConfiguration()
-	{
-		return configuration;
-	}
-
-	public void setConfiguration(IConfiguration configuration)
-	{
-		this.configuration = configuration;
+		this.textHTML = textHTML;
 	}
 
 }

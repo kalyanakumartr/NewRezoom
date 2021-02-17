@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import org.hbs.core.util.ICRUDBean;
 
 @Entity
-@Table(name = "_menurole")
+@Table(name = "menurole")
 public class MenuRole implements IProducersBase, ICRUDBean
 {
 

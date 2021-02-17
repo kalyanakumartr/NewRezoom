@@ -18,7 +18,7 @@ import org.springframework.security.core.Authentication;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "_users")
+@Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "userType")
 @DiscriminatorOptions(insert = false, force = true)

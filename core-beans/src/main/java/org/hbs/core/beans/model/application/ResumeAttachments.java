@@ -8,9 +8,12 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hbs.core.beans.model.CommonFileUpload;
 import org.hbs.core.util.EnumInterface;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "resume_attachments")
@@ -76,8 +79,10 @@ public class ResumeAttachments extends CommonFileUpload
 	}
 
 	@Override
-	public String getCountryTimeZone() {
-		// TODO Auto-generated method stub
+	@Transient
+	@JsonIgnore
+	public String getCountryTimeZone()
+	{
 		return null;
 	}
 

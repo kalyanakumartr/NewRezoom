@@ -13,7 +13,7 @@ import org.hbs.core.util.ICRUDBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "_city")
+@Table(name = "city")
 public class City implements ICRUDBean, Comparable<City>
 {
 

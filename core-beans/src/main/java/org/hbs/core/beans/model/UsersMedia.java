@@ -10,8 +10,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Entity
-@Table(name = "_usersmedia")
-// @JsonTypeName("UsersMedia")
+@Table(name = "usersmedia")
 public class UsersMedia extends CommunicationMedia implements IUsersMedia
 {
 	private static final long	serialVersionUID	= -6038542520518993638L;

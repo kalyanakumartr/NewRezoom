@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.Gson;
 
 @Entity(name = "ProducersProperty")
-@Table(name = "_producersproperty")
+@Table(name = "producersproperty")
 public class ProducersProperty extends ProducersBase implements IProducersProperty, EBusinessKey
 {
 

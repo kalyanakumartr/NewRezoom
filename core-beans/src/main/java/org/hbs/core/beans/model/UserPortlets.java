@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "_portletsusers")
+@Table(name = "portletsusers")
 public class UserPortlets implements IUserPortlets
 {
 

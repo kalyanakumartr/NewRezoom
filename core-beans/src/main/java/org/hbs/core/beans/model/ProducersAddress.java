@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "_producersaddress")
+@Table(name = "producersaddress")
 public class ProducersAddress extends CommonAddress
 {
 	private static final long	serialVersionUID	= 5556344583215813395L;

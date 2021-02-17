@@ -13,7 +13,7 @@ import org.hbs.core.util.ICRUDBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "_state")
+@Table(name = "state")
 public class State implements ICRUDBean, Comparable<State>
 {
 	private static final long	serialVersionUID	= -5149419121984598098L;

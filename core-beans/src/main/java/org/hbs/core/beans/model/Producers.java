@@ -42,7 +42,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @author ananth Here Producers Plays the Role of Customer in Magnet Project
  */
 @Entity(name = "Producers")
-@Table(name = "_producers")
+@Table(name = "producers")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "producerType", discriminatorType = DiscriminatorType.STRING)
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
