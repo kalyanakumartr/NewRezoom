@@ -5,18 +5,19 @@ import java.io.StringWriter;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.hbs.core.bean.ConfigurationFormBean;
-import org.hbs.core.bean.MessageFormBean;
-import org.hbs.core.bean.OTPFormBean;
-import org.hbs.core.bean.UserFormBean;
-import org.hbs.core.bean.model.IConfiguration;
-import org.hbs.core.bean.model.IUsers.EUsers;
-import org.hbs.core.bean.model.Messages;
-import org.hbs.core.bean.model.MessagesBase;
-import org.hbs.core.bean.model.channel.ChannelMessages;
-import org.hbs.core.bean.model.channel.ConfigurationEmail;
-import org.hbs.core.bean.model.channel.IChannelMessages;
-import org.hbs.core.bean.model.clickatell.SMSCallBackFormBean;
+import org.hbs.core.beans.ConfigurationFormBean;
+import org.hbs.core.beans.MessageFormBean;
+import org.hbs.core.beans.OTPFormBean;
+import org.hbs.core.beans.UserFormBean;
+import org.hbs.core.beans.model.IConfiguration;
+import org.hbs.core.beans.model.IMessages.EMessageStatus;
+import org.hbs.core.beans.model.IUsers.EUsers;
+import org.hbs.core.beans.model.Messages;
+import org.hbs.core.beans.model.MessagesBase;
+import org.hbs.core.beans.model.channel.ChannelMessages;
+import org.hbs.core.beans.model.channel.ConfigurationEmail;
+import org.hbs.core.beans.model.channel.IChannelMessages;
+import org.hbs.core.beans.model.clickatell.SMSCallBackFormBean;
 import org.hbs.core.util.CommonValidator;
 import org.hbs.core.util.CustomException;
 import org.hbs.sender.bo.ConfigurationBo;
@@ -56,7 +57,7 @@ public class MessageSenderController implements IMessageSenderController
 	{
 		try
 		{
-			Messages message = new Messages((EAuth.User.getProducerId(auth) == EUsers.SuperAdmin.name()) ? ETemplate.User_Create_Admin : ETemplate.User_Create_Employee);
+			Messages message = new Messages((EAuth.User.getProducerId(auth) == EUsers.SuperAdmin.name()) ? ETemplate.Create_User_Admin : ETemplate.Create_User_Employee);
 			// message.setEmailId(userFormBean.user.getEmailId());
 			// message.putFormInDataMap(userFormBean);
 

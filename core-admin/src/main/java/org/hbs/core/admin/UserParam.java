@@ -2,7 +2,7 @@ package org.hbs.core.admin;
 
 import java.io.Serializable;
 
-import org.hbs.core.bean.model.IUsers;
+import org.hbs.core.beans.model.IUsers;
 
 public class UserParam implements Serializable
 {

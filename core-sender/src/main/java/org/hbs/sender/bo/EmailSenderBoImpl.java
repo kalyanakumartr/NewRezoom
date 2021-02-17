@@ -16,14 +16,15 @@ import java.util.Properties;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import org.hbs.core.bean.MessageFormBean;
-import org.hbs.core.bean.model.IConfiguration;
-import org.hbs.core.bean.model.IMessages;
-import org.hbs.core.bean.model.Messages;
-import org.hbs.core.bean.model.Users;
-import org.hbs.core.bean.model.channel.ConfigurationEmail;
-import org.hbs.core.bean.model.channel.EmailAttachments;
-import org.hbs.core.bean.model.channel.IChannelMessages;
+import org.hbs.core.beans.MessageFormBean;
+import org.hbs.core.beans.model.IConfiguration;
+import org.hbs.core.beans.model.IMessages;
+import org.hbs.core.beans.model.IMessages.EMessageStatus;
+import org.hbs.core.beans.model.Users;
+import org.hbs.core.beans.model.V7Messages;
+import org.hbs.core.beans.model.channel.ConfigurationEmail;
+import org.hbs.core.beans.model.channel.EmailAttachments;
+import org.hbs.core.beans.model.channel.IChannelMessages;
 import org.hbs.core.dao.AttachmentDao;
 import org.hbs.core.util.CommonValidator;
 import org.hbs.core.util.CustomException;
@@ -219,7 +220,7 @@ public class EmailSenderBoImpl extends BaseSenderBoImpl implements EmailSenderBo
 	{
 		if (CommonValidator.isNotNullNotEmpty(message.getMessageId()) && message.getMessageId() != null)
 		{
-			List<IMessages> messageList = messageDao.getByMessageId(message.getProducer().getProducerId(), message.getMessageId());
+			List<V7Messages> messageList = messageDao.getByMessageId(message.getProducer().getProducerId(), message.getMessageId());
 			if (CommonValidator.isListFirstNotEmpty(messageList))
 			{
 				message.setSubject(messageList.iterator().next().getSubject());

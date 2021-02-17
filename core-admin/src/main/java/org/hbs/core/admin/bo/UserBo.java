@@ -6,11 +6,13 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.kafka.common.errors.InvalidRequestException;
-import org.hbs.core.bean.UserFormBean;
-import org.hbs.core.bean.model.Users;
+import org.hbs.core.beans.UserFormBean;
+import org.hbs.core.beans.model.Users;
 import org.hbs.core.util.EnumInterface;
 import org.hbs.core.util.LabelValueBean;
 import org.springframework.security.core.Authentication;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface UserBo extends Serializable
 {
@@ -26,11 +28,11 @@ public interface UserBo extends Serializable
 
 	Users getUser(UserFormBean ufBean) throws InvalidRequestException;
 
-	List<Users> getUserByProducer(Authentication auth);
+	List<Users> getUserListByProducer(Authentication auth);
 
 	Collection<LabelValueBean> getUsersBySearchParam(Authentication auth, UserFormBean gmfBean);
 
-	EnumInterface resendActivationLink(Authentication auth, UserFormBean userFormBean);
+	EnumInterface resendActivationLink(Authentication auth, UserFormBean userFormBean) throws InvalidKeyException, JsonProcessingException;
 
 	EnumInterface saveUser(Authentication auth, UserFormBean ufBean) throws InvalidRequestException, InvalidKeyException;
 
@@ -38,6 +40,8 @@ public interface UserBo extends Serializable
 
 	EnumInterface updateUser(Authentication auth, UserFormBean ufBean) throws InvalidRequestException;
 
-	UserFormBean validateUser(String token) throws InvalidKeyException;
+	Users getUserByEmailOrMobileOrUserId(String searchParam);
+
+	boolean isRecentlyUpdated(Authentication auth, UserFormBean ufBean);
 
 }

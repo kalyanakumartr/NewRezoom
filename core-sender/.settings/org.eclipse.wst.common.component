@@ -8,6 +8,9 @@
         <dependent-module archiveName="core-beans-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/core-beans/core-beans">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="core-util-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/core-util/core-util">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/core-sender/target/classes"/>
         <property name="context-root" value="core-sender"/>
     </wb-module>

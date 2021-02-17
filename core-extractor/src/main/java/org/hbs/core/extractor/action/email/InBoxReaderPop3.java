@@ -1,8 +1,8 @@
 package org.hbs.core.extractor.action.email;
 
-import org.hbs.core.bean.model.IConfiguration;
-import org.hbs.core.event.service.GenericKafkaProducer;
+import org.hbs.core.beans.model.IConfiguration;
 import org.hbs.core.extractor.bo.ExtractorBo;
+import org.hbs.core.kafka.GenericKafkaProducer;
 
 public class InBoxReaderPop3 extends InBoxReaderBase
 {

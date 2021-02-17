@@ -9,20 +9,22 @@ public interface OAuth2Constants
 	String	AUTHENTICATION_MANAGER_BEAN		= "authenticationManagerBean";
 	String	AUTHORIZATION					= "Authorization";
 	String	BEARER							= "Bearer ";
-	String	HEADERS							= "Authorization, Content-Type,headers,lazyupdate,normalizednames";
+	String	HEADERS							= "Authorization, Content-Type";
 	String	OAUTH_TOKEN						= "/oauth/token";
 	String	OAUTH_TOKEN_REVOKE				= "/oauth/token_revoke";
 	String	ORIGINS							= "*";
 	String	PASSWORD						= "password";
 	String	READ							= "read";
-	String	REALM							= "SOM_REALM";
+	String	REALM							= "KALAM_REALM";
 	String	REFRESH_TOKEN					= "refresh_token";
 	String	REQUEST_TYPES					= "POST, PUT, GET, OPTIONS, DELETE";
-	String	SOM_APPLICATION					= "SOMApplication";
-	String	SOM_SECRET						= "SOMSecret";
+	String	HBS_APPLICATION					= "HBSAPPLICATION";
+	String	HBS_SECRET						= "Kalam@151031";
 	String	TRUST							= "trust";
 	String	WRITE							= "write";
 	int		THIRTY_DAYS						= 60 * 60 * 24 * 30;
+	int		FIVE_MINUTES					= 60 * 5;
+	int		FIFETEEN_MINUTES				= 60 * 15;
 	int		SIXTY_MINUTES					= 60 * 60;
 	int		MAX_LOGIN_ATTEMPT				= 3;
 }

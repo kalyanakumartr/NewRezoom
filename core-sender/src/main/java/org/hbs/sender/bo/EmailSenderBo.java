@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import javax.mail.MessagingException;
 
-import org.hbs.core.bean.MessageFormBean;
-import org.hbs.core.bean.model.IMessages;
-import org.hbs.core.security.resource.IPath.EMessageStatus;
-import org.hbs.core.security.resource.IPath.EReturn;
+import org.hbs.core.beans.MessageFormBean;
+import org.hbs.core.beans.model.IMessages;
+import org.hbs.core.beans.model.IMessages.EMessageStatus;
+import org.hbs.core.security.resource.IPathBase.EReturn;
 import org.hbs.core.util.CustomException;
 import org.springframework.security.core.Authentication;
 

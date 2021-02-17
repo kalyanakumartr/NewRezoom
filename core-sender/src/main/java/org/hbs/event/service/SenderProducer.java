@@ -5,8 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 
-import com.google.gson.Gson;
-
 // @Service
 public class SenderProducer implements IPath
 {
@@ -19,7 +17,6 @@ public class SenderProducer implements IPath
 	public void sendEmailMessage(ETemplate eTemplate, Object object)
 	{
 		logger.info("Send Email Message ::: " + eTemplate.name());
-		this.kafkaTemplate.send(INTERNAL_TOPIC, EMedia.Email.ordinal(), eTemplate.name(), new Gson().toJson(object));
 	}
 
 }

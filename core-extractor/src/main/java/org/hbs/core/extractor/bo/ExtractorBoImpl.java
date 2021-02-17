@@ -3,16 +3,16 @@ package org.hbs.core.extractor.bo;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hbs.core.bean.model.IConfiguration;
-import org.hbs.core.bean.model.channel.ConfigurationEmail;
-import org.hbs.core.bean.model.channel.ConfigurationSMS;
-import org.hbs.core.bean.model.channel.ConfigurationWeb;
-import org.hbs.core.bean.model.channel.DataExtractorPattern;
+import org.hbs.core.beans.model.IConfiguration;
+import org.hbs.core.beans.model.channel.ConfigurationEmail;
+import org.hbs.core.beans.model.channel.ConfigurationSMS;
+import org.hbs.core.beans.model.channel.ConfigurationWeb;
+import org.hbs.core.beans.model.channel.DataExtractorPattern;
 import org.hbs.core.dao.IncomingDao;
 import org.hbs.core.dao.ProducerDao;
 import org.hbs.core.dao.ProducerPropertyDao;
-import org.hbs.core.security.resource.IPath.EMedia;
-import org.hbs.core.security.resource.IPath.EMediaMode;
+import org.hbs.core.security.resource.IPathBase.EMedia;
+import org.hbs.core.security.resource.IPathBase.EMediaMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -81,8 +81,8 @@ public class ExtractorBoImpl implements ExtractorBo
 	@Override
 	public long getLastEmailSentDate(String producerId)
 	{
-		List<Long> lastEmailSentDateList = incomingDao.getLastEmailSentDate(producerId, new PageRequest(0, 1)) ;
-		Long lastEmailSentDate = lastEmailSentDateList.size()>0?lastEmailSentDateList.get(0):0;
+		List<Long> lastEmailSentDateList = incomingDao.getLastEmailSentDate(producerId, PageRequest.of(0,1)) ;
+		Long lastEmailSentDate = lastEmailSentDateList.size()>0?lastEmailSentDateList.get(0):0L;
 		return lastEmailSentDate;//!=null && lastEmailSentDate.equals("")?Long.getLong(lastEmailSentDate):0;
 	}
 

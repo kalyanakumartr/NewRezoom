@@ -1,9 +1,7 @@
 package org.hbs.sender;
 
-import java.util.List;
-
-import org.hbs.core.bean.ConfigurationFormBean;
-import org.hbs.core.bean.model.ProducersProperty;
+import org.hbs.core.beans.ConfigurationFormBean;
+import org.hbs.core.beans.model.ProducersProperty;
 import org.hbs.core.util.CommonValidator;
 import org.hbs.sender.bo.ConfigurationBo;
 import org.slf4j.Logger;

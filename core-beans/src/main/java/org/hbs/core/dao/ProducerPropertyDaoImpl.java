@@ -1,16 +1,16 @@
 package org.hbs.core.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.hbs.core.security.resource.IPath.EMedia;
-import org.hbs.core.security.resource.IPath.EMediaMode;
-import org.springframework.stereotype.Repository;
+import org.hbs.core.security.resource.IPathBase.EMedia;
+import org.hbs.core.security.resource.IPathBase.EMediaMode;
 
-public class ProducerPropertyDaoImpl
+public class ProducerPropertyDaoImpl implements Serializable
 {
 	private static final long	serialVersionUID	= 8378932574374701771L;
 

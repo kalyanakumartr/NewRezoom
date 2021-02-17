@@ -24,15 +24,16 @@ import javax.mail.Store;
 import javax.mail.search.SearchTerm;
 
 import org.apache.commons.io.IOUtils;
-import org.hbs.core.bean.model.IProducers;
-import org.hbs.core.bean.model.Producers;
-import org.hbs.core.bean.model.application.IncomingData;
-import org.hbs.core.bean.model.application.IncomingData.EIncomingStatus;
-import org.hbs.core.bean.model.application.ResumeAttachments;
-import org.hbs.core.bean.model.application.ResumeAttachments.EResumeTrace;
-import org.hbs.core.bean.model.channel.ConfigurationEmail;
+import org.hbs.core.beans.model.IProducers;
+import org.hbs.core.beans.model.Producers;
+import org.hbs.core.beans.model.application.IncomingData;
+import org.hbs.core.beans.model.application.IncomingData.EIncomingStatus;
+import org.hbs.core.beans.model.application.ResumeAttachments;
+import org.hbs.core.beans.model.application.ResumeAttachments.EResumeTrace;
+import org.hbs.core.beans.model.channel.ConfigurationEmail;
 import org.hbs.core.dao.IncomingDao;
-import org.hbs.core.event.service.KafkaEmailReferenceBean;
+import org.hbs.core.kafka.IKafkaConstants;
+import org.hbs.core.kafka.KafkaEmailReferenceBean;
 import org.hbs.core.security.resource.IPath;
 import org.hbs.core.util.CommonValidator;
 import org.slf4j.Logger;
@@ -46,7 +47,7 @@ import com.google.gson.Gson;
 import com.sun.mail.imap.IMAPFolder;
 
 @Service
-public class IncomingDataByEmail implements IPath
+public class IncomingDataByEmail implements IPath, IKafkaConstants
 {
 	private static final long	serialVersionUID	= -3529623337510779624L;
 
@@ -54,7 +55,7 @@ public class IncomingDataByEmail implements IPath
 	@Autowired
 	private IncomingDao			incomingDao;
 
-	@KafkaListener(topicPartitions = @TopicPartition(topic = ATTACHMENT_TOPIC, partitions = { "0" }), groupId = EMPLOYEE_ID, clientIdPrefix = EMAIL)
+	@KafkaListener(topicPartitions = @TopicPartition(topic = DATA_EXTRACT_TOPIC, partitions = { "0" }), groupId = EMPLOYEE_ID, clientIdPrefix = EMAIL)
 	public void consume(String uidJsonStr) throws IOException, MessagingException
 	{
 		logger.info(String.format("#### -> Consumed message -> %s", uidJsonStr));

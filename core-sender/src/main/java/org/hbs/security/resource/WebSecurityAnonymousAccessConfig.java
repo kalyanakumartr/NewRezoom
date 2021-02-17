@@ -1,6 +1,6 @@
 package org.hbs.security.resource;
 
-import org.hbs.core.bean.path.IPathSender;
+import org.hbs.core.beans.path.IPathSender;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;

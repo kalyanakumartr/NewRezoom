@@ -12,10 +12,10 @@ import javax.mail.search.ComparisonTerm;
 import javax.mail.search.ReceivedDateTerm;
 import javax.mail.search.SearchTerm;
 
-import org.hbs.core.bean.model.IConfiguration;
-import org.hbs.core.bean.model.channel.ConfigurationEmail;
-import org.hbs.core.event.service.GenericKafkaProducer;
+import org.hbs.core.beans.model.IConfiguration;
+import org.hbs.core.beans.model.channel.ConfigurationEmail;
 import org.hbs.core.extractor.bo.ExtractorBo;
+import org.hbs.core.kafka.GenericKafkaProducer;
 import org.hbs.core.util.CommonValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,6 +111,9 @@ public class InBoxReaderIMAP extends InBoxReaderBase
 			{
 				logger.info("Messaging Exception ");
 				excep.printStackTrace();
+			} catch (Exception e) {
+				logger.info("Message Processing Exception ");
+				e.printStackTrace();
 			}
 			finally
 			{
@@ -142,7 +145,7 @@ public class InBoxReaderIMAP extends InBoxReaderBase
 		}
 	}
 
-	private void pushToQueue(String producerId, IMAPFolder imapFolder, SearchTerm searchTerm, ReceivedDateTerm minDateTerm, ReceivedDateTerm maxDateTerm) throws MessagingException
+	private void pushToQueue(String producerId, IMAPFolder imapFolder, SearchTerm searchTerm, ReceivedDateTerm minDateTerm, ReceivedDateTerm maxDateTerm) throws Exception
 	{
 		searchTerm = new AndTerm(searchTerm, minDateTerm);
 		searchTerm = new AndTerm(searchTerm, maxDateTerm);

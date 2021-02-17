@@ -2,7 +2,7 @@ package org.hbs.core.extractor.action.email;
 
 import java.io.Serializable;
 
-import org.hbs.core.bean.model.channel.ConfigurationEmail;
+import org.hbs.core.beans.model.channel.ConfigurationEmail;
 import org.hbs.core.extractor.action.core.InBoxReader;
 import org.springframework.stereotype.Component;
 

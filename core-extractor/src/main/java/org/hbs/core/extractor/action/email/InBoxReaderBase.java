@@ -1,5 +1,7 @@
 package org.hbs.core.extractor.action.email;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -13,45 +15,43 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.UIDFolder;
 
-import org.hbs.core.bean.model.channel.ConfigurationEmail;
-import org.hbs.core.event.service.GenericKafkaProducer;
-import org.hbs.core.event.service.KafkaEmailReferenceBean;
+import org.hbs.core.beans.model.channel.ConfigurationEmail;
 import org.hbs.core.extractor.action.core.InBoxReader;
-import org.hbs.core.security.resource.IPath.EMedia;
-import org.hbs.core.security.resource.IPath.ETopic;
+import org.hbs.core.kafka.GenericKafkaProducer;
+import org.hbs.core.kafka.IKafkaConstants.EPartition;
+import org.hbs.core.kafka.IKafkaConstants.ETopic;
+import org.hbs.core.kafka.KafkaEmailReferenceBean;
+import org.hbs.core.security.resource.IPathBase.EMedia;
+import org.hbs.core.util.CommonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.google.gson.Gson;
 
 @ComponentScan({ "org.hbs.core.event.service" })
-public abstract class InBoxReaderBase implements InBoxReader
-{
-	private static final long	serialVersionUID	= 2428143934833300387L;
+public abstract class InBoxReaderBase implements InBoxReader {
+	private static final long serialVersionUID = 2428143934833300387L;
 
 	@Autowired
-	GenericKafkaProducer		gKafkaProducer;
+	GenericKafkaProducer gKafkaProducer;
 
 	ConfigurationEmail config;
-	//@Autowired
-	//KafkaEmailReferenceBean 	kafkaEmailRef;
-	public InBoxReaderBase()
-	{
+
+	@Autowired
+	KafkaEmailReferenceBean kafkaEmailRef;
+
+	public InBoxReaderBase() {
 		super();
 	}
 
-	protected Store authenticateMailAndConnect(ConfigurationEmail config) throws NoSuchProviderException, MessagingException
-	{
-		this.config= config;
-		try
-		{
+	protected Store authenticateMailAndConnect(ConfigurationEmail config)
+			throws NoSuchProviderException, MessagingException {
+		this.config = config;
+		try {
 			Store store = EmailConnectionHandler.getInstance().getStore(config.getProducerId() + config.getFromId());
-			if (store != null)
-			{
+			if (store != null) {
 				return store;
-			}
-			else
-			{
+			} else {
 				Properties props = new Properties();
 				Map<String, String[]> map = config.getSource().props();
 				props.setProperty("mail.host", config.getHostAddress());
@@ -59,8 +59,7 @@ public abstract class InBoxReaderBase implements InBoxReader
 				props.setProperty("mail.store.protocol", config.getProtocol());
 				/* Get the Session object for specific Mail Property. */
 				Session session = Session.getInstance(props, new Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication()
-					{
+					protected PasswordAuthentication getPasswordAuthentication() {
 						return new PasswordAuthentication(config.getUserName().trim(), config.getPassword());
 					}
 				});
@@ -71,40 +70,37 @@ public abstract class InBoxReaderBase implements InBoxReader
 				 */
 				store.connect();
 				Folder[] folderArr = store.getDefaultFolder().list();
-				for (Folder folder : folderArr)
-				{
-					System.out.println(config.getFromId().trim() + " Inbox Connected :: Unread Message Count :: " + folder + " ---- " + folder.getUnreadMessageCount());
-					if (folder.getName().equalsIgnoreCase("inbox"))
-					{
+				for (Folder folder : folderArr) {
+					System.out.println(config.getFromId().trim() + " Inbox Connected :: Unread Message Count :: "
+							+ folder + " ---- " + folder.getUnreadMessageCount());
+					if (folder.getName().equalsIgnoreCase("inbox")) {
 						break;
 					}
 				}
 				EmailConnectionHandler.getInstance().putStore(config.getProducerId() + config.getFromId(), store);
 				return EmailConnectionHandler.getInstance().getStore(config.getProducerId() + config.getFromId());
 			}
-		}
-		finally
-		{
+		} finally {
 		}
 	}
 
-	protected void pushToQueue(String producerId, UIDFolder _UIDFolder, Message[] messages) throws MessagingException
-	{
+	protected void pushToQueue(String producerId, UIDFolder _UIDFolder, Message... messages) throws Exception {
 
-		for (Message message : messages)
-		{
+		List<String> errorList = new ArrayList<String>(0);
+		KafkaEmailReferenceBean kafkaEmailRef = null;
+		for (Message message : messages) {
 			try {
-				KafkaEmailReferenceBean 	kafkaEmailRef = new KafkaEmailReferenceBean(message.getMessageNumber(),message.getSentDate(),config);
+				kafkaEmailRef = new KafkaEmailReferenceBean(message.getMessageNumber(), message.getSentDate(), config);
 
-
-			//gKafkaProducer.sendMessage(ETopic.Attachment, EMedia.Email, "producerId : "+producerId+" UIDFolder : "+ _UIDFolder.toString()+" Message :"+ message.toString());
-			//gKafkaProducer.sendMessage(ETopic.Attachment, EMedia.Email, new UIDMimeMessage(producerId, _UIDFolder, message)); // Need to give the messaged UUID and emailSent Time as Json
-				gKafkaProducer.sendMessage(ETopic.Attachment, EMedia.Email, new Gson().toJson(kafkaEmailRef)); // Need to give the messaged UUID and emailSent Time as Json
-			}catch(Exception ex) {
-				ex.printStackTrace();
-				throw ex;
+				gKafkaProducer.send(ETopic.DataExtract, EPartition.Message_In, EMedia.Email,
+						new Gson().toJson(kafkaEmailRef));
+			} catch (Exception ex) {
+				errorList.add(message.getMessageNumber() + "");
 			}
 		}
+		
+		if(CommonValidator.isListFirstNotEmpty(errorList))
+			throw new Exception(errorList.toString());
 	}
 
 }

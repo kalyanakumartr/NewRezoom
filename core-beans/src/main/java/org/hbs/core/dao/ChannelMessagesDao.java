@@ -2,7 +2,7 @@ package org.hbs.core.dao;
 
 import java.util.List;
 
-import org.hbs.core.bean.model.channel.ChannelMessages;
+import org.hbs.core.beans.model.channel.ChannelMessages;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

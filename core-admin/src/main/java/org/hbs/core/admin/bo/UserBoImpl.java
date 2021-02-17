@@ -1,38 +1,38 @@
 package org.hbs.core.admin.bo;
 
 import java.security.InvalidKeyException;
-import java.sql.Timestamp;
-import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.kafka.common.errors.InvalidRequestException;
-import org.hbs.core.bean.UserFormBean;
-import org.hbs.core.bean.model.IUsersMedia;
-import org.hbs.core.bean.model.Users;
-import org.hbs.core.bean.path.IErrorAdmin;
-import org.hbs.core.bean.path.IPathAdmin;
+import org.hbs.core.beans.UserFormBean;
+import org.hbs.core.beans.model.IUsersMedia;
+import org.hbs.core.beans.model.Users;
+import org.hbs.core.beans.model.UsersMedia;
+import org.hbs.core.beans.path.IErrorAdmin;
+import org.hbs.core.beans.path.IPathAdmin;
 import org.hbs.core.dao.SequenceDao;
-import org.hbs.core.event.service.GenericKafkaProducer;
-import org.hbs.core.security.resource.IPath.ETopic;
+import org.hbs.core.kafka.GenericKafkaProducer;
+import org.hbs.core.kafka.IKafkaConstants.ETopic;
 import org.hbs.core.util.CommonValidator;
 import org.hbs.core.util.EnumInterface;
 import org.hbs.core.util.ServerUtilFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Service
-@Transactional
+//@Transactional - has been commented due to insert and update happening on save call. Need to test this services. Found out at EduTel Impl
 public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IErrorAdmin, IPathAdmin
 {
 
 	private static final long	serialVersionUID	= 7255672818512788055L;
 
-	private final Logger		logger				= LoggerFactory.getLogger(UserBoImpl.class);
+	// private final Logger logger = LoggerFactory.getLogger(UserBoImpl.class);
 
 	@Autowired
 	GenericKafkaProducer		gKafkaProducer;
@@ -40,28 +40,40 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IErrorAdmi
 	@Autowired
 	private SequenceDao			sequenceDao;
 
-	@Autowired
-	private ServerUtilFactory	serverUtil;
+	@Value("${admin.update.delay.in.seconds:120}") // 2 minutes default update
+	private int					updateDelay;
 
 	@Override
 	public EnumInterface blockUser(Authentication auth, UserFormBean ufBean) throws InvalidRequestException
 	{
-		if (isRecentlyUpdated(ufBean))
+		if (isRecentlyUpdated(auth, ufBean))
 		{
 			try
 			{
-				logger.info("Inside UserBoImpl blockUser ::: ", ufBean.user.getUserId());
-				ufBean.repoUser.setStatus(!ufBean.user.getStatus());// Negate Current Status
-				ufBean.repoUser.modifiedUserInfo(auth);
-				userDao.save(ufBean.repoUser);
+				// logger.info("Inside UserBoImpl blockUser ::: ", ufBean.user.getUserId());
+				ufBean.user.setStatus(!ufBean.formUser.getStatus());// Negate Current Status
+				userDao.save(ufBean.user);
 
-				ufBean.messageCode = USER_BLOCKED_SUCCESSFULLY;
+				try
+				{
+					gKafkaProducer.send(ETopic.Internal, EMedia.Email, ETemplate.User_Blocked_Admin, ufBean);
+				}
+				catch (Exception excep)
+				{
+					excep.printStackTrace();
+				}
+				finally
+				{
+					ufBean.clearForm();
+					ufBean.messageCode = USER_BLOCKED_SUCCESSFULLY;
+				}
+
 				return EReturn.Success;
 			}
 			finally
 			{
 				ufBean.tokenURL = null;
-				ufBean.user = null;
+				ufBean.formUser = null;
 			}
 		}
 		throw new InvalidRequestException(USER_DATA_UPDATED_RECENTLY);
@@ -70,38 +82,63 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IErrorAdmi
 	@Override
 	public EnumInterface deleteUser(Authentication auth, UserFormBean ufBean) throws InvalidRequestException
 	{
-		logger.info("Inside UserBoImpl deleteUser ::: ", ufBean.user.getUserId());
-		userDao.deleteById(ufBean.user.getUserId());
+		// logger.info("Inside UserBoImpl deleteUser ::: ", ufBean.user.getUserId());
+		userDao.deleteById(ufBean.formUser.getUserId());
+		ufBean.clearForm();
 		return EReturn.Success;
 	}
 
 	@Override
-	public Users getUser(UserFormBean ufBean) throws InvalidRequestException
+	public Users getUser(UserFormBean ufBean) throws InvalidRequestException//
 	{
-		return userDao.getOne(ufBean.user.getEmployeeId());
+		Users user = userDao.findById(ufBean.formUser.getEmployeeId()).get();
+		if (CommonValidator.isNotNullNotEmpty(user))
+		{
+			user.createdDateByTimeZone();
+			user.modifiedDateByTimeZone();
+		}
+		return user;
 	}
 
 	@Override
-	public List<Users> getUserByProducer(Authentication auth) throws InvalidRequestException
+	public List<Users> getUserListByProducer(Authentication auth) throws InvalidRequestException//
 	{
-		return userDao.findByProducerId(EAuth.User.getProducerId(auth));
+		List<Users> userList = userDao.findByProducerId(EAuth.User.getProducerId(auth));
+		if (CommonValidator.isListFirstNotEmpty(userList))
+		{
+			for (Users users : userList)
+			{
+				users.createdDateByTimeZone();
+				users.modifiedDateByTimeZone();
+			}
+			return userList;
+		}
+		else
+			return new ArrayList<Users>(0);
 	}
 
-	private boolean isRecentlyUpdated(UserFormBean ufBean)
+	@Override
+	public boolean isRecentlyUpdated(Authentication auth, UserFormBean ufBean)
 	{
-		logger.info("Inside UserBoImpl isRecentlyUpdated ::: ", ufBean.user.getUserId());
+		// logger.info("Inside UserBoImpl isRecentlyUpdated ::: ", ufBean.user.getUserId());
+		if (CommonValidator.isNotNullNotEmpty(ufBean.formUser))
+		{
+			ufBean.user = userDao.findById(ufBean.formUser.getEmployeeId()).get();
+		}
+		else if (CommonValidator.isNotNullNotEmpty(ufBean.searchParam))
+		{
+			ufBean.user = getUserByEmailOrMobileOrUserId(ufBean.searchParam);
+		}
+
 		if (CommonValidator.isNotNullNotEmpty(ufBean.user))
 		{
-			Users user = userDao.getOne(ufBean.user.getEmployeeId());
-			if (CommonValidator.isNotNullNotEmpty(user))
+			if ((System.currentTimeMillis() - ufBean.user.getModifiedDate().getTime()) > (updateDelay * 1000))
 			{
-				if (ChronoUnit.NANOS.between(ufBean.user.getModifiedDate().toLocalDateTime(), user.getModifiedDate().toLocalDateTime()) == 0)
-				{
-					ufBean.repoUser = user;
-					return true;
-				}
-				return false;
+				ufBean.user.updateDisplayInfoOfProducersAndDateTime();
+				ufBean.user.modifiedUserInfo(auth);
+				return true;
 			}
+			return false;
 		}
 		throw new InvalidRequestException(USER_NOT_FOUND);
 	}
@@ -110,116 +147,131 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IErrorAdmi
 	public EnumInterface saveUser(Authentication auth, UserFormBean ufBean) throws InvalidRequestException, InvalidKeyException
 	{
 
-		logger.info("UserBoImpl saveUser starts ::: ");
-		IUsersMedia uMedia = ufBean.user.getPrimaryMedia();
-		List<String> userNameList = userDao.checkUserNameEmailIdOrMobileNo(ufBean.user.getProducer().getProducerId(), uMedia.getEmailId(), uMedia.getMobileNo());
-		if (CommonValidator.isListFirstNotEmpty(userNameList))
+		if (EAuth.User.verifyProducer(auth, ufBean.formUser.getProducer().getProducerId()))
 		{
-			ufBean.user.createdUserProducerInfo(auth);
-
-			ufBean.tokenURL = ServerUtilFactory._DomainUrl + ESecurity.Token.generate(ufBean.user, EFormAction.Verify);
-
-			ufBean.user.setUserId("USR" + sequenceDao.getPrimaryKey(Users.class.getSimpleName()));
-			ufBean.user.setStatus(false);
-			ufBean.user.setUserPwdModFlag(true);
-			ufBean.user = userDao.save(ufBean.user);
-
-			if (CommonValidator.isNotNullNotEmpty(ufBean.user, ufBean.tokenURL))
+			// logger.info("UserBoImpl saveUser starts ::: ");
+			IUsersMedia uMedia = ufBean.formUser.getPrimaryMedia();
+			List<String> userNameList = userDao.checkUserNameEmailIdOrMobileNo(ufBean.formUser.getProducer().getProducerId(), uMedia.getEmailId(), uMedia.getMobileNo());
+			if (userNameList.isEmpty())
 			{
-				try
-				{
-					HttpHeaders headers = new HttpHeaders();
-					headers.add(AUTHORIZATION, ufBean.authToken);
+				ufBean.formUser.createdUserAndProducerInfo(auth);
 
-					gKafkaProducer.sendMessage(ETopic.Internal, EMedia.Email, ETemplate.User_Create_Admin, ufBean);
-					gKafkaProducer.sendMessage(ETopic.Internal, EMedia.Email, ETemplate.User_Create_Employee, ufBean);
-					gKafkaProducer.sendMessage(ETopic.Internal, EMedia.SMS, ETemplate.SMS_Create_Employee, ufBean);
+				ufBean.tokenURL = ServerUtilFactory.getInstance().getDomainURL(ESecurity.Token.generate(ufBean.formUser, EFormAction.Verify));
+				ufBean.formUser.setStatus(false);
+				ufBean.formUser.setUserPwdModFlag(true);
+				ufBean.formUser.getBusinessKey();// Initialize Primary Key
 
-					ufBean.messageCode = USER_CREATED_SUCCESSFULLY;
-					return EReturn.Success;
-				}
-				finally
+				for (UsersMedia _UM : ufBean.formUser.getMediaList())
 				{
-					ufBean.tokenURL = null;
-					ufBean.user = null;
+					_UM.setUsers(ufBean.formUser);
 				}
+				ufBean.formUser.setUserId(sequenceDao.getPrimaryKey(Users.class.getSimpleName(), ufBean.formUser.getProducer().getProducerId()));
+
+				ufBean.user = userDao.save(ufBean.formUser);
+
+				if (CommonValidator.isNotNullNotEmpty(ufBean.user, ufBean.tokenURL))
+				{
+					try
+					{
+						gKafkaProducer.send(ETopic.Internal, EMedia.Email, ETemplate.Create_User_Admin, ufBean);
+						gKafkaProducer.send(ETopic.Internal, EMedia.Email, ETemplate.Create_User_Employee, ufBean);
+						// gKafkaProducer.sendMessage(ETopic.Internal, EMedia.SMS,
+						// ETemplate.Create_User_Employee_SMS, ufBean);
+						ufBean.clearForm();
+						ufBean.messageCode = USER_CREATED_SUCCESSFULLY;
+						return EReturn.Success;
+					}
+					catch (Exception excep)
+					{
+						excep.printStackTrace();
+					}
+				}
+				throw new InvalidKeyException(USER_TOKEN_KEY_GENERATE_ISSUE);
 			}
-			throw new InvalidKeyException(USER_TOKEN_KEY_GENERATE_ISSUE);
+			throw new InvalidKeyException(USER_ALREADY_EXISTS);
 		}
-		throw new InvalidRequestException(USER_ALREADY_EXISTS);
+		// logger.error("UserBoImpl saveUser ::: Producer Not Matched");
+		throw new InvalidKeyException(USER_CREATED_FAILED);
+
 	}
 
 	@Override
 	public List<Users> searchUser(Authentication auth, UserFormBean ufBean) throws InvalidRequestException
 	{
-		return userDao.searchUser(ufBean.searchParam);
+		// logger.info("Inside UserController getAllUsers ::: ");
+		List<Users> userList = userDao.searchUser(ufBean.searchParam);
+		if (CommonValidator.isListFirstNotEmpty(userList))
+		{
+			for (Users users : userList)
+			{
+				users.setCreatedDateByTimeZone(users.getCountry().getCountry());
+				users.setModifiedDateByTimeZone(users.getCountry().getCountry());
+			}
+			return userList;
+		}
+		else
+			return new ArrayList<Users>(0);
 	}
 
 	@Override
 	public EnumInterface updateUser(Authentication auth, UserFormBean ufBean) throws InvalidRequestException
 	{
-		if (isRecentlyUpdated(ufBean))
+		if (isRecentlyUpdated(auth, ufBean))
 		{
-			try
-			{
-				logger.info("UserBoImpl updateUser starts ::: ");
-				ufBean.updateRepoUser(auth);
-				userDao.save(ufBean.repoUser);
-
-				ufBean.messageCode = USER_UPDATED_SUCCESSFULLY;
-				logger.info("UserBoImpl updateUser ends ::: ");
-				return EReturn.Success;
-			}
-			finally
-			{
-				ufBean.tokenURL = null;
-				ufBean.user = null;
-			}
+			// logger.info("UserBoImpl updateUser starts ::: ");
+			ufBean.updateRepoUser(auth);
+			userDao.save(ufBean.user);
+			ufBean.clearForm();
+			ufBean.messageCode = USER_UPDATED_SUCCESSFULLY;
+			// logger.info("UserBoImpl updateUser ends ::: ");
+			return EReturn.Success;
 		}
 		throw new InvalidRequestException(USER_DATA_UPDATED_RECENTLY);
 	}
 
 	@Override
-	public UserFormBean validateUser(String tokenKey) throws InvalidKeyException
+	public EnumInterface resendActivationLink(Authentication auth, UserFormBean ufBean) throws InvalidKeyException, JsonProcessingException
 	{
-		if (CommonValidator.isNotNullNotEmpty(tokenKey))
-		{
-			logger.info("Inside UserBoImpl validateUser ::: ");
-			UserFormBean ufBean = ESecurity.Token.validate(userDao, tokenKey, TOKEN_EXPIRY_DURATION);
 
-			if (CommonValidator.isNotNullNotEmpty(ufBean))
-			{
-				return ufBean;
-			}
+		if (isRecentlyUpdated(auth, ufBean))
+		{
+			ufBean.tokenURL = ServerUtilFactory.getInstance().getDomainURL(ESecurity.Token.generate(ufBean.user, EFormAction.Verify));
+			ufBean.user.setStatus(false);
+			userDao.save(ufBean.user);
+
+			// Putting User Details in KAFKA Topics
+			gKafkaProducer.send(ETopic.Internal, EMedia.Email, ETemplate.Create_User_Admin, ufBean);
+			// gKafkaProducer.sendMessage(ETopic.Internal, EMedia.Email,
+			// ETemplate.Create_User_Employee, ufBean);
+			// gKafkaProducer.sendMessage(ETopic.Internal, EMedia.SMS,
+			// ETemplate.Create_User_Employee_SMS, ufBean);
+			ufBean.clearForm();
+			ufBean.messageCode = ACTIVATION_LINK_SENT_SUCCESSFULLY;
+			return EReturn.Success;
 		}
-		throw new InvalidKeyException(USER_TOKEN_KEY_NOT_AVAILABLE_IN_REQUEST);
+		else
+			throw new InvalidKeyException(ACTIVATION_LINK_SENT_RECENTLY);
+
 	}
 
 	@Override
-	public EnumInterface resendActivationLink(Authentication auth, UserFormBean ufBean)
+	public Users getUserByEmailOrMobileOrUserId(String searchParam)//
 	{
-		ufBean.user = getUser(ufBean);
-		ufBean.tokenURL = ServerUtilFactory._DomainUrl + ESecurity.Token.generate(ufBean.user, EFormAction.Verify);
-		ufBean.user.setModifiedDate(new Timestamp(System.currentTimeMillis()));
-		ufBean.user.setStatus(false);
-		userDao.save(ufBean.user);
-		if (CommonValidator.isNotNullNotEmpty(ufBean.user, ufBean.tokenURL))
+		Object object = userDao.findByEmailOrMobileOrUserId(searchParam);
+		if (object == null)
 		{
-			try
-			{
-				gKafkaProducer.sendMessage(ETopic.Internal, EMedia.Email, ETemplate.User_Create_Admin, ufBean);
-				gKafkaProducer.sendMessage(ETopic.Internal, EMedia.Email, ETemplate.User_Create_Employee, ufBean);
-				gKafkaProducer.sendMessage(ETopic.Internal, EMedia.SMS, ETemplate.SMS_Create_Employee, ufBean);
-
-				ufBean.messageCode = ACTIVATION_LINK_SENT_SUCCESSFULLY;
-				return EReturn.Success;
-			}
-			finally
-			{
-				ufBean.tokenURL = null;
-				ufBean.user = null;
-			}
+			throw new UsernameNotFoundException("User Info " + searchParam + " not found");
 		}
-		return EReturn.Success;
+		Object[] userDetail = (Object[]) object;
+
+		Users user = (Users) userDetail[0];
+		user.setProducerId(user.getProducer().getProducerId());
+		user.setProducerName((String) userDetail[1]);
+		user.setParentProducerId(user.getParentProducer().getProducerId());
+		user.setParentProducerName((String) userDetail[2]);
+		user.createdDateByTimeZone();
+		user.modifiedDateByTimeZone();
+
+		return user;
 	}
 }

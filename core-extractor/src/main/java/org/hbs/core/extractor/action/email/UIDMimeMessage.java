@@ -3,7 +3,6 @@ package org.hbs.core.extractor.action.email;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.UIDFolder;
-import javax.mail.internet.MimeMessage;
 
 import org.hbs.core.extractor.action.core.AttachmentInfo;
 

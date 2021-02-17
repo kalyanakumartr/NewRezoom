@@ -1,6 +1,6 @@
 package org.hbs.core.security.resource;
 
-import org.hbs.core.bean.path.IPathView.EPathView;
+import org.hbs.core.beans.path.IPathView.EPathView;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;

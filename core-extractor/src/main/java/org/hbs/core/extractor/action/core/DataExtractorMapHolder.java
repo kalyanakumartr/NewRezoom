@@ -10,8 +10,8 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.hbs.core.bean.model.channel.DataExtractorPattern;
-import org.hbs.core.bean.model.channel.DataExtractorPattern.RegExFor;
+import org.hbs.core.beans.model.channel.DataExtractorPattern;
+import org.hbs.core.beans.model.channel.DataExtractorPattern.RegExFor;
 import org.hbs.core.extractor.bo.ExtractorBo;
 import org.hbs.core.util.CommonValidator;
 import org.hbs.core.util.IConstProperty;

@@ -1,6 +1,6 @@
 package org.hbs.security.resource;
 
-import org.hbs.core.bean.path.IPathSender.EPathSender;
+import org.hbs.core.beans.path.IPathSender.EPathSender;
 import org.hbs.core.security.resource.OAuth2ResourceServerConfigBase;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

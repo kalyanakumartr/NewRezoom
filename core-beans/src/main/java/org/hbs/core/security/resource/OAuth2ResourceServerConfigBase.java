@@ -1,7 +1,7 @@
 package org.hbs.core.security.resource;
 
-import org.hbs.core.bean.path.EnumResourceInterface;
 import org.hbs.core.util.CommonValidator;
+import org.hbs.core.util.ServerUtilFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
-public abstract class OAuth2ResourceServerConfigBase extends ResourceServerConfigurerAdapter implements IPath
+public abstract class OAuth2ResourceServerConfigBase extends ResourceServerConfigurerAdapter implements IPath, OAuth2Constants
 {
 	private static final long			serialVersionUID	= -177116146310386350L;
 
@@ -22,17 +22,27 @@ public abstract class OAuth2ResourceServerConfigBase extends ResourceServerConfi
 
 	public void configure(HttpSecurity http, EnumResourceInterface... resourcePath) throws Exception
 	{
+
 		for (EnumResourceInterface ePath : resourcePath)
 		{
-			for (ERole eRole : ePath.getRoles())
+			if (ePath.getRoles() == null || ePath.getRoles().length == 0)
 			{
-				if (CommonValidator.isNotNullNotEmpty(eRole.name()))
-					http.authorizeRequests().antMatchers(ePath.getPath()).hasAuthority(eRole.name()).anyRequest().authenticated();
-				else
-					http.authorizeRequests().antMatchers(ePath.getPath()).authenticated();// permit all .permitAll()
+				http.authorizeRequests().antMatchers(ePath.getPath()).permitAll();
+			}
+			else
+			{
+				for (ERole eRole : ePath.getRoles())
+				{
+					if (CommonValidator.isNotNullNotEmpty(eRole.name()))
+						http.authorizeRequests().antMatchers(ePath.getPath()).hasAuthority(eRole.name().toUpperCase()).anyRequest().authenticated();
+					else
+						http.authorizeRequests().antMatchers(ePath.getPath()).authenticated();
+				}
 			}
 		}
-		http.csrf().disable().authorizeRequests()//
+		http.csrf()//
+				.disable()//
+				.authorizeRequests()//
 				.and()//
 				.exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
 	}
@@ -67,7 +77,15 @@ public abstract class OAuth2ResourceServerConfigBase extends ResourceServerConfi
 		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
 		converter.setAccessTokenConverter(customAccessTokenConverter);
 		converter.setSigningKey(HBS_APPLICATION);
+
 		return converter;
 
+	}
+
+	// DoNOT remove this initialization
+	@Bean
+	public ServerUtilFactory getServerUtilFactory()
+	{
+		return ServerUtilFactory.getInstance();
 	}
 }

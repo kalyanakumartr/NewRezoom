@@ -5,17 +5,15 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.apache.kafka.common.errors.InvalidRequestException;
-import org.hbs.core.bean.ProducerFormBean;
-import org.hbs.core.bean.model.application.CustomerProducer;
-import org.hbs.core.bean.path.IErrorAdmin;
+import org.hbs.core.beans.ProducerFormBean;
+import org.hbs.core.beans.model.Producers;
+import org.hbs.core.beans.path.IErrorAdmin;
 import org.hbs.core.dao.ProducerDao;
 import org.hbs.core.dao.SequenceDao;
-import org.hbs.core.security.resource.IPath.EReturn;
+import org.hbs.core.security.resource.IPathBase.EReturn;
 import org.hbs.core.util.CommonValidator;
 import org.hbs.core.util.EnumInterface;
 import org.hbs.core.util.IConstProperty.EWrap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProducerBoImpl implements ProducerBo, IErrorAdmin
 {
 	private static final long	serialVersionUID	= 6078462669851402422L;
-	private final Logger		logger				= LoggerFactory.getLogger(ProducerBoImpl.class);
+	// private final Logger logger = LoggerFactory.getLogger(ProducerBoImpl.class);
 
 	@Autowired
 	protected ProducerDao		producerDao;
@@ -83,7 +81,8 @@ public class ProducerBoImpl implements ProducerBo, IErrorAdmin
 	@Override
 	public EnumInterface deleteProducer(Authentication auth, ProducerFormBean cfBean) throws InvalidRequestException
 	{
-		logger.info("Inside ProducerBoImpl deleteProducer ::: ", cfBean.producer.getProducerId());
+		// logger.info("Inside ProducerBoImpl deleteProducer ::: ",
+		// cfBean.producer.getProducerId());
 		// producerDao.deleteById(cfBean.producer.getProducerId());
 		cfBean.repoProducer = producerDao.findByProducerId(cfBean.producer.getProducerId());
 		cfBean.repoProducer.setStatus(!cfBean.repoProducer.getStatus());// Negate Current Status
@@ -101,13 +100,13 @@ public class ProducerBoImpl implements ProducerBo, IErrorAdmin
 	}
 
 	@Override
-	public CustomerProducer getProducer(ProducerFormBean cfBean)
+	public Producers getProducer(ProducerFormBean cfBean)
 	{
 		return producerDao.findByProducerId(cfBean.producer.getProducerId());
 	}
 
 	@Override
-	public List<CustomerProducer> getProducerByName(ProducerFormBean cfBean)
+	public List<Producers> getProducerByName(ProducerFormBean cfBean)
 	{
 		return producerDao.findByProducerName(EWrap.Percent.enclose(cfBean.producer.getProducerName()));
 	}
@@ -116,7 +115,7 @@ public class ProducerBoImpl implements ProducerBo, IErrorAdmin
 	{
 		if (CommonValidator.isNotNullNotEmpty(cfBean, cfBean.producer))
 		{
-			CustomerProducer producer = producerDao.findByProducerId(cfBean.producer.getProducerId());
+			Producers producer = producerDao.findByProducerId(cfBean.producer.getProducerId());
 			if (CommonValidator.isNotNullNotEmpty(producer))
 			{
 				if (ChronoUnit.NANOS.between(cfBean.producer.getModifiedDate().toLocalDateTime(), producer.getModifiedDate().toLocalDateTime()) == 0)
@@ -183,7 +182,7 @@ public class ProducerBoImpl implements ProducerBo, IErrorAdmin
 	}
 
 	@Override
-	public List<CustomerProducer> getProducerList()
+	public List<Producers> getProducerList()
 	{
 		return producerDao.findByStatus(true);
 	}

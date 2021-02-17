@@ -2,7 +2,7 @@ package org.hbs.core.dao;
 
 import java.util.List;
 
-import org.hbs.core.bean.model.application.IncomingData;
+import org.hbs.core.beans.model.application.IncomingData;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

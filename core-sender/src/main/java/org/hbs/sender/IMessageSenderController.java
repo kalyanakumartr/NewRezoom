@@ -2,13 +2,13 @@ package org.hbs.sender;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.hbs.core.bean.ConfigurationFormBean;
-import org.hbs.core.bean.OTPFormBean;
-import org.hbs.core.bean.UserFormBean;
-import org.hbs.core.bean.model.Messages;
-import org.hbs.core.bean.model.channel.IChannelMessages;
-import org.hbs.core.bean.model.clickatell.SMSCallBackFormBean;
-import org.hbs.core.bean.path.IPathSender;
+import org.hbs.core.beans.ConfigurationFormBean;
+import org.hbs.core.beans.OTPFormBean;
+import org.hbs.core.beans.UserFormBean;
+import org.hbs.core.beans.model.Messages;
+import org.hbs.core.beans.model.channel.IChannelMessages;
+import org.hbs.core.beans.model.clickatell.SMSCallBackFormBean;
+import org.hbs.core.beans.path.IPathSender;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

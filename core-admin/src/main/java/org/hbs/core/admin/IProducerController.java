@@ -1,7 +1,7 @@
 package org.hbs.core.admin;
 
-import org.hbs.core.bean.ProducerFormBean;
-import org.hbs.core.bean.path.IPathAdmin;
+import org.hbs.core.beans.ProducerFormBean;
+import org.hbs.core.beans.path.IPathAdmin;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;

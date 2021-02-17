@@ -19,6 +19,7 @@ public interface IConstProperty extends Serializable
 	public String	HASH			= "#";
 	public String	HYPHEN			= "-";
 	public String	SLASH			= "/";
+	public String	BACKSLASH		= "\\";
 	public String	FILE			= "file:";
 	public String	SLASH_STARS		= SLASH + "**";
 	public String	COMMA_SPACE		= ", ";
@@ -33,6 +34,8 @@ public interface IConstProperty extends Serializable
 	public String	UPDATE			= " Update ";
 	public String	DELETE			= " Delete ";
 	public String	SET				= " Set ";
+	public String	DOUBLE_EQUAL_TO	= "==";
+	public String	UTF8ENCODER			= "UTF-8";
 
 	public enum EPage implements EnumInterface
 	{
@@ -52,7 +55,7 @@ public interface IConstProperty extends Serializable
 		MM_DD_YYYY("MM-dd-yyyy"), //
 		MM_DD_YYYY_HH_MM("MM-dd-yyyy HH:mm"), //
 		MM_DD_YYYY_HH_MM_SS_AM_PM("MM-dd-yyyy hh:mm:ssa"), //
-		YYYYMMDD("yyyy MM dd"), //
+		YYYYMMDD("yyyyMMdd"), //
 		YYYY_MMM_DD("yyyy-MMM-dd"), //
 		YYYY_MM_DD("yyyy-MM-dd"), //
 		YYYY_MM_DD_HH_MM("yyyy-MM-dd hh:mm"), //
@@ -60,7 +63,9 @@ public interface IConstProperty extends Serializable
 		YYYY_MM_DD_HH_MM_SS("yyyy-MM-dd hh:mm:ss"), //
 		YYYY_MM_DD_HH_MM_SS_24("yyyy-MM-dd HH:mm:ss"), //
 		YYYY_MM_DD_HH_MM_SS_SSS("yyyy-MM-dd hh:mm:ss.SSS"), //
-		YYYY_MM_DD_HH_MM_SS_SSS_24("yyyy-MM-dd HH:mm:ss.SSS");
+		YYYY_MM_DD_HH_MM_SS_SSS_24("yyyy-MM-dd HH:mm:ss.SSS"), //
+		YYYY_MM_DD_HH_MM_SS_SSS_24_TZ("yyyy-MM-ddTHH:mm:ss.SSS"), //
+		HHMM("HHmm");
 
 		String format;
 
@@ -81,12 +86,22 @@ public interface IConstProperty extends Serializable
 			return Timestamp.valueOf(_DF != null ? _DF.format(date) : "");
 		}
 
-		public String byTimeZone(String sourceTZ, String destinationTZ, Timestamp timeStamp, EDate eDate)
+		public String byTimeZone(String destinationTZ, Timestamp timeStamp)
 		{
-			return byTimeZone(sourceTZ, destinationTZ, timeStamp.toString(), eDate);
+			return byTimeZone(ServerUtilFactory.getInstance().getTimeZone(), destinationTZ, timeStamp.toString());
 		}
 
-		public String byTimeZone(String sourceTZ, String destinationTZ, String date, EDate eDate)
+		public String byTimeZone(Timestamp timeStamp)
+		{
+			return byTimeZone(ServerUtilFactory.getInstance().getTimeZone(), ServerUtilFactory.getInstance().getTimeZone(), timeStamp.toString());
+		}
+
+		public String byTimeZone(String sourceTZ, String destinationTZ, Timestamp timeStamp)
+		{
+			return byTimeZone(sourceTZ, destinationTZ, timeStamp.toString());
+		}
+
+		public String byTimeZone(String sourceTZ, String destinationTZ, String date)
 		{
 			if (date.indexOf(DOT) > 0)
 				date = date.substring(0, date.indexOf(DOT));
@@ -130,7 +145,7 @@ public interface IConstProperty extends Serializable
 
 	public enum EWrap implements EnumInterface
 	{
-		Brace("()"), Percent("%"), Quote("'"), QuotePercent(""), Hyphen("-");
+		Brace("()"), Percent("%"), Quote("'"), QuotePercent(""), Hyphen("-"), Comma(",");
 
 		private String eWrap;
 
@@ -143,7 +158,7 @@ public interface IConstProperty extends Serializable
 		{
 			if (data != null)
 			{
-				String encData = String.valueOf(data);
+				String encData = (data instanceof EnumInterface) ? ((EnumInterface) data).name() : String.valueOf(data);
 				if (eWrap.equals(""))
 				{
 					return Quote.eWrap + Percent.eWrap + encData.trim() + Percent.eWrap + Quote.eWrap;
@@ -155,6 +170,10 @@ public interface IConstProperty extends Serializable
 				else if (eWrap.equals("-"))
 				{
 					return encData.trim() + Hyphen.eWrap;
+				}
+				else if (eWrap.equals(","))
+				{
+					return encData.trim();
 				}
 				else
 				{
@@ -169,13 +188,13 @@ public interface IConstProperty extends Serializable
 			return "";
 		}
 
-		public String enclose(Object[] dataArr)
+		public String enclose(Object... dataArr)
 		{
 			String dataQt = "";
 			if (CommonValidator.isNotNullNotEmpty(dataArr))
 			{
 				if (dataArr[0] instanceof String || dataArr[0] instanceof Integer || dataArr[0] instanceof Long || dataArr[0] instanceof Float || dataArr[0] instanceof Double
-						|| dataArr[0] instanceof Boolean)
+						|| dataArr[0] instanceof Boolean || dataArr[0] instanceof EnumInterface)
 				{
 					for (Object datum : dataArr)
 					{
@@ -190,7 +209,7 @@ public interface IConstProperty extends Serializable
 			return dataQt;
 		}
 
-		public String append(Object[] dataArr)
+		public String append(Object... dataArr)
 		{
 			String dataQt = "";
 			if (CommonValidator.isNotNullNotEmpty(dataArr))

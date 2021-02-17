@@ -4,14 +4,14 @@ import java.security.InvalidKeyException;
 import java.util.List;
 
 import org.apache.kafka.common.errors.InvalidRequestException;
-import org.hbs.core.bean.ProducerFormBean;
-import org.hbs.core.bean.model.application.CustomerProducer;
+import org.hbs.core.beans.ProducerFormBean;
+import org.hbs.core.beans.model.Producers;
 import org.hbs.core.util.EnumInterface;
 import org.springframework.security.core.Authentication;
 
 public interface ProducerBo
 {
-	CustomerProducer getProducer(ProducerFormBean request);
+	Producers getProducer(ProducerFormBean request);
 
 	EnumInterface saveProducer(Authentication auth, ProducerFormBean request) throws InvalidKeyException;
 
@@ -19,11 +19,11 @@ public interface ProducerBo
 
 	EnumInterface blockProducer(Authentication auth, ProducerFormBean request);
 
-	List<CustomerProducer> getProducerByName(ProducerFormBean request);
+	List<Producers> getProducerByName(ProducerFormBean request);
 
 	EnumInterface checkProducerExist(ProducerFormBean request);
 
-	List<CustomerProducer> getProducerList();
+	List<Producers> getProducerList();
 
 	EnumInterface blockProducerById(Authentication auth, ProducerFormBean request);
 

@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.util.List;
 
-import org.hbs.core.bean.MessageFormBean;
-import org.hbs.core.bean.SMSResponseBean;
-import org.hbs.core.bean.model.IMessages;
-import org.hbs.core.bean.model.Users;
-import org.hbs.core.bean.model.channel.ChannelMessages;
-import org.hbs.core.bean.model.channel.IChannelMessages;
-import org.hbs.core.bean.model.clickatell.SMSCallBackFormBean;
+import org.hbs.core.beans.MessageFormBean;
+import org.hbs.core.beans.SMSResponseBean;
+import org.hbs.core.beans.model.Users;
+import org.hbs.core.beans.model.V7Messages;
+import org.hbs.core.beans.model.channel.ChannelMessages;
+import org.hbs.core.beans.model.channel.IChannelMessages;
+import org.hbs.core.beans.model.clickatell.SMSCallBackFormBean;
 import org.hbs.core.util.CommonValidator;
 import org.hbs.core.util.CustomException;
 import org.hbs.core.util.IConstProperty;
@@ -64,7 +64,7 @@ public class SMSSenderBoImpl extends BaseSenderBoImpl implements SMSSenderBo, IC
 			{
 				if (CommonValidator.isNotNullNotEmpty(message.getMessageId()))
 				{
-					List<IMessages> templateList = messageDao.getByMessageId(EAuth.User.getProducerId(auth), message.getMessageId());
+					List<V7Messages> templateList = messageDao.getByMessageId(EAuth.User.getProducerId(auth), message.getMessageId());
 					message.setMessage(templateList.iterator().next().getMessage());
 					message.setMessage(message.generateVTLMessage()); // Generating Dynamic SMS
 				}

@@ -1,6 +1,8 @@
 package org.hbs.core.util;
 
-public interface EnumInterface
+import java.io.Serializable;
+
+public interface EnumInterface extends Serializable
 {
 	public String name();
 

@@ -2,7 +2,7 @@ package org.hbs.core.dao;
 
 import java.util.List;
 
-import org.hbs.core.bean.model.Country;
+import org.hbs.core.beans.model.Country;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
