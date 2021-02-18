@@ -1293,15 +1293,13 @@ CREATE TABLE IF NOT EXISTS `users` (
   CONSTRAINT `FK_users_producers` FOREIGN KEY (`producerId`) REFERENCES `producers` (`producerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table data_process.users: ~5 rows (approximately)
+-- Dumping data for table data_process.users: ~3 rows (approximately)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`employeeId`, `userType`, `producerId`, `parentProducerId`, `userId`, `folderToken`, `userName`, `lastName`, `fatherName`, `userPwd`, `userPwdModFlag`, `userPwdModDate`, `dob`, `sex`, `otp`, `userStatus`, `dateOfJoin`, `token`, `tokenExpiryDate`, `country`, `createdBy`, `createdDate`, `modifiedBy`, `modifiedDate`, `status`) VALUES
-	('PRDADM0001', 'Producer', 'PRD000001', 'PRD000001', 'EduTel-Id', '013ea493-8fcc-4c68-b4b8-431a82a375bb', 'data_process', 'Admin', NULL, '$2a$10$7hnkWav9ZOLtz/Q2y.FLvuIyS3NFQ1J42jkV3SMbo9NRzi1P9m2fW', b'0', NULL, NULL, NULL, NULL, 'Activated', NULL, NULL, '2021-01-01 00:00:00', 'Asia/Singapore', 'PRDADM0001', '2021-01-01 00:00:00', 'PRDADM0001', '2021-01-01 00:00:00', b'1'),
-	('USR0000000000000', 'Consumer', 'PRD000001', 'PRD000001', 'Demo-Id', '013ea493-8fcc-4c68-b4b8-431a82a375bb', 'Demo', 'User', NULL, '$2a$10$7hnkWav9ZOLtz/Q2y.FLvuIyS3NFQ1J42jkV3SMbo9NRzi1P9m2fW', NULL, NULL, NULL, NULL, NULL, 'Activated', NULL, NULL, '2021-01-01 00:00:00', 'Asia/Kolkata', 'PRDADM0001', '2021-01-01 00:00:00', 'PRDADM0001', '2021-01-01 00:00:00', b'1'),
-	('USR1513438024799', 'Consumer', 'PRD000001', 'PRD000001', 'Ananth-Id', '', 'Ananth', 'Balasubramanian', NULL, '$2a$10$EMrq/UijfjMbtrHgs5tLVOfK7.mJdlL22i/rydPDX6QWfDqfUfn.G', b'0', NULL, NULL, NULL, NULL, 'Activated', NULL, '8029f8a2-3e15-4a3f-a4c5-8c8383f037bc', '2021-01-01 00:00:00', 'Asia/Kolkata', 'PRDADM0001', '2021-01-01 00:00:00', 'USR1513438024799', '2021-01-01 00:00:00', b'0'),
-	('USR1513438024800', 'Employee', 'PRD000001', 'PRD000001', 'Tamil-Id', '486f11d5-4972-44b0-9bdc-50f7b572ce11', 'Tamil', 'Selvan', NULL, '$2a$10$7hnkWav9ZOLtz/Q2y.FLvuIyS3NFQ1J42jkV3SMbo9NRzi1P9m2fW', NULL, NULL, NULL, NULL, NULL, 'Activated', NULL, NULL, '2021-01-01 00:00:00', 'Asia/Kolkata', 'PRDADM0001', '2021-01-01 00:00:00', 'PRDADM0001', '2021-01-01 00:00:00', b'1'),
-	('USR1513438024801', 'Employee', 'PRD000001', 'PRD000001', 'HariHaran-Id', 'ca7621f6-a0e0-425a-a1ca-e0c171e6b282', 'HariHaran', 'Thavaselvam', NULL, '$2a$10$7hnkWav9ZOLtz/Q2y.FLvuIyS3NFQ1J42jkV3SMbo9NRzi1P9m2fW', NULL, NULL, NULL, NULL, NULL, 'Activated', NULL, NULL, '2021-01-01 00:00:00', 'Asia/Kolkata', 'PRDADM0001', '2021-01-01 00:00:00', 'PRDADM0001', '2021-01-01 00:00:00', b'1');
+	('PRDADM0001', 'Producer', 'PRD000001', 'PRD000001', 'EduTel-Id', '013ea493-8fcc-4c68-b4b8-431a82a375bb', 'Data Processor', 'Admin', 'Test@1234', '$2a$10$z/h4gKgrVrSp9C1LQhxpPec0TT/EIa1FyDMKvP/xe7NOCnG3Qiv8q', b'0', NULL, NULL, NULL, NULL, 'Activated', NULL, NULL, '2021-01-01 00:00:00', 'Asia/Singapore', 'PRDADM0001', '2021-01-01 00:00:00', 'PRDADM0001', '2021-01-01 00:00:00', b'1'),
+	('USR0000000000000', 'Consumer', 'PRD000001', 'PRD000001', 'Demo-Id', '013ea493-8fcc-4c68-b4b8-431a82a375bb', 'Demo', 'User', 'Test@1234', '$2a$10$z/h4gKgrVrSp9C1LQhxpPec0TT/EIa1FyDMKvP/xe7NOCnG3Qiv8q', NULL, NULL, NULL, NULL, NULL, 'Activated', NULL, NULL, '2021-01-01 00:00:00', 'Asia/Kolkata', 'PRDADM0001', '2021-01-01 00:00:00', 'PRDADM0001', '2021-01-01 00:00:00', b'1'),
+	('USR1513438024799', 'Employee', 'PRD000001', 'PRD000001', 'Ananth-Id', '', 'Ananth', 'Balasubramanian', 'Test@1234', '$2a$10$z/h4gKgrVrSp9C1LQhxpPec0TT/EIa1FyDMKvP/xe7NOCnG3Qiv8q', b'0', NULL, NULL, NULL, NULL, 'Activated', NULL, '8029f8a2-3e15-4a3f-a4c5-8c8383f037bc', '2021-01-01 00:00:00', 'Asia/Kolkata', 'PRDADM0001', '2021-01-01 00:00:00', 'PRDADM0001', '2021-01-01 00:00:00', b'1');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Dumping structure for table data_process.usersaddress
@@ -1368,11 +1366,13 @@ CREATE TABLE IF NOT EXISTS `usersmedia` (
   PRIMARY KEY (`mediaId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table data_process.usersmedia: ~1 rows (approximately)
+-- Dumping data for table data_process.usersmedia: ~3 rows (approximately)
 DELETE FROM `usersmedia`;
 /*!40000 ALTER TABLE `usersmedia` DISABLE KEYS */;
 INSERT INTO `usersmedia` (`mediaId`, `employeeId`, `mediaType`, `emailId`, `mobileNo`, `phoneNo`, `whatsAppNo`) VALUES
-	('UMEDIA00001', 'USR1513438024799', 'Primary', 'ananth.malbal@gmail.com', '9677101112', ' ', '9789875832');
+	('UMEDIA00001', 'PRDADM0001', 'Primary', 'producer@gmail.com', '9677101111', ' ', '9677101111'),
+	('UMEDIA00002', 'USR1513438024799', 'Primary', 'ananth.malbal@gmail.com', '9677101112', ' ', '9677101112'),
+	('UMEDIA00003', 'USR0000000000000', 'Primary', 'consumer@gmail.com', '9677101113', ' ', '9677101113');
 /*!40000 ALTER TABLE `usersmedia` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
