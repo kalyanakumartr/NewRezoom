@@ -1,0 +1,81 @@
+{
+	"info": {
+		"_postman_id": "c9635a29-7428-4c0e-801e-cb19e7c7f40c",
+		"name": "Core-OAuth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "OAuthToken",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "HBSAPPLICATION",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "Kalam@151031",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic SEJTQVBQTElDQVRJT046S2FsYW1AMTUxMDMx"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "ananth.malbal@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Test@1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8090/core-oauth/oauth/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"core-oauth",
+						"oauth",
+						"token"
+					]
+				},
+				"description": "http://localhost:8090/rezoom-oauth-server/oauth/token"
+			},
+			"response": []
+		}
+	]
+}

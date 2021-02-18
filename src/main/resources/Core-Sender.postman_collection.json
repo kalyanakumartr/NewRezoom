@@ -1,0 +1,241 @@
+{
+	"info": {
+		"_postman_id": "c26bea41-a449-4024-a10b-ba573986a5b3",
+		"name": "Core-Sender",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "searchConfiguration",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTU5ODYwMDY4MCwianRpIjoiYmZhNGFmNmYtOGM0ZC00OTFjLWI3ZjYtZjBlZWZlMjRjNDcxIn0.zV53mVt1mso9wof47vfK4u7qAl3zXfG0OZNbjnd1lgI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"searchParam\": \"imap\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8200/core-sender/searchConfiguration",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"core-sender",
+						"searchConfiguration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "blockConfiguration",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTU5ODYwMDY4MCwianRpIjoiYmZhNGFmNmYtOGM0ZC00OTFjLWI3ZjYtZjBlZWZlMjRjNDcxIn0.zV53mVt1mso9wof47vfK4u7qAl3zXfG0OZNbjnd1lgI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"autoId\":1,\r\n    \"groupName\":\"Configuration External\",\r\n    \"producerProperty\": {\r\n        \"status\": false,\r\n        \"modifiedDate\": \"2020-08-06 15:47:04.000\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8200/core-sender/blockConfiguration",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"core-sender",
+						"blockConfiguration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "checkConfigurationExists",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTU5ODYwMDY4MCwianRpIjoiYmZhNGFmNmYtOGM0ZC00OTFjLWI3ZjYtZjBlZWZlMjRjNDcxIn0.zV53mVt1mso9wof47vfK4u7qAl3zXfG0OZNbjnd1lgI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"autoId\":1,\r\n    \"groupName\":\"Configuration External\",\r\n    \"producerProperty\": {\r\n        \"status\": false,\r\n        \"modifiedDate\": \"2020-08-06 15:47:04.000\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8200/core-sender/blockConfiguration",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"core-sender",
+						"blockConfiguration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteConfiguration",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTU5ODYwMDY4MCwianRpIjoiYmZhNGFmNmYtOGM0ZC00OTFjLWI3ZjYtZjBlZWZlMjRjNDcxIn0.zV53mVt1mso9wof47vfK4u7qAl3zXfG0OZNbjnd1lgI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"autoId\":1,\r\n    \"groupName\":\"Configuration External\",\r\n    \"producerProperty\": {\r\n        \"status\": false,\r\n        \"modifiedDate\": \"2020-08-06 15:47:04.000\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8200/core-sender/blockConfiguration",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"core-sender",
+						"blockConfiguration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getConfiguration",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTU5ODYwMDY4MCwianRpIjoiYmZhNGFmNmYtOGM0ZC00OTFjLWI3ZjYtZjBlZWZlMjRjNDcxIn0.zV53mVt1mso9wof47vfK4u7qAl3zXfG0OZNbjnd1lgI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8200/core-sender/getConfiguration",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"core-sender",
+						"getConfiguration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EndUserVideo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	]
+}
