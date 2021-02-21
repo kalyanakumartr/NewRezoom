@@ -3,12 +3,12 @@ package org.hbs.core.dao;
 import java.util.List;
 
 import org.hbs.core.beans.model.channel.ChannelMessages;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ChannelMessagesDao extends CrudRepository<ChannelMessages, String>
+public interface ChannelMessagesDao extends JpaRepository<ChannelMessages, String>
 {
 
 	@Query("From ChannelMessages where producer.producerId = ?0 and messageid = ?1 and status = true")

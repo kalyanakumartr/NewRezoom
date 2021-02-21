@@ -12,33 +12,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface IConfigurationController extends IPathSender
 {
 	@PostMapping
-	@RequestMapping(value = GET_CONFIGURATION_LIST, produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize(HAS_AUTHORITY_ADMINISTRATOR)
-	ResponseEntity<?> getConfigurationDetails(Authentication auth);
-
-	@PostMapping
-	@RequestMapping(value = SEARCH_CONFIGURATION, produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize(HAS_AUTHORITY_ADMINISTRATOR)
-	ResponseEntity<?> searchConfiguration(Authentication auth, ConfigurationFormBean cfBean);
-
-	@PostMapping
 	@RequestMapping(value = ADD_CONFIGURATION, produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize(HAS_AUTHORITY_ADMINISTRATOR)
+	@PreAuthorize(HAS_AUTHORITY_SUPERADMIN_OR_ADMIN)
 	ResponseEntity<?> addConfiguration(Authentication auth, ConfigurationFormBean cfBean);
 
 	@PostMapping
-	@RequestMapping(value = UPDATE_CONFIGURATION, produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize(HAS_AUTHORITY_ADMINISTRATOR)
-	ResponseEntity<?> updateConfiguration(Authentication auth, ConfigurationFormBean cfBean);
-
-	@PostMapping
 	@RequestMapping(value = BLOCK_CONFIGURATION, produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize(HAS_AUTHORITY_ADMINISTRATOR)
+	@PreAuthorize(HAS_AUTHORITY_SUPERADMIN_OR_ADMIN)
 	ResponseEntity<?> blockConfiguration(Authentication auth, ConfigurationFormBean cfBean);
 
 	@PostMapping
 	@RequestMapping(value = DELETE_CONFIGURATION, produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize(HAS_AUTHORITY_ADMINISTRATOR)
+	@PreAuthorize(HAS_AUTHORITY_SUPERADMIN_OR_ADMIN)
 	ResponseEntity<?> deleteConfiguration(Authentication auth, ConfigurationFormBean cfBean);
+
+	@PostMapping
+	@RequestMapping(value = GET_CONFIGURATION, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize(HAS_AUTHORITY_SUPERADMIN_OR_ADMIN)
+	ResponseEntity<?> getConfiguration(Authentication auth, ConfigurationFormBean cfBean);
+
+	@PostMapping
+	@RequestMapping(value = SEARCH_CONFIGURATION, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize(HAS_AUTHORITY_SUPERADMIN_OR_ADMIN)
+	ResponseEntity<?> searchConfiguration(Authentication auth, ConfigurationFormBean cfBean);
+
+	@PostMapping
+	@RequestMapping(value = UPDATE_CONFIGURATION, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize(HAS_AUTHORITY_SUPERADMIN_OR_ADMIN)
+	ResponseEntity<?> updateConfiguration(Authentication auth, ConfigurationFormBean cfBean);
 
 }

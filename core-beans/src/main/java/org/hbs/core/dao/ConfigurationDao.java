@@ -3,13 +3,13 @@ package org.hbs.core.dao;
 import java.util.List;
 
 import org.hbs.core.beans.model.ProducersProperty;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ConfigurationDao extends CrudRepository<ProducersProperty, String>
+public interface ConfigurationDao extends JpaRepository<ProducersProperty, String>
 {
 	@Query("Select count(*) From ProducersProperty Where  producer.producerId = :producerId AND groupName Like %:searchParam% ")
 	int checkConfigurationExists(@Param("producerId") String producerId, @Param("searchParam") String searchParam);

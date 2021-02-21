@@ -33,7 +33,7 @@ public abstract class ProducersBase extends CommonDateAndStatusFields implements
 	@Override
 	@Transient
 	@JsonIgnore
-	public String getCountryTimeZone()
+	public String constructCountryTimeZone()
 	{
 		return null;
 	}

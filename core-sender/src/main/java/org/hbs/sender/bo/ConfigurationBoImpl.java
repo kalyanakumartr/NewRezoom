@@ -2,6 +2,7 @@ package org.hbs.sender.bo;
 
 import java.security.InvalidKeyException;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.kafka.common.errors.InvalidRequestException;
@@ -30,10 +31,10 @@ public class ConfigurationBoImpl implements ConfigurationBo, IErrorSender
 {
 	private static final long	serialVersionUID	= -3286833424714620583L;
 
-	private final Logger		logger				= LoggerFactory.getLogger(ConfigurationBoImpl.class);
-
 	@Autowired
 	ConfigurationDao			configurationDao;
+
+	private final Logger		logger				= LoggerFactory.getLogger(ConfigurationBoImpl.class);
 
 	@Autowired
 	SequenceDao					sequenceDao;
@@ -66,7 +67,7 @@ public class ConfigurationBoImpl implements ConfigurationBo, IErrorSender
 	@Override
 	public int checkConfigurationExists(Authentication auth, ConfigurationFormBean cfBean)
 	{
-		return configurationDao.checkConfigurationExists(EAuth.User.getProducerId(auth), cfBean.groupName);
+		return configurationDao.checkConfigurationExists(EAuth.User.getProducerId(auth), cfBean.searchParam);
 	}
 
 	@Override
@@ -77,33 +78,63 @@ public class ConfigurationBoImpl implements ConfigurationBo, IErrorSender
 	}
 
 	@Override
-	public List<ProducersProperty> searchByConfigurationName(Authentication auth, ConfigurationFormBean cfBean)
-	{
-		return configurationDao.searchByConfigurationName(EAuth.User.getProducerId(auth), EWrap.Percent.enclose(cfBean.groupName));
-	}
-
-	@Override
 	public ProducersProperty getConfigurationByAutoId(Authentication auth, ConfigurationFormBean cfBean)
 	{
 		return configurationDao.fetchByAutoId(EAuth.User.getProducerId(auth), cfBean.autoId);
 	}
 
 	@Override
-	public IConfiguration getConfigurationByType(String producerId, EMedia eMedia, EMediaType eMediaType, EMediaMode eMediaMode) throws ClassNotFoundException
+	public IConfiguration getConfigurationByType(Authentication auth, EMedia eMedia, EMediaType eMediaType, EMediaMode eMediaMode) throws ClassNotFoundException
 	{
-		String media = eMedia == null ? "%%" : eMedia.name();
-		String mediaType = eMediaType == null ? "%%" : eMediaType.name();
-		String mediaMode = eMediaMode == null ? "%%" : eMediaMode.name();
-
-		ProducersProperty _PP = configurationDao.getConfigurationByType(producerId, media, mediaType, mediaMode).iterator().next();
-
-		return _PP.getPropertyAsConfiguration();
+		List<ProducersProperty> _PPList = configurationDao.getConfigurationByType(EAuth.User.getProducerId(auth), eMedia.name(), eMediaType.name(), eMediaMode.name());
+		if (CommonValidator.isListFirstNotEmpty(_PPList))
+		{
+			ProducersProperty _PP = _PPList.iterator().next();
+			return _PP.getPropertyAsConfiguration();
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	@Override
-	public IConfiguration getConfigurationByType(Authentication auth, EMedia eMedia, EMediaType eMediaType, EMediaMode eMediaMode) throws ClassNotFoundException
+	public List<ProducersProperty> getConfigurationList(Authentication auth, ConfigurationFormBean cfBean)
 	{
-		return getConfigurationByType(EAuth.User.getProducerId(auth), eMedia, eMediaType, eMediaMode);
+		List<ProducersProperty> _PPList = configurationDao.getConfigurationList(EAuth.User.getProducerId(auth), cfBean.searchParam);
+		
+		if (CommonValidator.isListFirstNotEmpty(_PPList))
+		{
+			for (ProducersProperty _PP : _PPList)
+			{
+				_PP.createdDateByTimeZone();
+				_PP.modifiedDateByTimeZone();
+			}
+			return _PPList;
+		}
+		else
+		{
+			return new ArrayList<ProducersProperty>();
+		}
+	}
+
+	private boolean isRecentlyUpdated(Authentication auth, ConfigurationFormBean cfBean)
+	{
+		logger.info("Inside ConfigurationBoImpl isRecentlyUpdated ::: ", cfBean.producerProperty.getAutoId());
+		if (CommonValidator.isNotNullNotEmpty(cfBean.producerProperty))
+		{
+			ProducersProperty iPP = configurationDao.fetchByAutoId(EAuth.User.getProducerId(auth), cfBean.autoId);
+			if (CommonValidator.isNotNullNotEmpty(iPP))
+			{
+				if (ChronoUnit.NANOS.between(cfBean.producerProperty.getModifiedDate().toLocalDateTime(), iPP.getModifiedDate().toLocalDateTime()) == 0)
+				{
+					cfBean.repoProducerProperty = iPP;
+					return true;
+				}
+				return false;
+			}
+		}
+		throw new InvalidRequestException(CONFIGURATION_NOT_FOUND);
 	}
 
 	@Override
@@ -120,6 +151,12 @@ public class ConfigurationBoImpl implements ConfigurationBo, IErrorSender
 			return EReturn.Success;
 		}
 		throw new InvalidRequestException(CONFIGURATION_ALREADY_EXISTS);
+	}
+
+	@Override
+	public List<ProducersProperty> searchByConfigurationName(Authentication auth, ConfigurationFormBean cfBean)
+	{
+		return configurationDao.searchByConfigurationName(EAuth.User.getProducerId(auth), EWrap.Percent.enclose(cfBean.groupName));
 	}
 
 	@Override
@@ -143,24 +180,5 @@ public class ConfigurationBoImpl implements ConfigurationBo, IErrorSender
 			}
 		}
 		throw new InvalidRequestException(CONFIGURATION_DATA_UPDATED_RECENTLY);
-	}
-
-	private boolean isRecentlyUpdated(Authentication auth, ConfigurationFormBean cfBean)
-	{
-		logger.info("Inside ConfigurationBoImpl isRecentlyUpdated ::: ", cfBean.producerProperty.getAutoId());
-		if (CommonValidator.isNotNullNotEmpty(cfBean.producerProperty))
-		{
-			ProducersProperty iPP = configurationDao.fetchByAutoId(EAuth.User.getProducerId(auth), cfBean.autoId);
-			if (CommonValidator.isNotNullNotEmpty(iPP))
-			{
-				if (ChronoUnit.NANOS.between(cfBean.producerProperty.getModifiedDate().toLocalDateTime(), iPP.getModifiedDate().toLocalDateTime()) == 0)
-				{
-					cfBean.producerProperty = iPP;
-					return true;
-				}
-				return false;
-			}
-		}
-		throw new InvalidRequestException(CONFIGURATION_NOT_FOUND);
 	}
 }

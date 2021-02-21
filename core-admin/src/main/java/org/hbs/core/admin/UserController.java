@@ -24,7 +24,7 @@ public class UserController implements IUserController
 {
 	private static final long	serialVersionUID	= -1046242631792313825L;
 
-	// private final Logger logger = LoggerFactory.getLogger(UserController.class);
+	// private final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	UserBo						userBo;

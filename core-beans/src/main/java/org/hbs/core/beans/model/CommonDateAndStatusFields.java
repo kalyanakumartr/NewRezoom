@@ -71,8 +71,8 @@ public abstract class CommonDateAndStatusFields implements ICommonDateAndStatusF
 	@Transient
 	public void createdDateByTimeZone()
 	{
-		if (this.getCountryTimeZone() != null)
-			this.createdDateByTimeZone = EDate.DD_MMM_YYYY_HH_MM_SS_AM_PM.byTimeZone(this.getCountryTimeZone(), createdDate);
+		if (this.constructCountryTimeZone() != null)
+			this.createdDateByTimeZone = EDate.DD_MMM_YYYY_HH_MM_SS_AM_PM.byTimeZone(this.constructCountryTimeZone(), createdDate);
 
 	}
 
@@ -84,8 +84,8 @@ public abstract class CommonDateAndStatusFields implements ICommonDateAndStatusF
 	@Transient
 	public void modifiedDateByTimeZone()
 	{
-		if (this.getCountryTimeZone() != null)
-			this.modifiedDateByTimeZone = EDate.DD_MMM_YYYY_HH_MM_SS_AM_PM.byTimeZone(this.getCountryTimeZone(), modifiedDate);
+		if (this.constructCountryTimeZone() != null)
+			this.modifiedDateByTimeZone = EDate.DD_MMM_YYYY_HH_MM_SS_AM_PM.byTimeZone(this.constructCountryTimeZone(), modifiedDate);
 	}
 
 	public void setStatus(Boolean status)
@@ -113,5 +113,10 @@ public abstract class CommonDateAndStatusFields implements ICommonDateAndStatusF
 	public void setModifiedDateByTimeZone(String modifiedDateByTimeZone)
 	{
 		this.modifiedDateByTimeZone = modifiedDateByTimeZone;
+	}
+	
+	public void setCountryTimeZone(String countryTimeZone)
+	{
+		
 	}
 }

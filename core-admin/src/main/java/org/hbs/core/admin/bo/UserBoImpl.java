@@ -32,7 +32,7 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IErrorAdmi
 
 	private static final long	serialVersionUID	= 7255672818512788055L;
 
-	// private final Logger logger = LoggerFactory.getLogger(UserBoImpl.class);
+	// private final Logger LOGGER = LoggerFactory.getLogger(UserBoImpl.class);
 
 	@Autowired
 	GenericKafkaProducer		gKafkaProducer;

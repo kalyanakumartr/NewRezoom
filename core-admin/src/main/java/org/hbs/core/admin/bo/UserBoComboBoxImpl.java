@@ -28,7 +28,7 @@ public abstract class UserBoComboBoxImpl implements UserBo, IErrorAdmin, IPath
 {
 	private static final long	serialVersionUID	= 1160466715298198052L;
 
-	// private final Logger logger = LoggerFactory.getLogger(UserBoComboBoxImpl.class);
+	// private final Logger LOGGER = LoggerFactory.getLogger(UserBoComboBoxImpl.class);
 
 	@Autowired
 	protected ProducerDao		producerDao;

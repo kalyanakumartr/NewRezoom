@@ -17,7 +17,6 @@ import org.hbs.core.util.EnumInterface;
 public interface IPathAdmin extends IPath, IErrorAdmin
 {
 	public String	LOGIN						= "/login";
-	public String	INDEX						= "/index.html";
 	public String	SWAGGER_UI					= "/swagger-ui.html";
 	public String	SWAGGER_WEBJARS				= "/webjars/**";
 	public String	ERROR404					= "/404Error";

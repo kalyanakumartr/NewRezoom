@@ -7,15 +7,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hbs.core.beans.ConfigurationFormBean;
 import org.hbs.core.beans.MessageFormBean;
-import org.hbs.core.beans.OTPFormBean;
-import org.hbs.core.beans.UserFormBean;
+import org.hbs.core.beans.PasswordFormBean;
 import org.hbs.core.beans.model.IConfiguration;
 import org.hbs.core.beans.model.IMessages.EMessageStatus;
-import org.hbs.core.beans.model.IUsers.EUsers;
-import org.hbs.core.beans.model.Messages;
-import org.hbs.core.beans.model.MessagesBase;
+import org.hbs.core.beans.model.V7Messages;
+import org.hbs.core.beans.model.V7MessagesBase;
 import org.hbs.core.beans.model.channel.ChannelMessages;
-import org.hbs.core.beans.model.channel.ConfigurationEmail;
 import org.hbs.core.beans.model.channel.IChannelMessages;
 import org.hbs.core.beans.model.clickatell.SMSCallBackFormBean;
 import org.hbs.core.util.CommonValidator;
@@ -53,25 +50,6 @@ public class MessageSenderController implements IMessageSenderController
 	@Autowired
 	SMSSenderBo					smsSenderBo;
 
-	public ResponseEntity<?> createUserEmail(Authentication auth, @RequestHeader(value = "Authorization") String token, @RequestBody UserFormBean userFormBean)
-	{
-		try
-		{
-			Messages message = new Messages((EAuth.User.getProducerId(auth) == EUsers.SuperAdmin.name()) ? ETemplate.Create_User_Admin : ETemplate.Create_User_Employee);
-			// message.setEmailId(userFormBean.user.getEmailId());
-			// message.putFormInDataMap(userFormBean);
-
-			return new ResponseEntity<>(emailSenderBo.sendEmailByMessage(auth, token, message), HttpStatus.OK);
-		}
-		catch (Exception excep)
-		{
-			StringWriter logMessageWriter = new StringWriter();
-			excep.printStackTrace(new PrintWriter(logMessageWriter));
-			logger.error(logMessageWriter.toString());
-			return new ResponseEntity<>(logMessageWriter, HttpStatus.EXPECTATION_FAILED);
-		}
-	}
-
 	@Override
 	public ResponseEntity<?> downloadAttachment(Authentication auth, Long attachmentId, HttpServletResponse response)
 	{
@@ -79,26 +57,7 @@ public class MessageSenderController implements IMessageSenderController
 		return new ResponseEntity<>(EMessageStatus.Error.name(), HttpStatus.ACCEPTED);
 	}
 
-	public ResponseEntity<?> passwordResetMail(Authentication auth, @RequestHeader(value = "Authorization") String token, @RequestBody UserFormBean userFormBean)
-	{
-		try
-		{
-			Messages message = new Messages(ETemplate.User_Reset_Password);
-			// message.setEmailId(userFormBean.user.getEmailId());
-			// message.putFormInDataMap(userFormBean);
-
-			return new ResponseEntity<>(emailSenderBo.sendEmailByMessage(auth, token, message), HttpStatus.OK);
-		}
-		catch (Exception excep)
-		{
-			StringWriter logMessageWriter = new StringWriter();
-			excep.printStackTrace(new PrintWriter(logMessageWriter));
-			logger.error(logMessageWriter.toString());
-			return new ResponseEntity<>(logMessageWriter, HttpStatus.EXPECTATION_FAILED);
-		}
-	}
-
-	public ResponseEntity<?> saveMessageAndSendToMedia(Authentication auth, @RequestHeader(value = "Authorization") String token, @RequestParam("bean") String formBean,
+	public ResponseEntity<?> saveMessageAndSendToMedia(Authentication auth, @RequestHeader(value = "token") String token, @RequestParam("bean") String formBean,
 			@RequestParam("file") MultipartFile[] multipartFiles)
 	{
 		try
@@ -135,7 +94,7 @@ public class MessageSenderController implements IMessageSenderController
 		return new ResponseEntity<>("", HttpStatus.EXPECTATION_FAILED);
 	}
 
-	public ResponseEntity<?> sendEmail(Authentication auth, @RequestHeader(value = "Authorization") String token, Messages message)
+	public ResponseEntity<?> sendEmail(Authentication auth, @RequestHeader(value = "Authorization") String token, V7Messages message)
 	{
 		try
 		{
@@ -169,25 +128,28 @@ public class MessageSenderController implements IMessageSenderController
 
 	}
 
-	public ResponseEntity<?> sendSMS_OTP(Authentication auth, @RequestBody OTPFormBean otpFormBean)
+	public ResponseEntity<?> sendSMS_OTP(Authentication auth, @RequestBody PasswordFormBean pfBean)
 	{
 		try
 		{
-			IConfiguration configuration = configurationBo.getConfigurationByType(otpFormBean.user.getProducer().getProducerId(), EMedia.SMS, EMediaType.Primary, EMediaMode.Internal);
-
-			if (CommonValidator.isNotNullNotEmpty(configuration))
-			{
-
-				IChannelMessages message = new ChannelMessages(ETemplate.SMS_OTP);
-				message.setRecipients(otpFormBean.user.getMediaToDisplay(EMediaType.Primary).getMobileNo());
-				message.setProducer(otpFormBean.user.getProducer());
-				message.setConfiguration(configuration);
-
-				// VTL Messages Data
-				// message.putFormInDataMap(otpFormBean);
-
-				return new ResponseEntity<>(smsSenderBo.sendSMSByMessage(auth, message), HttpStatus.OK);
-			}
+			// IConfiguration configuration =
+			// configurationBo.getConfigurationByType(pfBean.user.getProducer().getProducerId(),
+			// EMedia.SMS, EMediaType.Primary, EMediaMode.Internal);
+			//
+			// if (CommonValidator.isNotNullNotEmpty(configuration))
+			// {
+			//
+			// IChannelMessages message = new ChannelMessages(ETemplate.SMS_OTP);
+			// message.setRecipients(otpFormBean.user.getMediaToDisplay(EMediaType.Primary).getMobileNo());
+			// message.setProducer(otpFormBean.user.getProducer());
+			// message.setConfiguration(configuration);
+			//
+			// // VTL Messages Data
+			// // message.putFormInDataMap(otpFormBean);
+			//
+			// return new ResponseEntity<>(smsSenderBo.sendSMSByMessage(auth, message),
+			// HttpStatus.OK);
+			// }
 			throw new CustomException("IConfiguration NOT found for the given Producer Name : " + EAuth.User.getProducerName(auth));
 		}
 		catch (Exception excep)
@@ -198,29 +160,6 @@ public class MessageSenderController implements IMessageSenderController
 			return new ResponseEntity<>(logMessageWriter, HttpStatus.EXPECTATION_FAILED);
 		}
 
-	}
-
-	@Override
-	public ResponseEntity<?> sendUserBlockMail(Authentication auth, @RequestHeader(value = "Authorization") String token, @RequestBody UserFormBean userFormBean)
-	{
-		try
-		{
-			ConfigurationEmail configuration = (ConfigurationEmail) configurationBo.getConfigurationByType(auth, EMedia.Email, EMediaType.Primary, EMediaMode.Internal);
-
-			Messages message = new Messages(ETemplate.User_Blocked_Admin);
-			message.setRecipients(configuration.getFromId());
-			message.setConfiguration(configuration);
-			// message.putFormInDataMap(userFormBean);
-
-			return new ResponseEntity<>(emailSenderBo.sendEmailByMessage(message), HttpStatus.OK);
-		}
-		catch (Exception excep)
-		{
-			StringWriter logMessageWriter = new StringWriter();
-			excep.printStackTrace(new PrintWriter(logMessageWriter));
-			logger.error(logMessageWriter.toString());
-			return new ResponseEntity<>(logMessageWriter, HttpStatus.EXPECTATION_FAILED);
-		}
 	}
 
 	public ResponseEntity<?> smsCallBackStatus(@RequestBody SMSCallBackFormBean callBackFormBean)
@@ -270,7 +209,7 @@ public class MessageSenderController implements IMessageSenderController
 				}
 				case WhatsApp :
 				{
-					MessagesBase message = new Messages(ETemplate.Test_WhatsApp_Connection);
+					V7MessagesBase message = new V7Messages(ETemplate.Test_WhatsApp_Connection);
 					message.setConfiguration(cfgFormBean.configuration);
 					message.setRecipients(cfgFormBean.to);
 					message.setMedia(EMedia.WhatsApp);

@@ -22,8 +22,6 @@ public interface ConfigurationBo
 
 	ProducersProperty getConfigurationByAutoId(Authentication auth, ConfigurationFormBean cfBean);
 
-	IConfiguration getConfigurationByType(String producerId, EMedia eMedia, EMediaType eMediaType, EMediaMode eMediaMode) throws ClassNotFoundException;
-
 	IConfiguration getConfigurationByType(Authentication auth, EMedia eMedia, EMediaType eMediaType, EMediaMode eMediaMode) throws ClassNotFoundException;
 
 	EnumInterface saveConfiguration(Authentication auth, ConfigurationFormBean cfBean) throws InvalidKeyException;
@@ -31,5 +29,7 @@ public interface ConfigurationBo
 	List<ProducersProperty> searchByConfigurationName(Authentication auth, ConfigurationFormBean cfBean);
 
 	EnumInterface updateConfiguration(Authentication auth, ConfigurationFormBean cfBean);
+
+	List<ProducersProperty> getConfigurationList(Authentication auth, ConfigurationFormBean cfBean);
 
 }

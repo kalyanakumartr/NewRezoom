@@ -73,7 +73,7 @@ public class ProducersAttachments extends CommonFileUpload implements IProducers
 	@Override
 	@Transient
 	@JsonIgnore
-	public String getCountryTimeZone()
+	public String constructCountryTimeZone()
 	{
 		return null;
 	}

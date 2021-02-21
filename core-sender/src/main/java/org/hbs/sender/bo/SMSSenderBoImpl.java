@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.hbs.core.beans.MessageFormBean;
 import org.hbs.core.beans.SMSResponseBean;
-import org.hbs.core.beans.model.Messages;
+import org.hbs.core.beans.model.IMessages;
 import org.hbs.core.beans.model.Users;
 import org.hbs.core.beans.model.channel.ChannelMessages;
 import org.hbs.core.beans.model.channel.IChannelMessages;
@@ -64,7 +64,7 @@ public class SMSSenderBoImpl extends BaseSenderBoImpl implements SMSSenderBo, IC
 			{
 				if (CommonValidator.isNotNullNotEmpty(message.getMessageId()))
 				{
-					List<Messages> templateList = messageDao.getByMessageId(EAuth.User.getProducerId(auth), message.getMessageId());
+					List<? extends IMessages> templateList = messageDao.getByMessageId(EAuth.User.getProducerId(auth), message.getMessageId());
 					message.setMessage(templateList.iterator().next().getMessage());
 					message.setMessage(message.generateVTLMessage()); // Generating Dynamic SMS
 				}

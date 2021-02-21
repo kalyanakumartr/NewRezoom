@@ -8,10 +8,12 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.hbs.core.util.CommonValidator;
 import org.hbs.core.util.EnumInterface;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -175,5 +177,13 @@ public class UserActivity extends CommonBeanFields implements IUserActivity
 	public void setGroupName(String groupName)
 	{
 		this.groupName = groupName;
+	}
+
+	@Override
+	@Transient
+	@JsonIgnore
+	public String constructCountryTimeZone()
+	{
+		return null;
 	}
 }

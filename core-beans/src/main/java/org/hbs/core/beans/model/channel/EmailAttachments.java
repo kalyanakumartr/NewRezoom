@@ -39,7 +39,7 @@ public class EmailAttachments extends CommonFileUpload
 	@Override
 	@Transient
 	@JsonIgnore
-	public String getCountryTimeZone()
+	public String constructCountryTimeZone()
 	{
 		return null;
 	}

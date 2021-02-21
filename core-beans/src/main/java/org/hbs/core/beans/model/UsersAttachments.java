@@ -52,7 +52,7 @@ public class UsersAttachments extends CommonFileUpload implements IUsersAttachme
 	@Override
 	@Transient
 	@JsonIgnore
-	public String getCountryTimeZone()
+	public String constructCountryTimeZone()
 	{
 		if (this.users.getByUser().createdUser != null && this.users.getByUser().createdUser.getCountry() != null && this.users.getByUser().modifiedUser == null)
 		{

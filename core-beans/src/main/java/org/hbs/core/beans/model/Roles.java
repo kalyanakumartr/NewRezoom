@@ -77,7 +77,7 @@ public class Roles extends ProducersBase implements IRoles, EBusinessKey
 	@Override
 	@Transient
 	@JsonIgnore
-	public String getCountryTimeZone()
+	public String constructCountryTimeZone()
 	{
 		if (this.byUser.getCreatedUser() != null && this.byUser.getCreatedUser().getCountry().getCountry() != null && this.byUser.getModifiedUser() == null)
 		{

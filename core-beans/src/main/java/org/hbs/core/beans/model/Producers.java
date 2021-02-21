@@ -286,7 +286,7 @@ public class Producers extends CommonDateAndStatusFields implements IProducers, 
 	@Override
 	@Transient
 	@JsonIgnore
-	public String getCountryTimeZone()
+	public String constructCountryTimeZone()
 	{
 		if (this.byUser.createdUser != null && this.byUser.createdUser.getCountry() != null && this.byUser.modifiedUser == null)
 		{

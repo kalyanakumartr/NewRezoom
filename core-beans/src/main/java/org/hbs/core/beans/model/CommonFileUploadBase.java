@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author AnanthMalBal
+ *
  */
 @MappedSuperclass
 public abstract class CommonFileUploadBase extends CommonDateAndStatusFields implements IUploadImageOrDocuments
@@ -22,7 +23,7 @@ public abstract class CommonFileUploadBase extends CommonDateAndStatusFields imp
 	private static final long	serialVersionUID		= 8419978751136386549L;
 	protected String			uploadDocumentForType;
 	protected Timestamp			uploadFileDate;
-	protected String			uploadFileFolderURL;
+	protected String			uploadFileFolderURL;  // Will get prepend and append with SLASH, while saving
 	protected Timestamp			uploadFileLastModifiedDate;
 	protected String			uploadFileName;
 	protected long				uploadFileSize			= 0L;
@@ -73,15 +74,17 @@ public abstract class CommonFileUploadBase extends CommonDateAndStatusFields imp
 	}
 
 	/**
-	 * This field will be used to store the sub folder path structure. For ex: '/document/profile',
-	 * where as your physical folder 'C:/HBS/Attachments/Data' and mapped uploadResourceHandler is
-	 * 'view' For Physical access (alter or delete), get the respective base folder either from
-	 * application.properties or producers property table For Virtual URL, use this field value
-	 * along with uploadResourceHandler field and uploadFileName For ex: if uploadResourceHandler =
-	 * 'view' and uploadFileName = 'logo.png' then, URL will be '[your context
-	 * path]/view/document/profile/logo.png' # Your file will be store under
-	 * 'C:/HBS/Attachments/Data/document/profile/logo.png' # Your file access URL will be
-	 * 'www.hatchbird.com/view/document/profile/logo.png'
+	 * This field will be used to store the sub folder path structure. For ex: '/document/profile', 
+	 * where as your physical folder 'C:/HBS/Attachments/Data' and mapped uploadResourceHandler is 'view'
+	 * 
+	 * For Physical access (alter or delete), get the respective base folder either from application.properties or producers property table
+	 * 
+	 * For Virtual URL, use this field value along with uploadResourceHandler field and uploadFileName
+	 * For ex: if uploadResourceHandler = 'view' and uploadFileName = 'logo.png' then, URL will be '[your context path]/view/document/profile/logo.png'
+	 * 
+	 * # Your file will be store under 'C:/HBS/Attachments/Data/document/profile/logo.png'
+	 * # Your file access URL will be 'www.hatchbird.com/view/document/profile/logo.png'
+	 * 
 	 */
 	@Column(name = "uploadFileFolderURL")
 	@JsonIgnore
@@ -151,7 +154,7 @@ public abstract class CommonFileUploadBase extends CommonDateAndStatusFields imp
 
 	public void setUploadFileFolderURL(String uploadFileFolderURL)
 	{
-		this.uploadFileFolderURL = uploadFileFolderURL;
+		this.uploadFileFolderURL = SLASH + uploadFileFolderURL + SLASH;
 	}
 
 	public void setUploadFileLastModifiedDate(Timestamp uploadFileLastModifiedDate)

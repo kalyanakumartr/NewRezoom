@@ -11,7 +11,6 @@ import java.nio.file.StandardCopyOption;
 import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -20,12 +19,11 @@ import org.hbs.core.beans.MessageFormBean;
 import org.hbs.core.beans.model.IConfiguration;
 import org.hbs.core.beans.model.IMessages;
 import org.hbs.core.beans.model.IMessages.EMessageStatus;
-import org.hbs.core.beans.model.Messages;
 import org.hbs.core.beans.model.Users;
 import org.hbs.core.beans.model.channel.ConfigurationEmail;
 import org.hbs.core.beans.model.channel.EmailAttachments;
 import org.hbs.core.beans.model.channel.IChannelMessages;
-import org.hbs.core.dao.AttachmentDao;
+import org.hbs.core.dao.EmailAttachmentDao;
 import org.hbs.core.util.CommonValidator;
 import org.hbs.core.util.CustomException;
 import org.hbs.core.util.IConstProperty;
@@ -41,8 +39,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.gson.Gson;
-
 @Component
 public class EmailSenderBoImpl extends BaseSenderBoImpl implements EmailSenderBo, IConstProperty
 {
@@ -52,7 +48,7 @@ public class EmailSenderBoImpl extends BaseSenderBoImpl implements EmailSenderBo
 	String						applicationPhysicalPaths;
 
 	@Autowired
-	AttachmentDao				attachmentDao;
+	EmailAttachmentDao			attachmentDao;
 
 	@Value("${attachement.folder}")
 	String						attachmentFolder;
@@ -66,7 +62,7 @@ public class EmailSenderBoImpl extends BaseSenderBoImpl implements EmailSenderBo
 		List<String> attachmentURLs = new ArrayList<String>();
 		if (CommonValidator.isArrayFirstNotNull(messageFormBean.multipartFiles))
 		{
-			String _BasePath = getResourceBasePath("ATTACHEMENT");
+			String _BasePath = getResourceBasePath("ATTACHMENT");
 			for (MultipartFile multiFile : messageFormBean.multipartFiles)
 			{
 				File file = new File(_BasePath + attachmentFolder);
@@ -81,36 +77,6 @@ public class EmailSenderBoImpl extends BaseSenderBoImpl implements EmailSenderBo
 		return attachmentURLs;
 	}
 
-	private JavaMailSender createEmailSender(IMessages message) throws CustomException
-	{
-		if (CommonValidator.isNotNullNotEmpty(message.getConfiguration()))
-		{
-			ConfigurationEmail configuration = (ConfigurationEmail) message.getConfiguration();
-			if (CommonValidator.isNotNullNotEmpty(configuration.getFromId(), message.getRecipients()))
-			{
-				JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-				mailSender.setHost(configuration.getHostAddress());
-				mailSender.setPort(Integer.parseInt(configuration.getPort()));
-				mailSender.setUsername(configuration.getUserName());
-				mailSender.setPassword(configuration.getPassword());
-				Properties props = mailSender.getJavaMailProperties();
-
-				for (String key : configuration.getAdditionalProperties().keySet())
-				{
-					props.put(key, configuration.getAdditionalProperties().get(key));
-				}
-				// props.put("mail.transport.protocol", "smtp");
-				// props.put("mail.smtp.auth", "true");
-				// props.put("mail.smtp.starttls.enable", "true");
-				// props.put("mail.debug", "false"); // True will enable log
-
-				return mailSender;
-			}
-		}
-		logger.error("JavaMailSender createEmailSender Object : " + new Gson().toJson(message));
-		throw new CustomException("Email Sender or Receiver emailId id not available.");
-	}
-
 	private JavaMailSender getConfigurationAndCreateEmailSender(Authentication auth, String token, IMessages message) throws Exception
 	{
 		if (CommonValidator.isNotNullNotEmpty(token, message))
@@ -119,14 +85,14 @@ public class EmailSenderBoImpl extends BaseSenderBoImpl implements EmailSenderBo
 			if (CommonValidator.isNotNullNotEmpty(configuration))
 			{
 				message.setConfiguration(configuration);
-				return createEmailSender(message);
+				return ConfigurationHandler.getInstance().createEmailSender(message);
 			}
 
 			configuration = configurationBo.getConfigurationByType(auth, EMedia.Email, EMediaType.Secondary, EMediaMode.Internal);
 			if (CommonValidator.isNotNullNotEmpty(configuration))
 			{
 				message.setConfiguration(configuration);
-				return createEmailSender(message);
+				return ConfigurationHandler.getInstance().createEmailSender(message);
 			}
 
 			throw new CustomException("Email Configuration NOT found for given id : ");
@@ -207,7 +173,7 @@ public class EmailSenderBoImpl extends BaseSenderBoImpl implements EmailSenderBo
 	public EMessageStatus sendEmailByMessage(IMessages message) throws MessagingException, IOException, CustomException
 	{
 		// Configuration exists inside message
-		return sendMimeMessage(message, createEmailSender(message));
+		return sendMimeMessage(message, ConfigurationHandler.getInstance().createEmailSender(message));
 	}
 
 	@Override
@@ -218,16 +184,6 @@ public class EmailSenderBoImpl extends BaseSenderBoImpl implements EmailSenderBo
 
 	private EMessageStatus sendMimeMessage(IMessages message, JavaMailSender emailSender) throws MessagingException, IOException
 	{
-		if (CommonValidator.isNotNullNotEmpty(message.getMessageId()) && message.getMessageId() != null)
-		{
-			List<Messages> messageList = messageDao.getByMessageId(message.getProducer().getProducerId(), message.getMessageId());
-			if (CommonValidator.isListFirstNotEmpty(messageList))
-			{
-				message.setSubject(messageList.iterator().next().getSubject());
-				message.setMessage(messageList.iterator().next().getMessage());
-			}
-		}
-
 		ConfigurationEmail configuration = (ConfigurationEmail) message.getConfiguration();
 		MimeMessage mimeMessage = emailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
@@ -236,15 +192,15 @@ public class EmailSenderBoImpl extends BaseSenderBoImpl implements EmailSenderBo
 		helper.setSubject(message.generateVTLSubject());
 		helper.setText(message.generateVTLMessage(), message.isTextHTML());
 
-		// Add Attachment`
-		// No Attachment for Predefined Messages Based Messages
+		// Add Message`
+		// No Message for Predefined Messages Based Messages
 		if (message.getMessageId() == null && attachmentDao.countByMessageId(message.getMessageId()) > 0)
 		{
 			List<EmailAttachments> attachmentList = attachmentDao.getByMessageId(message.getMessageId());
 
 			if (CommonValidator.isListFirstNotEmpty(attachmentList))
 			{
-				String basePath = getResourceBasePath("ATTACHEMENT");
+				String basePath = getResourceBasePath("ATTACHMENT");
 				File file = null;
 				for (EmailAttachments attachment : attachmentList)
 				{
@@ -268,5 +224,22 @@ public class EmailSenderBoImpl extends BaseSenderBoImpl implements EmailSenderBo
 		// message.modifiedUserInfo(auth);
 		// messageDao.save(message);
 		// });
+	}
+
+	@Override
+	public EReturn testConnection(IMessages message) throws CustomException
+	{
+		
+		try
+		{
+			JavaMailSenderImpl mailSender = (JavaMailSenderImpl) ConfigurationHandler.getInstance().createEmailSender(message);
+			mailSender.testConnection();
+		}
+		catch (MessagingException excep)
+		{
+			excep.printStackTrace();
+			return EReturn.Failure;
+		}
+		return EReturn.Success;
 	}
 }

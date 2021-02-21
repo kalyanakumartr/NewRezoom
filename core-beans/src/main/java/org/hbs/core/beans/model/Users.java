@@ -98,7 +98,7 @@ public class Users extends CommonUsers
 	@Override
 	@Transient
 	@JsonIgnore
-	public String getCountryTimeZone()
+	public String constructCountryTimeZone()
 	{
 		return this.byUser.getCountryId();
 	}

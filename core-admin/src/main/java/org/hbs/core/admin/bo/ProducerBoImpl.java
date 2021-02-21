@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProducerBoImpl implements ProducerBo, IErrorAdmin
 {
 	private static final long	serialVersionUID	= 6078462669851402422L;
-	// private final Logger logger = LoggerFactory.getLogger(ProducerBoImpl.class);
+	// private final Logger LOGGER = LoggerFactory.getLogger(ProducerBoImpl.class);
 
 	@Autowired
 	protected ProducerDao		producerDao;

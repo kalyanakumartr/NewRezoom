@@ -13,13 +13,11 @@ import javax.persistence.Transient;
 
 import org.hbs.core.beans.model.CreatedModifiedUsers;
 import org.hbs.core.beans.model.IConfiguration;
-import org.hbs.core.beans.model.MessagesBase;
+import org.hbs.core.beans.model.V7MessagesBase;
 import org.hbs.core.security.resource.IPath.EAuth;
 import org.hbs.core.security.resource.IPathBase.EMedia;
-import org.hbs.core.security.resource.IPathBase.EMediaMode;
 import org.hbs.core.util.CommonValidator;
 import org.hbs.core.util.EnumInterface;
-import org.hbs.core.util.IConstProperty.EDate;
 import org.springframework.security.core.Authentication;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,7 +25,7 @@ import com.google.gson.Gson;
 
 @Entity
 @Table(name = "channel_messages")
-public class ChannelMessages extends MessagesBase implements IChannelMessages, Cloneable
+public class ChannelMessages extends V7MessagesBase implements IChannelMessages, Cloneable
 {
 	private static final long		serialVersionUID	= 134212154064737177L;
 
@@ -207,7 +205,7 @@ public class ChannelMessages extends MessagesBase implements IChannelMessages, C
 	@Override
 	@Transient
 	@JsonIgnore
-	public String getCountryTimeZone()
+	public String constructCountryTimeZone()
 	{
 		if (this.byUser.getCreatedUser() != null && this.byUser.getCreatedUser().getCountry().getCountry() != null && this.byUser.getModifiedUser() == null)
 		{
@@ -218,11 +216,5 @@ public class ChannelMessages extends MessagesBase implements IChannelMessages, C
 			return this.byUser.getModifiedUser().getCountry().getCountry();
 		}
 		return null;
-	}
-
-	@Override
-	public void generateConfigurationFromProducerProperty(EMediaMode mediaMode) throws ClassNotFoundException {
-		// TODO Auto-generated method stub
-		
 	}
 }

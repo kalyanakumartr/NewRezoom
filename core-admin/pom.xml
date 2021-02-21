@@ -85,12 +85,12 @@
 
 		<dependency>
 			<groupId>ReZooms</groupId>
-			<artifactId>core-util</artifactId>
+			<artifactId>core-beans</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ReZooms</groupId>
-			<artifactId>core-beans</artifactId>
+			<artifactId>core-util</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

@@ -19,5 +19,4 @@ public class OAuth2ResourceServerConfig extends OAuth2ResourceServerConfigBase i
 		http.formLogin().loginPage(LOGIN).permitAll()//
 				.and().logout().permitAll();
 	}
-	
 }

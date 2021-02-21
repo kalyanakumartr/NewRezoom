@@ -2,6 +2,7 @@ package org.hbs.sender;
 
 import org.hbs.core.beans.ConfigurationFormBean;
 import org.hbs.core.beans.model.ProducersProperty;
+import org.hbs.core.security.resource.IPath.EAuth;
 import org.hbs.core.util.CommonValidator;
 import org.hbs.sender.bo.ConfigurationBo;
 import org.slf4j.Logger;
@@ -75,35 +76,21 @@ public class ConfigurationController implements IConfigurationController
 		}
 		catch (Exception e)
 		{
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<>("Configuration NOT available. It may be deleted recently.", HttpStatus.EXPECTATION_FAILED);
 		}
 
 	}
 
 	@Override
-	public ResponseEntity<?> getConfigurationDetails(Authentication auth)
-	{
-		try
-		{
-			return new ResponseEntity<>(configurationBo.getConfigurationByType(auth, null, null, null), HttpStatus.OK);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
-		}
-
-	}
-
-	@Override
-	public ResponseEntity<?> searchConfiguration(Authentication auth, @RequestBody ConfigurationFormBean cfBean)
+	public ResponseEntity<?> getConfiguration(Authentication auth, ConfigurationFormBean cfBean)
 	{
 		try
 		{
 			logger.info("ConfigurationController getConfiguration starts ::: ");
-			if (CommonValidator.isNotNullNotEmpty(cfBean.producerProperty))
+			if (CommonValidator.isNotNullNotEmpty(cfBean))
 			{
-				return new ResponseEntity<ProducersProperty>(configurationBo.getConfigurationByAutoId(auth, cfBean), HttpStatus.OK);
+				ProducersProperty _PP = configurationBo.getConfigurationByAutoId(auth, cfBean);
+				return new ResponseEntity<ProducersProperty>(_PP, HttpStatus.OK);
 			}
 			throw new InvalidRequestException(INVALID_REQUEST_PARAMETERS);
 
@@ -116,6 +103,22 @@ public class ConfigurationController implements IConfigurationController
 			logger.error("Exception in ConfigurationController getConfiguration ::: ", excep);
 			return new ResponseEntity<>(cfBean, HttpStatus.BAD_REQUEST);
 		}
+
+	}
+
+	@Override
+	public ResponseEntity<?> searchConfiguration(Authentication auth, @RequestBody ConfigurationFormBean cfBean)
+	{
+		try
+		{
+			return new ResponseEntity<>(configurationBo.getConfigurationList(auth, cfBean), HttpStatus.OK);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+		}
+
 	}
 
 	@Override

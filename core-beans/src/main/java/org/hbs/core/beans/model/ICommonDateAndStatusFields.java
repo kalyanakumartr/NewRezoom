@@ -17,6 +17,7 @@ public interface ICommonDateAndStatusFields extends Serializable
 
 	public void setStatus(Boolean status);
 
-	public String getCountryTimeZone();
+	public String constructCountryTimeZone();
+	
 
 }

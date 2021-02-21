@@ -2,20 +2,22 @@ package org.hbs.core.kafka;
 
 import org.hbs.core.security.resource.IPath.ETemplate;
 import org.hbs.core.util.EnumInterface;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.kafka.core.KafkaTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class GenericKafkaProducer implements IKafkaConstants
-{
+public class GenericKafkaProducer implements IKafkaConstants {
 	private static final long serialVersionUID = 1643040639961382216L;
-	// private static final Logger logger = LoggerFactory.getLogger(GenericKafkaProducer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GenericKafkaProducer.class);
 
-	// @Autowired
-	// private KafkaTemplate<String, Object> kafkaTemplate;
+	@Autowired
+	private KafkaTemplate<String, Object>	kafkaTemplate;
 
 	public void send(ETopic eTopic, KAFKAPartition partition, Object object) throws JsonProcessingException
 	{
@@ -26,16 +28,15 @@ public class GenericKafkaProducer implements IKafkaConstants
 	{
 		try
 		{
-			// ObjectMapper mapper = new ObjectMapper();
-			// String jsonString = mapper.writeValueAsString(object);
+			ObjectMapper mapper = new ObjectMapper();
+			String jsonString = mapper.writeValueAsString(object);
 
-			// this.kafkaTemplate.send(eTopic.getTopic(), partition.getPartition(),
-			// eTemplate.name(), jsonString);
+			this.kafkaTemplate.send(eTopic.getTopic(), partition.getPartition(), eTemplate.name(), jsonString);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		// logger.info("Send Message ::: " + eTemplate.name());
+		LOGGER.info("Send Message ::: " + eTemplate.name());
 	}
 }
