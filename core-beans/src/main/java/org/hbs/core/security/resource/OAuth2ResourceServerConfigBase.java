@@ -20,10 +20,10 @@ public abstract class OAuth2ResourceServerConfigBase extends ResourceServerConfi
 	@Autowired
 	private CustomAccessTokenConverter	customAccessTokenConverter;
 
-	public void configure(HttpSecurity http, EnumResourceInterface... resourcePath) throws Exception
+	public void configure(HttpSecurity http, EnumInterfaceRolePath... resourcePath) throws Exception
 	{
 
-		for (EnumResourceInterface ePath : resourcePath)
+		for (EnumInterfaceRolePath ePath : resourcePath)
 		{
 			if (ePath.getRoles() == null || ePath.getRoles().length == 0)
 			{
@@ -31,15 +31,20 @@ public abstract class OAuth2ResourceServerConfigBase extends ResourceServerConfi
 			}
 			else
 			{
-				for (ERole eRole : ePath.getRoles())
+				for (IERole eRole : ePath.getRoles())
 				{
 					if (CommonValidator.isNotNullNotEmpty(eRole.name()))
-						http.authorizeRequests().antMatchers(ePath.getPath()).hasAuthority(eRole.name().toUpperCase()).anyRequest().authenticated();
+					{
+						http.authorizeRequests().antMatchers(ePath.getPath()).hasAuthority(eRole.name().toUpperCase());
+					}
 					else
-						http.authorizeRequests().antMatchers(ePath.getPath()).authenticated();
+					{
+						http.authorizeRequests().antMatchers(ePath.getPath());
+					}
 				}
 			}
 		}
+		http.authorizeRequests().anyRequest().authenticated();
 		http.csrf()//
 				.disable()//
 				.authorizeRequests()//

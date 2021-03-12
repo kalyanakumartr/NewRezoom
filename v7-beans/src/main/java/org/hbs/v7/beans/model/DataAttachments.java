@@ -15,11 +15,12 @@ import org.hbs.core.beans.model.CommonFileUpload;
 import org.hbs.core.util.EnumInterface;
 import org.hbs.core.util.IConstProperty;
 import org.hbs.v7.beans.DataInTopicBean;
+import org.hbs.v7.util.EMessagePriority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "resume_attachments") // Change over DB Table name
+@Table(name = "core_data_attachments") // Change over DB Table name
 public class DataAttachments extends CommonFileUpload implements IConstProperty
 {
 
@@ -110,9 +111,10 @@ public class DataAttachments extends CommonFileUpload implements IConstProperty
 	public DataInTopicBean constructDataInTopicBean()
 	{
 		DataInTopicBean inBean = new DataInTopicBean();
+		inBean.setDataURN(this.dataURN);
 		inBean.setAttachmentAutoId(this.getAutoId());
 		inBean.setExternal(false);
-		inBean.setFileFolderURL(this.getUploadFileFolderURL());
+		inBean.setBaseFolderPath(this.getUploadFileFolderURL());
 		inBean.setFileName(this.getUploadFileName());
 		inBean.setPriority(this.getPriority());
 		return inBean;

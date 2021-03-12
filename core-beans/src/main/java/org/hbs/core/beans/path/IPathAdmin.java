@@ -9,7 +9,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.hbs.core.beans.UserFormBean;
 import org.hbs.core.beans.model.Users;
 import org.hbs.core.dao.UserDao;
-import org.hbs.core.security.resource.EnumResourceInterface;
+import org.hbs.core.security.resource.EnumInterfaceRolePath;
 import org.hbs.core.security.resource.IPath;
 import org.hbs.core.util.CommonValidator;
 import org.hbs.core.util.EnumInterface;
@@ -91,7 +91,7 @@ public interface IPathAdmin extends IPath, IErrorAdmin
 	public String	GET_DEPARTMENT_LIST			= "/getDepartmentList";
 	public String	GET_DEPARTMENT				= "/getDepartment";
 
-	public enum EPathAdmin implements EnumResourceInterface
+	public enum EPathAdmin implements EnumInterfaceRolePath
 	{
 		PreSearchProducer(PRESEARCH_CUSTOMER, ERole.Administrator), //
 		SearchProducer(SEARCH_CUSTOMER, ERole.Administrator), //

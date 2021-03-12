@@ -1,6 +1,6 @@
 package org.hbs.core.security.resource;
 
-import org.hbs.core.kafka.KAFKAPartition;
+import org.hbs.core.kafka.IKAFKAPartition;
 import org.hbs.core.util.EnumInterface;
 import org.hbs.core.util.IConstProperty;
 
@@ -11,9 +11,9 @@ public interface IPathBase extends IConstProperty
 		Default, Add, Update, Search, SoftDelete, PermanentDelete, ChangePassword, ForgotPassword, Verify, TokenExpired, OTP_Generate
 	}
 
-	public enum EMedia implements EnumInterface, KAFKAPartition
+	public enum EMedia implements EnumInterface, IKAFKAPartition
 	{
-		Email, SMS, WhatsApp, Manual, Web;
+		Email, SMS, WhatsApp, Manual, WebUpload;
 
 		@Override
 		public int getPartition()
@@ -37,7 +37,7 @@ public interface IPathBase extends IConstProperty
 		Success, Failure, Exists, Not_Exists
 	}
 
-	public enum ERole implements EnumInterface
+	public enum ERole implements IERole
 	{
 		Administrator, Consumer, Dummy, Employee, Producer, SuperAdminRole;
 	}

@@ -8,18 +8,17 @@ import java.io.IOException;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.compress.archivers.sevenz.SevenZFile;
+import org.hbs.core.beans.model.channel.EExtension;
 import org.hbs.core.util.CommonValidator;
-import org.hbs.core.util.IConstProperty;
-import org.hbs.v7.beans.model.IncomingData.EExtension;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public abstract class AttachmentInfoBean implements IConstProperty
+public abstract class AttachmentInfoBean implements IAttachmentInfoBean
 {
 
 	private static final long	serialVersionUID	= -3434772327583545293L;
 
-	private String				fileFolderURL		= "";
+	private String				baseFolderPath		= "";
 
 	private String				fileName			= "";
 
@@ -34,44 +33,52 @@ public abstract class AttachmentInfoBean implements IConstProperty
 		super();
 	}
 
+	@Override
 	public boolean isCompressed()
 	{
 		return compressed;
 	}
 
+	@Override
 	public void setCompressed(boolean compressed)
 	{
 		this.compressed = compressed;
 	}
 
-	public String getFileFolderURL()
+	@Override
+	public String getBaseFolderPath()
 	{
-		return fileFolderURL;
+		return baseFolderPath;
 	}
 
+	@Override
 	public String getFileName()
 	{
 		return CommonValidator.isNotNullNotEmpty(fileName) ? fileName : "";
 	}
 
+	@Override
 	@JsonIgnore
 	public ZipInputStream getZIPInputStream() throws FileNotFoundException
 	{
 		return new ZipInputStream(new FileInputStream(new File(getOutputPath() + File.separator + getFileName())));
 	}
 
+	@Override
 	@JsonIgnore
 	public SevenZFile getSevenZFile() throws IOException
 	{
 		return new SevenZFile(new File(getOutputPath() + File.separator + getFileName()));
 	}
 
+	@Override
 	@JsonIgnore
-	public FileInputStream getInputStream() throws FileNotFoundException 
+	public FileInputStream getInputStream() throws FileNotFoundException
 	{
 		return new FileInputStream(getOutputFile());
 	}
-	
+
+	@Override
 	@JsonIgnore
 	public FileOutputStream getOutputStream() throws FileNotFoundException
 	{
@@ -85,12 +92,14 @@ public abstract class AttachmentInfoBean implements IConstProperty
 		return new FileOutputStream(attFileDir + File.separator + getFileName());
 	}
 
+	@Override
 	@JsonIgnore
 	public String getOutputPath()
 	{
-		return (getFileFolderURL() + getSubFolderPath()).replace(BACKSLASH, SLASH);
+		return (getBaseFolderPath() + getSubFolderPath()).replace(BACKSLASH, SLASH);
 	}
 
+	@Override
 	@JsonIgnore
 	public String getOutputPath(String fileName)
 	{
@@ -98,6 +107,7 @@ public abstract class AttachmentInfoBean implements IConstProperty
 		return getOutputPath() + SLASH + getFileName();
 	}
 
+	@Override
 	@JsonIgnore
 	public File getOutputFile()
 	{
@@ -107,14 +117,23 @@ public abstract class AttachmentInfoBean implements IConstProperty
 	@JsonIgnore
 	private String getSubFolderPath()
 	{
-		return CommonValidator.isNotNullNotEmpty(subFolderPath) ? SLASH + subFolderPath : "";
+		if (CommonValidator.isNotNullNotEmpty(subFolderPath))
+		{
+			if (subFolderPath.startsWith(SLASH))
+				return this.subFolderPath;
+			else
+				return SLASH + subFolderPath;
+		}
+		return "";
 	}
 
-	public void setFileFolderURL(String fileFolderURL)
+	@Override
+	public void setBaseFolderPath(String baseFolderPath)
 	{
-		this.fileFolderURL = fileFolderURL;
+		this.baseFolderPath = baseFolderPath;
 	}
 
+	@Override
 	public void setFileName(String fileName)
 	{
 		if (fileName != null)
@@ -132,9 +151,17 @@ public abstract class AttachmentInfoBean implements IConstProperty
 
 	}
 
+	@Override
 	public void setSubFolderPath(String subFolderPath)
 	{
 		this.subFolderPath = subFolderPath;
+	}
+
+	@Override
+	public IAttachmentInfoBean appendSubFolderPath(String subFolderPath)
+	{
+		this.subFolderPath += SLASH + String.valueOf(subFolderPath);
+		return this;
 	}
 
 	public EExtension getExtension()

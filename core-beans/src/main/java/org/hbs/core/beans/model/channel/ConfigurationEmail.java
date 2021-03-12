@@ -10,21 +10,6 @@ import org.hbs.core.util.EnumInterface;
 public class ConfigurationEmail extends ConfigurationBase
 {
 
-	private static final long	serialVersionUID	= 5938436998922289517L;
-	private String				protocol;
-	private String				socketFactory;
-	private String				fallBack;
-	private String				enablessl;
-	private String				hostAddress;
-	private String				userName;
-	private String				password;
-	private String				port;
-	private String				ttls;
-	private String				debug;
-	private String				fromId;
-	private String				fromName;
-	private EmailChannel		source;
-
 	public enum EmailChannel implements EnumInterface
 	{
 		Gmail_IMAP, Gmail_Pop3, Gmail_SMTP;
@@ -96,100 +81,30 @@ public class ConfigurationEmail extends ConfigurationBase
 		}
 
 	}
+	private static final long	serialVersionUID		= 5938436998922289517L;
+	private Map<String, String>	additionalProperties	= new LinkedHashMap<String, String>();
+	private String				debug;
+	private String				enablessl;
+	private String				fallBack;
+	private String				fromId;
+	private String				fromName;
+	private String				hostAddress;
+	private String				password;
+	private String				port;
+	private String				protocol;
+	private String				socketFactory;
+	private EmailChannel		source;
+	private String				ttls;
+	private String				userName;
 
 	public ConfigurationEmail()
 	{
 		super();
 	}
 
-	public String getProtocol()
+	public Map<String, String> getAdditionalProperties()
 	{
-		return protocol;
-	}
-
-	public void setProtocol(String protocol)
-	{
-		this.protocol = protocol;
-	}
-
-	public String getSocketFactory()
-	{
-		return socketFactory;
-	}
-
-	public void setSocketFactory(String socketFactory)
-	{
-		this.socketFactory = socketFactory;
-	}
-
-	public String getFallBack()
-	{
-		return fallBack;
-	}
-
-	public void setFallBack(String fallBack)
-	{
-		this.fallBack = fallBack;
-	}
-
-	public String getEnablessl()
-	{
-		return enablessl;
-	}
-
-	public void setEnablessl(String enablessl)
-	{
-		this.enablessl = enablessl;
-	}
-
-	public String getHostAddress()
-	{
-		return hostAddress;
-	}
-
-	public void setHostAddress(String hostAddress)
-	{
-		this.hostAddress = hostAddress;
-	}
-
-	public String getUserName()
-	{
-		return userName;
-	}
-
-	public void setUserName(String userName)
-	{
-		this.userName = userName;
-	}
-
-	public String getPassword()
-	{
-		return password;
-	}
-
-	public void setPassword(String password)
-	{
-		this.password = password;
-	}
-
-	public String getPort()
-	{
-		return port;
-	}
-
-	public void setPort(String port)
-	{
-		this.port = port;
-	}
-
-	public String getTtls()
-	{
-		return ttls;
-	}
-
-	public void setTtls(String ttls)
-	{
-		this.ttls = ttls;
+		return additionalProperties;
 	}
 
 	public String getDebug()
@@ -197,9 +112,14 @@ public class ConfigurationEmail extends ConfigurationBase
 		return debug;
 	}
 
-	public void setDebug(String debug)
+	public String getEnablessl()
 	{
-		this.debug = debug;
+		return enablessl;
+	}
+
+	public String getFallBack()
+	{
+		return fallBack;
 	}
 
 	public String getFromId()
@@ -207,19 +127,34 @@ public class ConfigurationEmail extends ConfigurationBase
 		return fromId;
 	}
 
-	public void setFromId(String fromId)
-	{
-		this.fromId = fromId;
-	}
-
 	public String getFromName()
 	{
 		return fromName;
 	}
 
-	public void setFromName(String fromName)
+	public String getHostAddress()
 	{
-		this.fromName = fromName;
+		return hostAddress;
+	}
+
+	public String getPassword()
+	{
+		return password;
+	}
+
+	public String getPort()
+	{
+		return port;
+	}
+
+	public String getProtocol()
+	{
+		return protocol;
+	}
+
+	public String getSocketFactory()
+	{
+		return socketFactory;
 	}
 
 	public EmailChannel getSource()
@@ -228,8 +163,83 @@ public class ConfigurationEmail extends ConfigurationBase
 		return source;
 	}
 
+	public String getTtls()
+	{
+		return ttls;
+	}
+
+	public String getUserName()
+	{
+		return userName;
+	}
+
+	public void setAdditionalProperties(Map<String, String> additionalProperties)
+	{
+		this.additionalProperties = additionalProperties;
+	}
+
+	public void setDebug(String debug)
+	{
+		this.debug = debug;
+	}
+
+	public void setEnablessl(String enablessl)
+	{
+		this.enablessl = enablessl;
+	}
+
+	public void setFallBack(String fallBack)
+	{
+		this.fallBack = fallBack;
+	}
+
+	public void setFromId(String fromId)
+	{
+		this.fromId = fromId;
+	}
+
+	public void setFromName(String fromName)
+	{
+		this.fromName = fromName;
+	}
+
+	public void setHostAddress(String hostAddress)
+	{
+		this.hostAddress = hostAddress;
+	}
+
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
+
+	public void setPort(String port)
+	{
+		this.port = port;
+	}
+
+	public void setProtocol(String protocol)
+	{
+		this.protocol = protocol;
+	}
+
+	public void setSocketFactory(String socketFactory)
+	{
+		this.socketFactory = socketFactory;
+	}
+
 	public void setSource(EmailChannel source)
 	{
 		this.source = source;
+	}
+
+	public void setTtls(String ttls)
+	{
+		this.ttls = ttls;
+	}
+
+	public void setUserName(String userName)
+	{
+		this.userName = userName;
 	}
 }

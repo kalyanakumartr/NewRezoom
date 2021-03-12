@@ -23,14 +23,15 @@
 	<modules>
 		<module>core-util</module>
 		<module>core-beans</module>
-		<module>v7-beans</module>
-		<module>v7-reader</module>
-		<module>v7-extractor</module>
 		<module>core-admin</module>
 		<module>core-oauth</module>
 		<module>core-eureka</module>
 		<module>core-sender</module>
-	</modules>
+		<module>v7-beans</module>
+		<module>v7-reader</module>
+		<module>v7-extractor</module>
+    	<module>v7-data-view</module>
+  </modules>
 	<groupId>ReZooms</groupId>
 	<artifactId>ReZooms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>

@@ -6,21 +6,23 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.hbs.core.beans.model.IConfiguration;
-import org.hbs.core.beans.model.channel.ConfigurationEmail;
 import org.hbs.core.security.resource.IPathBase.EMedia;
 import org.hbs.core.security.resource.IPathBase.EMediaMode;
 import org.hbs.core.util.CommonValidator;
+import org.hbs.v7.channel.AutoConfigurationEmail;
 import org.hbs.v7.reader.action.core.InBoxReaderScheduler;
 import org.hbs.v7.reader.bo.ExtractorBo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * @author AnanthMalBal
  */
-@Service
+@EnableScheduling
+@Component
 public class InBoxReaderEmailSchedulerService implements InBoxReaderScheduler
 {
 	private static final long	serialVersionUID	= 1958518665419239648L;
@@ -41,7 +43,7 @@ public class InBoxReaderEmailSchedulerService implements InBoxReaderScheduler
 		{
 			if (!isRunning)
 			{
-				System.out.println(">>>"+ new Date() +">>>scheduleChannel with milliseconds>>>>>>> " + emailDelay);
+				System.out.println(">>>" + new Date() + ">>>scheduleChannel with milliseconds>>>>>>> " + emailDelay);
 				isRunning = true;
 				List<IConfiguration> configList = extractorBo.getConfigurationList(EMedia.Email, EMediaMode.External);
 
@@ -56,7 +58,7 @@ public class InBoxReaderEmailSchedulerService implements InBoxReaderScheduler
 							@Override
 							public void run()
 							{
-								ConfigurationEmail config = (ConfigurationEmail) iConfig;
+								AutoConfigurationEmail config = (AutoConfigurationEmail) iConfig;
 								try
 								{
 									System.out.println("Started By " + config.getFromId() + " at " + new Date());

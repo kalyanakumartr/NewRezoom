@@ -26,36 +26,15 @@ import org.hbs.core.util.EBusinessKey;
 import org.hbs.core.util.EnumInterface;
 import org.hbs.core.util.ICRUDBean;
 import org.hbs.core.util.IConstProperty;
-import org.hbs.v7.beans.model.resume.CustomerProducer;
+import org.hbs.v7.userdefined.model.CustomerProducer;
+import org.hbs.v7.util.EMessagePriority;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "resume_incoming_data")
+@Table(name = "core_incoming_data")
 public class IncomingData implements ICRUDBean, EBusinessKey, IConstProperty
 {
-	public enum EExtension implements EnumInterface
-	{
-		// RAR we are not supporting due to 3rd party license
-		Invalid, Zip, _7z, Doc, Docx, ODT, XLS, XLSX, ODS, PDF, HTML, HTM, Json, Csv;
-
-		public static EExtension isValid(String fileName)
-		{
-			if (fileName.indexOf(DOT) > 0)
-			{
-				for (EExtension EE : EExtension.values())
-				{
-					if (EE.name().toLowerCase().endsWith(fileName.substring(fileName.lastIndexOf(DOT) + 1).toLowerCase()))
-						return EE;
-				}
-			}
-			return EExtension.Invalid;
-		}
-
-		public static String format()
-		{
-			return EWrap.Brace.enclose((Object[]) EExtension.values());
-		}
-	}
-
 	public enum EIncomingStatus implements EnumInterface
 	{
 		New, Ready, InProcess, Completed, AttachmentReadError, InvalidAttachment, UnRecognizedError, Timeout
@@ -114,7 +93,7 @@ public class IncomingData implements ICRUDBean, EBusinessKey, IConstProperty
 	}
 
 	@Transient
-	public EMessagePriority findPriority()
+	public EMessagePriority acquirePriority()
 	{
 		return priority;
 	}
@@ -125,6 +104,7 @@ public class IncomingData implements ICRUDBean, EBusinessKey, IConstProperty
 	}
 
 	@OneToMany(targetEntity = DataAttachments.class, fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, mappedBy = "incomingData")
+	@JsonIgnore
 	public Set<DataAttachments> getAttachmentList()
 	{
 		return attachmentList;
@@ -139,6 +119,7 @@ public class IncomingData implements ICRUDBean, EBusinessKey, IConstProperty
 
 	@Override
 	@Transient
+	@JsonIgnore
 	public String getBusinessKey(String... combination)
 	{
 		return EKey.Auto();
@@ -196,6 +177,7 @@ public class IncomingData implements ICRUDBean, EBusinessKey, IConstProperty
 
 	@ManyToOne(targetEntity = CustomerProducer.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "producerId")
+	@JsonIgnore
 	public IProducers getProducer()
 	{
 		return producer;
@@ -203,6 +185,7 @@ public class IncomingData implements ICRUDBean, EBusinessKey, IConstProperty
 
 	@ManyToOne(targetEntity = ProducersProperty.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "propertyId")
+	@JsonIgnore
 	public ProducersProperty getProducerProperty()
 	{
 		return producerProperty;

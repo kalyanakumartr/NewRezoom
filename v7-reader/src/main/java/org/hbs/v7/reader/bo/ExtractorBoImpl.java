@@ -7,14 +7,15 @@ import org.hbs.core.beans.model.IConfiguration;
 import org.hbs.core.beans.model.ProducersProperty;
 import org.hbs.core.beans.model.channel.ConfigurationEmail;
 import org.hbs.core.beans.model.channel.ConfigurationSMS;
-import org.hbs.core.beans.model.channel.ConfigurationWeb;
+import org.hbs.core.beans.model.channel.ConfigurationWebUpload;
 import org.hbs.core.dao.ProducerDao;
 import org.hbs.core.dao.ProducerPropertyDao;
 import org.hbs.core.security.resource.IPathBase.EMedia;
 import org.hbs.core.security.resource.IPathBase.EMediaMode;
-import org.hbs.v7.beans.model.resume.DataExtractorPattern;
+import org.hbs.v7.channel.AutoConfigurationEmail;
 import org.hbs.v7.dao.IncomingDao;
 import org.hbs.v7.reader.action.email.InBoxReaderEmailFactory;
+import org.hbs.v7.userdefined.model.DataExtractorPattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,13 +37,19 @@ public class ExtractorBoImpl implements ExtractorBo
 	@Override
 	public List<IConfiguration> getConfigurationList(EMedia eMedia, EMediaMode eMediaMode)
 	{
+		return getConfigurationList(null, eMedia, eMediaMode);
+	}
+
+	@Override
+	public List<IConfiguration> getConfigurationList(String producerId, EMedia eMedia, EMediaMode eMediaMode)
+	{
 		switch ( eMedia )
 		{
 			case Email :
 			{
 				if (InBoxReaderEmailFactory.getInstance().getConfigList().isEmpty())
 				{
-					InBoxReaderEmailFactory.getInstance().setConfigList(constructConfigList(producerPropertyDao.getProperty(eMedia, eMediaMode), ConfigurationEmail.class));
+					InBoxReaderEmailFactory.getInstance().setConfigList(constructConfigList(producerPropertyDao.getProperty(eMedia, eMediaMode), AutoConfigurationEmail.class));
 				}
 				return InBoxReaderEmailFactory.getInstance().getConfigList();
 			}
@@ -50,13 +57,13 @@ public class ExtractorBoImpl implements ExtractorBo
 			{
 				return constructConfigList(producerPropertyDao.getProperty(eMedia, eMediaMode), ConfigurationSMS.class);
 			}
-			case Web :
+			case WebUpload :
 			{
-				return constructConfigList(producerPropertyDao.getProperty(eMedia, eMediaMode), ConfigurationWeb.class);
+				return constructConfigList(producerPropertyDao.getProperty(producerId, eMedia, eMediaMode), ConfigurationWebUpload.class);
 			}
 			case WhatsApp :
 			{
-				return constructConfigList(producerPropertyDao.getProperty(eMedia, eMediaMode), ConfigurationWeb.class);
+				return constructConfigList(producerPropertyDao.getProperty(eMedia, eMediaMode), ConfigurationSMS.class);
 			}
 			default :
 				break;

@@ -1,14 +1,11 @@
 package org.hbs.v7.reader.action.email;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -16,12 +13,9 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
 
-import org.apache.commons.compress.archivers.sevenz.SevenZArchiveEntry;
-import org.apache.commons.compress.archivers.sevenz.SevenZFile;
 import org.apache.commons.io.IOUtils;
 import org.hbs.core.beans.model.Producers;
-import org.hbs.core.kafka.IKafkaConstants;
-import org.hbs.core.kafka.KAFKAPartition;
+import org.hbs.core.kafka.IKAFKAPartition;
 import org.hbs.core.security.resource.IPathBase.EMedia;
 import org.hbs.core.util.CommonValidator;
 import org.hbs.core.util.CustomException;
@@ -29,12 +23,15 @@ import org.hbs.v7.beans.DataInTopicBean;
 import org.hbs.v7.beans.InBoxReaderTopicBean;
 import org.hbs.v7.beans.UIDMimeMessageBean;
 import org.hbs.v7.beans.model.DataAttachments;
+import org.hbs.v7.beans.model.ICoreBase;
 import org.hbs.v7.beans.model.IncomingData;
-import org.hbs.v7.beans.model.PartitionFinder;
-import org.hbs.v7.beans.model.DataAttachments.EDataTrace;
-import org.hbs.v7.beans.model.IncomingData.EExtension;
 import org.hbs.v7.beans.model.IncomingData.EIncomingStatus;
 import org.hbs.v7.dao.IncomingDao;
+import org.hbs.v7.reader.action.core.IncomingDataCreator;
+import org.hbs.v7.userdefined.dao.CoreBaseDao;
+import org.hbs.v7.userdefined.model.CoreBaseFactory;
+import org.hbs.v7.util.IKafkaTopicConstants;
+import org.hbs.v7.util.PartitionFinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,19 +45,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.mail.imap.IMAPFolder;
 
 @Service
-public class InBoxReaderIMAPConsumer extends InBoxReaderIMAPBase implements IKafkaConstants
+public class InBoxReaderIMAPConsumer extends InBoxReaderIMAPBase implements IKafkaTopicConstants
 {
 
 	private static final long	serialVersionUID	= -3529623337510779624L;
 
 	@Autowired
 	private IncomingDao			incomingDao;
+
+	@Autowired
+	private CoreBaseDao			coreBaseDao;
+
+	int							iter				= 0;
+
 	private final Logger		logger				= LoggerFactory.getLogger(InBoxReaderIMAPConsumer.class);
 
 	@KafkaListener(topicPartitions = @TopicPartition(topic = MESSAGE_TOPIC, partitions = { NORMAL, EXPEDITE }), groupId = MESSAGE_GROUP, clientIdPrefix = EMAIL)
 	public void consume(@Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition, String payload)
 	{
-		logger.info(String.format("#### -> Consumed message -> %s", payload));
+		logger.info(String.format((iter++) + "#### -> Consumed message -> %s", payload));
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		System.out.println(">>>>>>>>>>>>>>>>>>>" + new Date() + ">>>>>>>flow > " + partition);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -86,6 +89,9 @@ public class InBoxReaderIMAPConsumer extends InBoxReaderIMAPBase implements IKaf
 
 				if (CommonValidator.isNotNullNotEmpty(incomingData))
 				{
+					ICoreBase coreBase = CoreBaseFactory.getInstance(config.getProducerId());
+					coreBaseDao.save(coreBase);
+
 					incomingData.setCandidateEmail(message.getFrom()[0].toString());
 					incomingData.setMedia(EMedia.Email);
 					incomingData.setIncomingStatus(EIncomingStatus.New);
@@ -95,12 +101,17 @@ public class InBoxReaderIMAPConsumer extends InBoxReaderIMAPBase implements IKaf
 					incomingData.setReaderInstance(this.getClass().getSimpleName());
 					incomingData.setCreatedDate(new Timestamp(System.currentTimeMillis()));
 					incomingData.setProducer(new Producers(config.getProducerId()));
+
+					for (DataAttachments _DATT : incomingData.getAttachmentList())
+					{
+						_DATT.setDataURN(coreBase.getDataURN());
+					}
 					incomingDao.save(incomingData);
 
 					for (DataAttachments _DATT : incomingData.getAttachmentList())
 					{
 						DataInTopicBean inBean = _DATT.constructDataInTopicBean();
-						KAFKAPartition ePartition = PartitionFinder.getInstance().find(ETopic.DataExtract, incomingData.findPriority(), inBean.getExtension());
+						IKAFKAPartition ePartition = PartitionFinder.getInstance().find(ETopic.DataExtract, incomingData.acquirePriority(), inBean.getExtension());
 
 						gKafkaProducer.send(ETopic.DataExtract, ePartition, inBean);
 					}
@@ -152,7 +163,7 @@ public class InBoxReaderIMAPConsumer extends InBoxReaderIMAPBase implements IKaf
 					if (outStream != null)
 						outStream.close();
 
-					unpackAndCreateDataAttachmentSet(incomingData, uidMsg, attachmentsSet);
+					IncomingDataCreator.getInstance().unpackAndCreateDataAttachmentSet(incomingData, uidMsg, attachmentsSet);
 				}
 
 			}
@@ -167,138 +178,4 @@ public class InBoxReaderIMAPConsumer extends InBoxReaderIMAPBase implements IKaf
 		return null;
 	}
 
-	private void unpackAndCreateDataAttachmentSet(IncomingData incomingData, UIDMimeMessageBean uidMsg, Set<DataAttachments> attachmentsSet) throws IOException, CustomException, MessagingException
-	{
-		System.out.println(uidMsg.getFileName() + " >>>>>>>>>>>>> uidMsg.getExtension()>>>>>>>>>>>>>>>>" + uidMsg.getExtension());
-		switch ( uidMsg.getExtension() )
-		{
-			case Invalid :
-				throw new CustomException("Unsupported File '" + uidMsg.getFileName() + "'. Allow Files Only With Extensions " + EExtension.format());
-			case Zip :
-			{
-				incomingData.setBulkAttachment(true);
-				unpackZipFile(incomingData, uidMsg, attachmentsSet);
-				break;
-			}
-			case _7z :
-			{
-				incomingData.setBulkAttachment(true);
-				unpack7zFile(incomingData, uidMsg, attachmentsSet);
-				break;
-			}
-			default :
-			{
-				System.out.println("Single Attachment File. " + uidMsg.getFileName());
-				createDataAttachment(incomingData, uidMsg, attachmentsSet);
-				System.out.println("CreateDataAttachment Completed For " + uidMsg.getFileName());
-				break;
-			}
-		}
-	}
-
-	private void createDataAttachment(IncomingData incomingData, UIDMimeMessageBean uidMsg, Set<DataAttachments> attachmentsSet) throws MessagingException
-	{
-		DataAttachments attachment = new DataAttachments();
-		attachment.setUploadFileName(uidMsg.getFileName());
-		attachment.setStatus(true);
-		attachment.setPriority(incomingData.findPriority());
-		attachment.setTrace(incomingData.isBulkAttachment() ? EDataTrace.MainDocument : EDataTrace.YetToTrace);
-		attachment.setUploadFileFolderURL(uidMsg.getOutputPath());
-		attachment.setIncomingData(incomingData);
-		attachment.setCreatedDate(new Timestamp(System.currentTimeMillis()));
-		File file = uidMsg.getOutputFile();// Don't Change Position
-
-		attachment.setUploadFileSize(file.length());
-		attachment.setUploadFileDate(new Timestamp(System.currentTimeMillis()));
-		attachment.setUploadFileLastModifiedDate(new Timestamp(file.lastModified()));
-
-		attachmentsSet.add(attachment);
-		uidMsg.setFileName(null); // Reset for safer side
-	}
-
-	private void unpack7zFile(IncomingData incomingData, UIDMimeMessageBean uidMsg, Set<DataAttachments> attachmentsSet) throws IOException, MessagingException
-	{
-		SevenZFile sevenZFile = null;
-		FileOutputStream out = null;
-		try
-		{
-			sevenZFile = uidMsg.getSevenZFile();
-			SevenZArchiveEntry entry;
-			while ( (entry = sevenZFile.getNextEntry()) != null )
-			{
-				if (entry.isDirectory())
-				{
-					continue;
-				}
-				File curfile = new File(uidMsg.getOutputPath(entry.getName()));
-				File parent = curfile.getParentFile();
-				if (!parent.exists())
-				{
-					parent.mkdirs();
-				}
-				out = new FileOutputStream(curfile);
-				byte[] content = new byte[(int) entry.getSize()];
-				sevenZFile.read(content, 0, content.length);
-				out.write(content);
-				out.close();
-				System.out.println("unpack7zFile :: Bulk Attachment File. Unzipped " + entry.getName());
-				createDataAttachment(incomingData, uidMsg, attachmentsSet);
-				System.out.println("unpack7zFile :: CreateDataAttachment Completed For " + entry.getName());
-			}
-			sevenZFile.close();
-		}
-		finally
-		{
-			// Double check for Resource Free up
-			if (sevenZFile != null)
-				sevenZFile.close();
-			if (out != null)
-				out.close();
-		}
-
-	}
-
-	private void unpackZipFile(IncomingData incomingData, UIDMimeMessageBean uidMsg, Set<DataAttachments> attachmentsSet) throws IOException, MessagingException
-	{
-		ZipInputStream zipIn = null;
-		FileOutputStream out = null;
-		try
-		{
-			zipIn = uidMsg.getZIPInputStream();
-			ZipEntry entry = zipIn.getNextEntry();
-
-			while ( (entry = zipIn.getNextEntry()) != null )
-			{
-				if (entry.isDirectory())
-				{
-					continue;
-				}
-				File curfile = new File(uidMsg.getOutputPath(entry.getName()));
-				File parent = curfile.getParentFile();
-				if (!parent.exists())
-				{
-					parent.mkdirs();
-				}
-				out = new FileOutputStream(curfile);
-				byte[] content = new byte[(int) entry.getSize()];
-				zipIn.read(content, 0, content.length);
-				out.write(content);
-				out.close();
-
-				System.out.println("unpackZipFile :: Bulk Attachment File. Unzipped " + entry.getName());
-				createDataAttachment(incomingData, uidMsg, attachmentsSet);
-				System.out.println("unpackZipFile :: CreateDataAttachment Completed For " + entry.getName());
-			}
-
-			zipIn.close();
-		}
-		finally
-		{
-			// Double check for Resource Free up
-			if (zipIn != null)
-				zipIn.close();
-			if (out != null)
-				out.close();
-		}
-	}
 }

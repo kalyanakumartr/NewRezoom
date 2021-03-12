@@ -1,6 +1,6 @@
 package org.hbs.core.beans.path;
 
-import org.hbs.core.security.resource.EnumResourceInterface;
+import org.hbs.core.security.resource.EnumInterfaceRolePath;
 import org.hbs.core.security.resource.IPath;
 
 public interface IPathSender extends IPath, IErrorSender
@@ -40,7 +40,7 @@ public interface IPathSender extends IPath, IErrorSender
 	public String	SEND_USER_BLOCK_MAIL			= "/sendUserBlockMail";
 	public String	DOWNLOAD_ATTACHMENT				= "/downloadAttachment";
 
-	public enum EPathSender implements EnumResourceInterface
+	public enum EPathSender implements EnumInterfaceRolePath
 	{
 		GetConfigurationList(GET_CONFIGURATION_LIST, ERole.SuperAdminRole, ERole.Administrator), //
 		GetConfiguration(GET_CONFIGURATION, ERole.SuperAdminRole,ERole.Administrator, ERole.Employee), //

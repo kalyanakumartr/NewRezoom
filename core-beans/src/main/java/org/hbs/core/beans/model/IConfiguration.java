@@ -1,8 +1,8 @@
 package org.hbs.core.beans.model;
 
-import java.io.Serializable;
+import org.hbs.core.util.IConstProperty;
 
-public interface IConfiguration extends Serializable
+public interface IConfiguration extends IConstProperty
 {
 	public String getProducerId();
 

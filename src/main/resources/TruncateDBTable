@@ -1,0 +1,6 @@
+USE rezoom;
+TRUNCATE `resume`;
+TRUNCATE `resume_data`;
+TRUNCATE `core_data_attachments`;
+TRUNCATE `core_incoming_data`;
+TRUNCATE `resume_producers`;

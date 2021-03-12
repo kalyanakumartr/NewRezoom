@@ -19,7 +19,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.hbs.core.beans.model.channel.ConfigurationEmail;
 import org.hbs.core.beans.model.channel.ConfigurationSMS;
-import org.hbs.core.beans.model.channel.ConfigurationWeb;
+import org.hbs.core.beans.model.channel.ConfigurationWebUpload;
 import org.hbs.core.beans.model.channel.ConfigurationWhatsApp;
 import org.hbs.core.security.resource.IPathBase.EMedia;
 import org.hbs.core.security.resource.IPathBase.EMediaMode;
@@ -57,8 +57,8 @@ public abstract class V7MessagesBase extends CommonDateAndStatusFields implement
 			property = ConfigurationEmail.class.getCanonicalName();
 		else if (media == EMedia.SMS)
 			property = ConfigurationSMS.class.getCanonicalName();
-		else if (media == EMedia.Web)
-			property = ConfigurationWeb.class.getCanonicalName();
+		else if (media == EMedia.WebUpload)
+			property = ConfigurationWebUpload.class.getCanonicalName();
 		else if (media == EMedia.WhatsApp)
 			property = ConfigurationWhatsApp.class.getCanonicalName();
 

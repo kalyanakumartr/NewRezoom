@@ -5,7 +5,7 @@ import javax.mail.MessagingException;
 
 import org.hbs.core.beans.model.IConfiguration;
 
-public class UIDMimeMessageBean extends AttachmentInfoBean
+public class UIDMimeMessageBean extends AttachmentInfoBean 
 {
 
 	private static final long	serialVersionUID	= -7422334914516037990L;
@@ -18,8 +18,7 @@ public class UIDMimeMessageBean extends AttachmentInfoBean
 		super();
 		this.message = message;
 		this.producerId = config.getProducerId();
-		this.setFileFolderURL(config.getBaseFolderPath());
+		this.setBaseFolderPath(config.getBaseFolderPath());
 		this.setSubFolderPath(EDate.YYYYMMDD.formatted(message.getSentDate()) + SLASH + EDate.HHMM.formatted(message.getSentDate()));
 	}
-
 }

@@ -53,7 +53,7 @@ public class Producers extends CommonDateAndStatusFields implements IProducers, 
 	private String						activeProducerId;
 	private String						domainContext;
 	private Set<IProducersAttachments>	producerAttachmentList	= new LinkedHashSet<IProducersAttachments>(0);
-	private String						producerId;
+	protected String						producerId;
 	private String						producerName;
 	private EUserType					producerType			= EUserType.Producer;
 	private Set<ProducersProperty>		propertyList			= new LinkedHashSet<ProducersProperty>(0);

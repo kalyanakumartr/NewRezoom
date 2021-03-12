@@ -12,19 +12,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class GenericKafkaProducer implements IKafkaConstants {
-	private static final long serialVersionUID = 1643040639961382216L;
-	private static final Logger LOGGER = LoggerFactory.getLogger(GenericKafkaProducer.class);
+public class GenericKafkaProducer implements IKafkaConstants
+{
+	private static final long				serialVersionUID	= 1643040639961382216L;
+	private static final Logger				LOGGER				= LoggerFactory.getLogger(GenericKafkaProducer.class);
 
 	@Autowired
 	private KafkaTemplate<String, Object>	kafkaTemplate;
 
-	public void send(ETopic eTopic, KAFKAPartition partition, Object object) throws JsonProcessingException
+	public void send(IETopic eTopic, IKAFKAPartition partition, Object object) throws JsonProcessingException
 	{
 		send(eTopic, partition, ETemplate.Default, object);
 	}
 
-	public void send(ETopic eTopic, KAFKAPartition partition, EnumInterface eTemplate, Object object) throws JsonProcessingException
+	public void send(IETopic eTopic, IKAFKAPartition partition, EnumInterface eTemplate, Object object) throws JsonProcessingException
 	{
 		try
 		{

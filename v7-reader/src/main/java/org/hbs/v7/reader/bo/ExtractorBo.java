@@ -7,10 +7,12 @@ import org.hbs.core.beans.model.IConfiguration;
 import org.hbs.core.beans.model.channel.ConfigurationEmail;
 import org.hbs.core.security.resource.IPathBase.EMedia;
 import org.hbs.core.security.resource.IPathBase.EMediaMode;
-import org.hbs.v7.beans.model.resume.DataExtractorPattern;
+import org.hbs.v7.userdefined.model.DataExtractorPattern;
 
 public interface ExtractorBo extends Serializable
 {
+	List<IConfiguration> getConfigurationList(String producerId, EMedia eMedia, EMediaMode eMediaMode);
+
 	List<IConfiguration> getConfigurationList(EMedia eMedia, EMediaMode eMediaMode);
 
 	long getLastEmailSentDate(ConfigurationEmail config);

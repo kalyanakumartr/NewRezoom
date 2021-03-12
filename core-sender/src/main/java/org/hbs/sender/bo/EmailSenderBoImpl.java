@@ -107,7 +107,7 @@ public class EmailSenderBoImpl extends BaseSenderBoImpl implements EmailSenderBo
 
 		if (CommonValidator.isNotNullNotEmpty(user))
 		{
-			IChannelMessages message = messageFormBean.message; // .clone()
+			IChannelMessages message = null; // .clone() messageFormBean.message
 			message.setMessageId(message.getBusinessKey());
 			// message.setUserId(user.getUserId());
 			// message.setUserName(user.getUserName());

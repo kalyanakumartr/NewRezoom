@@ -1,6 +1,8 @@
 package org.hbs.core.beans.model.channel;
 
-public class ConfigurationSMS extends ConfigurationBase
+import java.io.Serializable;
+
+public class ConfigurationSMS implements Serializable
 {
 
 	private static final long	serialVersionUID	= -6696593306922499884L;
