@@ -6,14 +6,14 @@
 	},
 	"item": [
 		{
-			"name": "searchConfiguration",
+			"name": "SearchConfiguration",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTU5ODYwMDY4MCwianRpIjoiYmZhNGFmNmYtOGM0ZC00OTFjLWI3ZjYtZjBlZWZlMjRjNDcxIn0.zV53mVt1mso9wof47vfK4u7qAl3zXfG0OZNbjnd1lgI",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTYxNTc1Njg5MSwianRpIjoiY25vZFNoTnlJTE1rQllrS0hzN1JUcVFtOGVRIn0.bkAAjC5fg2Zf1d5RvmA6wxZv56fzIqmFCon0dfapd6A",
 							"type": "string"
 						}
 					]
@@ -37,12 +37,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8200/core-sender/searchConfiguration",
+					"raw": "http://localhost:9200/core-sender/searchConfiguration",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8200",
+					"port": "9200",
 					"path": [
 						"core-sender",
 						"searchConfiguration"
@@ -52,14 +52,14 @@
 			"response": []
 		},
 		{
-			"name": "blockConfiguration",
+			"name": "AddConfiguration",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTU5ODYwMDY4MCwianRpIjoiYmZhNGFmNmYtOGM0ZC00OTFjLWI3ZjYtZjBlZWZlMjRjNDcxIn0.zV53mVt1mso9wof47vfK4u7qAl3zXfG0OZNbjnd1lgI",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTYxNTc1Njg5MSwianRpIjoiY25vZFNoTnlJTE1rQllrS0hzN1JUcVFtOGVRIn0.bkAAjC5fg2Zf1d5RvmA6wxZv56fzIqmFCon0dfapd6A",
 							"type": "string"
 						}
 					]
@@ -75,37 +75,32 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"autoId\":1,\r\n    \"groupName\":\"Configuration External\",\r\n    \"producerProperty\": {\r\n        \"status\": false,\r\n        \"modifiedDate\": \"2020-08-06 15:47:04.000\"\r\n    }\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\r\n    \"producerProperty\": {\r\n        \"comments\": \"Producer Property\",\r\n        \"enumKey\": \"ConfigurationEmail\",\r\n        \"groupName\": \"Configuration External New1\",\r\n        \"media\": \"Email\",\r\n        \"mediaMode\": \"External\",\r\n        \"mediaType\": \"Primary\",\r\n        \"property\": \"org.hbs.core.beans.model.channel.ConfigurationEmail\",\r\n        \"value\": \"{\\\"protocol\\\":\\\"imaps\\\",\\\"socketFactory\\\":\\\"javax.net.ssl.SSLSocketFactory\\\",\\\"enablessl\\\":\\\"true\\\",\\\"hostAddress\\\":\\\"imap.gmail.com\\\",\\\"userName\\\":\\\"eselfguru@gmail.com\\\",\\\"password\\\":\\\"ojawauylchlhqzoo\\\",\\\"port\\\":\\\"993\\\",\\\"ttls\\\":\\\"true\\\",\\\"fromId\\\":\\\"eselfguru@gmail.com\\\",\\\"fromName\\\":\\\"data_process\\\",\\\"source\\\":\\\"Gmail_IMAP\\\",\\\"additionalProperties\\\":{},\\\"producerId\\\":\\\"PRD000001\\\",\\\"baseFolderPath\\\":\\\"C:/Ananth/data_process_attachments\\\",\\\"startDate\\\":\\\"_3_Days\\\",\\\"readEvery\\\":\\\"_5_Minutes\\\",\\\"reverseStart\\\":false}\"\r\n    }\r\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8200/core-sender/blockConfiguration",
+					"raw": "http://localhost:9200/core-sender/addConfiguration",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8200",
+					"port": "9200",
 					"path": [
 						"core-sender",
-						"blockConfiguration"
+						"addConfiguration"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "checkConfigurationExists",
+			"name": "UpdateConfiguration",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTU5ODYwMDY4MCwianRpIjoiYmZhNGFmNmYtOGM0ZC00OTFjLWI3ZjYtZjBlZWZlMjRjNDcxIn0.zV53mVt1mso9wof47vfK4u7qAl3zXfG0OZNbjnd1lgI",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTYxNTc1Njg5MSwianRpIjoiY25vZFNoTnlJTE1rQllrS0hzN1JUcVFtOGVRIn0.bkAAjC5fg2Zf1d5RvmA6wxZv56fzIqmFCon0dfapd6A",
 							"type": "string"
 						}
 					]
@@ -121,37 +116,32 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"autoId\":1,\r\n    \"groupName\":\"Configuration External\",\r\n    \"producerProperty\": {\r\n        \"status\": false,\r\n        \"modifiedDate\": \"2020-08-06 15:47:04.000\"\r\n    }\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\r\n    \"producerProperty\": {\r\n        \"autoId\":\"633e816d-6956-48b7-867f-93c998f74bc4\",\r\n        \"comments\": \"Producer Property111111\",\r\n        \"enumKey\": \"ConfigurationEmail\",\r\n        \"groupName\": \"Configuration External New1\",\r\n        \"media\": \"Email\",\r\n        \"mediaMode\": \"External\",\r\n        \"mediaType\": \"Primary\",\r\n        \"property\": \"org.hbs.core.beans.model.channel.ConfigurationEmail\",\r\n        \"value\": \"{\\\"protocol\\\":\\\"imaps\\\",\\\"socketFactory\\\":\\\"javax.net.ssl.SSLSocketFactory\\\",\\\"enablessl\\\":\\\"true\\\",\\\"hostAddress\\\":\\\"imap.gmail.com\\\",\\\"userName\\\":\\\"eselfguru@gmail.com\\\",\\\"password\\\":\\\"ojawauylchlhqzoo\\\",\\\"port\\\":\\\"993\\\",\\\"ttls\\\":\\\"true\\\",\\\"fromId\\\":\\\"eselfguru@gmail.com\\\",\\\"fromName\\\":\\\"data_process\\\",\\\"source\\\":\\\"Gmail_IMAP\\\",\\\"additionalProperties\\\":{},\\\"producerId\\\":\\\"PRD000001\\\",\\\"baseFolderPath\\\":\\\"C:/Ananth/data_process_attachments\\\",\\\"startDate\\\":\\\"_3_Days\\\",\\\"readEvery\\\":\\\"_5_Minutes\\\",\\\"reverseStart\\\":false}\"\r\n    }\r\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8200/core-sender/blockConfiguration",
+					"raw": "http://localhost:9200/core-sender/updateConfiguration",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8200",
+					"port": "9200",
 					"path": [
 						"core-sender",
-						"blockConfiguration"
+						"updateConfiguration"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "deleteConfiguration",
+			"name": "BlockConfiguration",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTU5ODYwMDY4MCwianRpIjoiYmZhNGFmNmYtOGM0ZC00OTFjLWI3ZjYtZjBlZWZlMjRjNDcxIn0.zV53mVt1mso9wof47vfK4u7qAl3zXfG0OZNbjnd1lgI",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTYxNTc0OTc1NywianRpIjoiSW1VZXdsRzE2b2xwa1ZGdjVMMWV2MXpsbktvIn0.sEbK02sPgg9NbJvKO7PNcIrp1J4sVV35NvzuQKvKj5g",
 							"type": "string"
 						}
 					]
@@ -167,7 +157,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"autoId\":1,\r\n    \"groupName\":\"Configuration External\",\r\n    \"producerProperty\": {\r\n        \"status\": false,\r\n        \"modifiedDate\": \"2020-08-06 15:47:04.000\"\r\n    }\r\n}",
+					"raw": "{\r\n    \"autoId\":1,\r\n    \"groupName\":\"Configuration External\",\r\n    \"producerProperty\": {\r\n        \"status\": false\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -175,12 +165,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8200/core-sender/blockConfiguration",
+					"raw": "http://localhost:9200/core-sender/blockConfiguration",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8200",
+					"port": "9200",
 					"path": [
 						"core-sender",
 						"blockConfiguration"
@@ -190,14 +180,14 @@
 			"response": []
 		},
 		{
-			"name": "getConfiguration",
+			"name": "CheckConfigurationExists",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTU5ODYwMDY4MCwianRpIjoiYmZhNGFmNmYtOGM0ZC00OTFjLWI3ZjYtZjBlZWZlMjRjNDcxIn0.zV53mVt1mso9wof47vfK4u7qAl3zXfG0OZNbjnd1lgI",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTYxNTc1NTc1MiwianRpIjoiYm9iMktCTWJNZ0EwM2xZY19obG9qd1ZiN3RZIn0.qZZlJNh59Yp7iaE-sdQVCzLUCWG88MmPR6o5c7fBem4",
 							"type": "string"
 						}
 					]
@@ -212,27 +202,63 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8200/core-sender/getConfiguration",
+					"raw": "http://localhost:9200/core-sender/checkConfigurationExists/Configuration%20External",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8200",
+					"port": "9200",
 					"path": [
 						"core-sender",
-						"getConfiguration"
+						"checkConfigurationExists",
+						"Configuration%20External"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "EndUserVideo",
+			"name": "DeleteConfiguration",
 			"request": {
-				"method": "GET",
-				"header": [],
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRQcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyX25hbWUiOiJBbmFudGgtSWQiLCJwcm9kdWNlck5hbWUiOiJSZXpvb20gQWRtaW4iLCJ1c2VyRnVsbE5hbWUiOiJCYWxhc3VicmFtYW5pYW4sIEFuYW50aCIsImVtcGxveWVlSWQiOiJVU1IxNTEzNDM4MDI0Nzk5IiwidXNlck5hbWUiOiJBbmFudGgtSWQiLCJhdXRob3JpdGllcyI6WyJBRE1JTklTVFJBVE9SIiwiRU1QTE9ZRUUiXSwiY291bnRyeUlkIjoiQXNpYS9Lb2xrYXRhIiwiY2xpZW50X2lkIjoiSEJTQVBQTElDQVRJT04iLCJwYXJlbnRQcm9kdWNlcklkIjoiUFJEMDAwMDAxIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwicHJvZHVjZXJJZCI6IlBSRDAwMDAwMSIsImV4cCI6MTYxNTc1NTc1MiwianRpIjoiYm9iMktCTWJNZ0EwM2xZY19obG9qd1ZiN3RZIn0.qZZlJNh59Yp7iaE-sdQVCzLUCWG88MmPR6o5c7fBem4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"autoId\":\"6\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": ""
+					"raw": "http://localhost:9200/core-sender/deleteConfiguration",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"core-sender",
+						"deleteConfiguration"
+					]
 				}
 			},
 			"response": []
