@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -40,5 +41,10 @@ public interface IConfigurationController extends IPathSender
 	@RequestMapping(value = UPDATE_CONFIGURATION, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize(HAS_AUTHORITY_SUPERADMIN_OR_ADMIN)
 	ResponseEntity<?> updateConfiguration(Authentication auth, ConfigurationFormBean cfBean);
+	
+	@PostMapping
+	@RequestMapping(value = CHECK_CONFIGURATION_EXISTS, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize(HAS_AUTHORITY_SUPERADMIN_OR_ADMIN)
+	public ResponseEntity<?> checkConfiguration(Authentication auth, @PathVariable("groupName") String groupName);
 
 }

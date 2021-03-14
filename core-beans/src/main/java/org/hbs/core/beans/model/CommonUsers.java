@@ -11,8 +11,11 @@ import org.hbs.core.util.CommonValidator;
 import org.hbs.core.util.Masker;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @MappedSuperclass
+@JsonInclude
 public abstract class CommonUsers extends CommonUsersBase
 {
 	private static final long	serialVersionUID	= 5331946490137030437L;
@@ -28,24 +31,28 @@ public abstract class CommonUsers extends CommonUsersBase
 	}
 
 	@Transient
+	@JsonSerialize
 	public String getProducerId()
 	{
 		return producerId;
 	}
 
 	@Transient
+	@JsonSerialize
 	public String getProducerName()
 	{
 		return producerName;
 	}
 
 	@Transient
+	@JsonSerialize
 	public String getParentProducerId()
 	{
 		return parentProducerId;
 	}
 
 	@Transient
+	@JsonSerialize
 	public String getParentProducerName()
 	{
 		return parentProducerName;

@@ -6,9 +6,9 @@ import org.hbs.core.security.resource.IPath;
 public interface IPathSender extends IPath, IErrorSender
 {
 	// Configuration
-	public String	CHECK_CONFIGURATION_EXISTS		= "/checkConfigurationExists";
+	public String	CHECK_CONFIGURATION_EXISTS		= "/checkConfigurationExists/{groupName}";
 	public String	GET_CONFIGURATION_LIST			= "/getConfigurationList";
-	public String	GET_CONFIGURATION				= "/getConfigurationById";
+	public String	GET_CONFIGURATION				= "/getConfiguration";
 	public String	GET_CONFIGURATION_BY_CUSTOMER	= "/getConfigurationByProducer";
 	public String	PRESEARCH_CONFIGURATION			= "/preSearchConfiguration";
 	public String	SEARCH_CONFIGURATION			= "/searchConfiguration";

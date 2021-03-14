@@ -23,6 +23,7 @@ import org.hbs.core.util.IConstProperty.EWrap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +39,9 @@ public class ConfigurationBoImpl implements ConfigurationBo, IErrorSender
 
 	@Autowired
 	SequenceDao					sequenceDao;
+	
+	@Value("${sender.update.delay.in.seconds:120}") // 2 minutes default update
+	private int					updateDelay;
 
 	@Override
 	public EnumInterface blockConfiguration(Authentication auth, ConfigurationFormBean cfBean)
@@ -65,9 +69,9 @@ public class ConfigurationBoImpl implements ConfigurationBo, IErrorSender
 	}
 
 	@Override
-	public int checkConfigurationExists(Authentication auth, ConfigurationFormBean cfBean)
+	public EnumInterface checkConfigurationExists(Authentication auth, String groupName)
 	{
-		return configurationDao.checkConfigurationExists(EAuth.User.getProducerId(auth), cfBean.searchParam);
+		return configurationDao.checkConfigurationExists(EAuth.User.getProducerId(auth), groupName) > 0 ? EReturn.Exists : EReturn.Not_Exists;
 	}
 
 	@Override
@@ -126,7 +130,7 @@ public class ConfigurationBoImpl implements ConfigurationBo, IErrorSender
 			ProducersProperty iPP = configurationDao.fetchByAutoId(EAuth.User.getProducerId(auth), cfBean.autoId);
 			if (CommonValidator.isNotNullNotEmpty(iPP))
 			{
-				if (ChronoUnit.NANOS.between(cfBean.producerProperty.getModifiedDate().toLocalDateTime(), iPP.getModifiedDate().toLocalDateTime()) == 0)
+				if ((System.currentTimeMillis() - iPP.getModifiedDate().getTime()) > (updateDelay * 1000))
 				{
 					cfBean.repoProducerProperty = iPP;
 					return true;
@@ -142,12 +146,14 @@ public class ConfigurationBoImpl implements ConfigurationBo, IErrorSender
 	{
 		logger.info("ConfigurationBoImpl saveConfiguration starts ::: ");
 		int count = configurationDao.checkConfigurationExists(EAuth.User.getProducerId(auth), cfBean.producerProperty.getGroupName());
-		if (count > 0)
+		if (count == 0)
 		{
 			cfBean.producerProperty.createdUserProducerInfo(auth);
 
 			cfBean.producerProperty = configurationDao.save(cfBean.producerProperty);
 
+			cfBean.clearForm();
+			cfBean.messageCode = CONFIGURATION_CREATED_SUCCESSFULLY;
 			return EReturn.Success;
 		}
 		throw new InvalidRequestException(CONFIGURATION_ALREADY_EXISTS);
@@ -162,6 +168,7 @@ public class ConfigurationBoImpl implements ConfigurationBo, IErrorSender
 	@Override
 	public EnumInterface updateConfiguration(Authentication auth, ConfigurationFormBean cfBean)
 	{
+		cfBean.autoId = cfBean.producerProperty.getAutoId();
 		if (isRecentlyUpdated(auth, cfBean))
 		{
 			try
@@ -169,14 +176,15 @@ public class ConfigurationBoImpl implements ConfigurationBo, IErrorSender
 				logger.info("ConfigurationBoImpl updateConfiguration starts ::: ");
 				cfBean.updateRepoConfiguration(auth);
 				configurationDao.save(cfBean.repoProducerProperty);
-
+				
+				cfBean.clearForm();
 				cfBean.messageCode = CONFIGURATION_UPDATED_SUCCESSFULLY;
 				logger.info("ConfigurationBoImpl updateConfiguration ends ::: ");
 				return EReturn.Success;
 			}
 			finally
 			{
-				cfBean.repoProducerProperty = null;
+				cfBean.clearForm();
 			}
 		}
 		throw new InvalidRequestException(CONFIGURATION_DATA_UPDATED_RECENTLY);

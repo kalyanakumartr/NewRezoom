@@ -25,7 +25,7 @@ public class ConfigurationFormBean extends APIStatus
 
 	public String				groupName;
 
-	public String				autoId = "";
+	public String				autoId;
 	
 	public String				searchParam;
 
@@ -42,13 +42,27 @@ public class ConfigurationFormBean extends APIStatus
 
 	public void updateRepoConfiguration(Authentication auth)
 	{
-
+		this.repoProducerProperty.modifiedUserInfo(auth);
+		this.repoProducerProperty.setComments(this.producerProperty.getComments());
+		this.repoProducerProperty.setEnumKey(this.producerProperty.getEnumKey());
+		this.repoProducerProperty.setGroupName(this.producerProperty.getGroupName());
+		this.repoProducerProperty.setMedia(this.producerProperty.getMedia());
+		this.repoProducerProperty.setMediaMode(this.producerProperty.getMediaMode());
+		this.repoProducerProperty.setMediaType(this.producerProperty.getMediaType());
+		this.repoProducerProperty.setProperty(this.producerProperty.getProperty());
+		this.repoProducerProperty.setValue(this.producerProperty.getValue());
 	}
 
 	@Override
 	public void clearForm()
 	{
-		// TODO Auto-generated method stub
+		this.autoId = null;
+		this.searchParam = null;
+		this.groupName = null;
+		this.to = null;
+		this.configuration = null;
+		this.producerProperty = null;
+		this.repoProducerProperty = null;
 
 	}
 

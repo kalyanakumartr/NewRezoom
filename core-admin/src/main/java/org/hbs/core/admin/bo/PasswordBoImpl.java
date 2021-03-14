@@ -69,9 +69,12 @@ public class PasswordBoImpl implements PasswordBo, IErrorAdmin, IPathAdmin
 			{
 				switch ( pfBean.formAction )
 				{
-					case ChangePassword :
+					
 					case ForgotPassword :
 					case Verify :
+						if(ufBean.user.getUserPwdModFlag() == false)
+							throw new InvalidKeyException(PASSWORD_UPDATED_RECENTLY);
+					case ChangePassword :
 					{
 						if (EReturn.Success == validatePassword(pfBean, ufBean))
 						{
@@ -125,6 +128,7 @@ public class PasswordBoImpl implements PasswordBo, IErrorAdmin, IPathAdmin
 			if (userBo.isRecentlyUpdated(null, ufBean))
 			{
 				ufBean.tokenURL = ServerUtilFactory.getInstance().getDomainURL(ESecurity.Token.generate(ufBean.user, EFormAction.ForgotPassword));
+				ufBean.user.setUserPwdModFlag(true);
 				ufBean.user.modifiedUserInfo(null);
 				ufBean.user.setUserStatus(EUserStatus.ResetPassword);
 				userDao.save(ufBean.user);

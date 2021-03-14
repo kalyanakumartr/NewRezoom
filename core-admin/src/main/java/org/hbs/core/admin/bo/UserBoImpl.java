@@ -51,7 +51,7 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IErrorAdmi
 			try
 			{
 				// logger.info("Inside UserBoImpl blockUser ::: ", ufBean.user.getUserId());
-				ufBean.user.setStatus(!ufBean.formUser.getStatus());// Negate Current Status
+				ufBean.user.setStatus(!ufBean.user.getStatus());// Negate Current Status
 				userDao.save(ufBean.user);
 
 				try
@@ -173,6 +173,7 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IErrorAdmi
 				{
 					try
 					{
+						truncateUserFormBean(ufBean);
 						gKafkaProducer.send(ETopic.Internal, EMedia.Email, ETemplate.Create_User_Admin, ufBean);
 						gKafkaProducer.send(ETopic.Internal, EMedia.Email, ETemplate.Create_User_Employee, ufBean);
 						// gKafkaProducer.sendMessage(ETopic.Internal, EMedia.SMS,
@@ -193,6 +194,17 @@ public class UserBoImpl extends UserBoComboBoxImpl implements UserBo, IErrorAdmi
 		// logger.error("UserBoImpl saveUser ::: Producer Not Matched");
 		throw new InvalidKeyException(USER_CREATED_FAILED);
 
+	}
+
+	private void truncateUserFormBean(UserFormBean ufBean)
+	{
+		ufBean.user.setProducer(ufBean.formUser.getProducer());
+		ufBean.user.setParentProducer(ufBean.formUser.getParentProducer());
+		ufBean.user.setProducerId(ufBean.formUser.getProducer().getProducerId());
+		ufBean.user.setProducerName(ufBean.formUser.getProducer().getProducerName());
+		ufBean.user.setParentProducerId(ufBean.formUser.getParentProducer().getProducerId());
+		ufBean.user.setParentProducerName(ufBean.formUser.getParentProducer().getProducerName());
+		ufBean.formUser = null;
 	}
 
 	@Override

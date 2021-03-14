@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ConfigurationDao extends JpaRepository<ProducersProperty, String>
 {
-	@Query("Select count(*) From ProducersProperty Where  producer.producerId = :producerId AND groupName Like %:searchParam% ")
-	int checkConfigurationExists(@Param("producerId") String producerId, @Param("searchParam") String searchParam);
+	@Query("Select count(*) From ProducersProperty Where  producer.producerId = :producerId AND groupName Like %:groupName% ")
+	int checkConfigurationExists(@Param("producerId") String producerId, @Param("groupName") String groupName);
 
 	@Query("From ProducersProperty Where producer.producerId = :producerId AND autoId = :autoId")
 	ProducersProperty fetchByAutoId(@Param("producerId") String producerId, @Param("autoId") String autoId);

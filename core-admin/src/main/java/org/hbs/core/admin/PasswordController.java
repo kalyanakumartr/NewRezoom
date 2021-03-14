@@ -122,7 +122,7 @@ public class PasswordController implements IPasswordController
 				{
 					pfBean.emailId = tokenInfo[0];
 					pfBean.$passwordToken = new BCryptPasswordEncoder().encode(pfBean.emailId);
-					pfBean.formAction = EFormAction.valueOf(tokenInfo[2]);
+					pfBean.formAction = EFormAction.ChangePassword;
 					return new ResponseEntity<>((APIStatus) pfBean, HttpStatus.OK);
 				}
 			}

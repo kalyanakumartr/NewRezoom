@@ -65,7 +65,7 @@ public interface IUserController extends IPathAdmin
 
 	@PostMapping
 	@RequestMapping(value = RESEND_ACTIVATION_LINK, produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize(HAS_AUTHORITY_BOTH)
+	@PreAuthorize(HAS_AUTHORITY_SUPERADMIN_OR_ADMIN_OR_EMPLOYEE)
 	public ResponseEntity<?> resendActivationLink(Authentication auth, UserFormBean userFormBean);
 
 }

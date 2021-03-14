@@ -73,7 +73,7 @@
 						"token"
 					]
 				},
-				"description": "http://localhost:8090/core-oauth/oauth/token"
+				"description": "http://localhost:8090/rezoom-oauth-server/oauth/token"
 			},
 			"response": []
 		}

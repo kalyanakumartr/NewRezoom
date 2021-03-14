@@ -2,7 +2,6 @@ package org.hbs.sender;
 
 import org.hbs.core.beans.ConfigurationFormBean;
 import org.hbs.core.beans.model.ProducersProperty;
-import org.hbs.core.security.resource.IPath.EAuth;
 import org.hbs.core.util.CommonValidator;
 import org.hbs.sender.bo.ConfigurationBo;
 import org.slf4j.Logger;
@@ -12,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.exceptions.InvalidRequestException;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,8 +37,7 @@ public class ConfigurationController implements IConfigurationController
 		}
 		catch (Exception excep)
 		{
-			cfBean.producerProperty = null;
-			cfBean.repoProducerProperty = null;
+			cfBean.clearForm();
 			cfBean.messageCode = excep.getMessage();
 			logger.error("Exception in ConfigurationController addConfiguration ::: ", excep);
 			return new ResponseEntity<>(cfBean, HttpStatus.BAD_REQUEST);
@@ -51,6 +50,24 @@ public class ConfigurationController implements IConfigurationController
 		try
 		{
 			return new ResponseEntity<>(configurationBo.blockConfiguration(auth, cfBean).name(), HttpStatus.OK);
+		}
+		catch (InvalidRequestException ex)
+		{
+			return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+		}
+
+	}
+	
+	@Override
+	public ResponseEntity<?> checkConfiguration(Authentication auth, @PathVariable("groupName") String groupName)
+	{
+		try
+		{
+			return new ResponseEntity<>(configurationBo.checkConfigurationExists(auth, groupName).name(), HttpStatus.OK);
 		}
 		catch (InvalidRequestException ex)
 		{
@@ -82,7 +99,7 @@ public class ConfigurationController implements IConfigurationController
 	}
 
 	@Override
-	public ResponseEntity<?> getConfiguration(Authentication auth, ConfigurationFormBean cfBean)
+	public ResponseEntity<?> getConfiguration(Authentication auth, @RequestBody ConfigurationFormBean cfBean)
 	{
 		try
 		{
@@ -97,8 +114,7 @@ public class ConfigurationController implements IConfigurationController
 		}
 		catch (Exception excep)
 		{
-			cfBean.producerProperty = null;
-			cfBean.repoProducerProperty = null;
+			cfBean.clearForm();
 			cfBean.messageCode = excep.getMessage();
 			logger.error("Exception in ConfigurationController getConfiguration ::: ", excep);
 			return new ResponseEntity<>(cfBean, HttpStatus.BAD_REQUEST);
@@ -137,8 +153,7 @@ public class ConfigurationController implements IConfigurationController
 		}
 		catch (Exception excep)
 		{
-			cfBean.producerProperty = null;
-			cfBean.repoProducerProperty = null;
+			cfBean.clearForm();
 			cfBean.messageCode = excep.getMessage();
 			logger.error("Exception in ConfigurationController updateConfiguration ::: ", excep);
 			return new ResponseEntity<>(cfBean, HttpStatus.BAD_REQUEST);

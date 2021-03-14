@@ -16,7 +16,7 @@ public interface ConfigurationBo
 {
 	EnumInterface blockConfiguration(Authentication auth, ConfigurationFormBean cfBean);
 
-	int checkConfigurationExists(Authentication auth, ConfigurationFormBean cfBean);
+	EnumInterface checkConfigurationExists(Authentication auth, String groupName);
 
 	EnumInterface deleteConfiguration(Authentication auth, ConfigurationFormBean cfBean);
 
